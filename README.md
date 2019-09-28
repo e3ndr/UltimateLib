@@ -8,7 +8,7 @@ See the example plugin in the wiki for more information!
 
 
 ## Supported Platforms/Todo
-  [x]Bukkit
-  []Nukkit
-  []Bungee
-  []Sponge(Hopefully!)
+[x]Bukkit
+[]Nukkit
+[]Bungee
+[]Sponge(Hopefully!)
