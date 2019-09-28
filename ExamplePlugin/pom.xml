@@ -6,14 +6,15 @@
   	<repositories>
 		<repository>
 			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
+			<url>https://www.jitpack.io</url>
 		</repository>
   	</repositories>
   	<dependencies>
   	<dependency>
-		<groupId>cf.e3ndr</groupId>
+		<groupId>com.github.e3ndr</groupId>
 		<artifactId>UltimateLib</artifactId>
-		<version>3</version>
+		<version>-SNAPSHOT</version>
+		<scope>provided</scope>
 	</dependency>
   	</dependencies>
 </project>
