@@ -1,5 +1,7 @@
-# UltimateLib
 [![](https://jitpack.io/v/e3ndr/UltimateLib.svg)](https://jitpack.io/#e3ndr/UltimateLib)
+
+
+# UltimateLib
 A library for all ultimate plugins and for YOU!
 
 ## What is this witchery?!?
