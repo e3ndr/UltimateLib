@@ -1,5 +1,5 @@
 [![](https://jitpack.io/v/e3ndr/UltimateLib.svg)](https://jitpack.io/#e3ndr/UltimateLib)
-[![](https://jitci.com/gh/e3ndr/UltimateLib/svg)](https://jitci.com/gh/e3ndr/UltimateLib
+[![](https://jitci.com/gh/e3ndr/UltimateLib/svg)](https://jitci.com/gh/e3ndr/UltimateLib)
 
 # UltimateLib
 A library for all ultimate plugins and for YOU!
