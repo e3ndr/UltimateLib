@@ -3,6 +3,7 @@
   <groupId>cf.e3ndr</groupId>
   <artifactId>UltimateLib-root</artifactId>
   <version>3</version>
+  <packaging>pom</packaging>
   
   <modules>
     <module>UltimateLib</module>
