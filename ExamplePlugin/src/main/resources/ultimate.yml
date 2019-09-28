@@ -1,0 +1,3 @@
+name: ExamplePlugin
+main: cf.e3ndr.UltimateLib.Example.Plugin
+color: '&a'

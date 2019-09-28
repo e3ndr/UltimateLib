@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib.Plugin;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
@@ -23,29 +24,52 @@ public class PluginLoader extends Thread {
 		this.logger = logger;
 	}
 	
+	private static File ultPlugins = new File("UltimateLib/plugins/");
+	private static File plugins = new File("plugins/");
 	@Override
 	public void run() {
 		this.logger.println("Loading plugins.");
-		for (File f : new File("plugins/").listFiles()) {
-			if (f.isDirectory()) continue;
-			try {
-				URLClassLoader plugin = new URLClassLoader(new URL[] {f.toURI().toURL()}, PluginLoader.class.getClassLoader());
-				JarFile jar = new JarFile(f);
-				JarEntry entry = jar.getJarEntry("ultimate.yml");
-				
-				if (entry == null) {
-					this.logger.println("There is no ultimate.yml for plugin \"" + f.getName() + ".\"");
-					continue;
-				}
-				
-				Configuration ultimate = YMLConfig.getConfig(jar.getInputStream(entry));
-				Class<? extends UltimatePlugin> cls = Class.forName(ultimate.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
-				UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), cls.getConstructor().newInstance());
+		
+		ultPlugins.mkdirs();
+		plugins.mkdirs();
+		
+		for (File f : plugins.listFiles()) loadFile(f);
+		for (File f : ultPlugins.listFiles()) loadFile(f);
+	}
+
+	public void loadFile(File f) {
+		if (f.isDirectory()) return;
+		try {
+			URLClassLoader plugin = new URLClassLoader(new URL[] {f.toURI().toURL()}, PluginLoader.class.getClassLoader());
+			JarFile jar = new JarFile(f);
+			JarEntry entry = jar.getJarEntry("ultimate.yml");
+			
+			if (entry == null) {
 				jar.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.logger.println("Unable to load plugin \"" + f.getName() + ".\"");
+				plugin.close();
+				return;
 			}
+			
+			Configuration ultimate = YMLConfig.getConfig(jar.getInputStream(entry));
+			Class<? extends UltimatePlugin> cls = Class.forName(ultimate.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
+			
+			(new Thread() {
+				@Override
+				public void run() {
+					try {
+						UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), cls.getConstructor().newInstance());
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+						e.printStackTrace();
+						logger.println("Unable to load plugin \"" + f.getName() + ".\"");
+					}
+				}
+			}).start();
+			
+			jar.close();
+			plugin.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.logger.println("Unable to load plugin \"" + f.getName() + ".\"");
 		}
 	}
 }

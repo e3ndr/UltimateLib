@@ -33,12 +33,9 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	@Override
 	public void registerCommand(UltimateCommand command) {
 		CommandMap map = this.getCommandMap();
-		ArrayList<String> aliases = new ArrayList<String>(Arrays.asList(command.getAliases()));
-		aliases.remove(0);
-		Command cmd = new BukkitCMD(command.getAliases()[0], aliases, (BukkitCommand) command);
+		Command cmd = new BukkitCMD(command.getAliases()[0], new ArrayList<String>(Arrays.asList(command.getAliases())), (BukkitCommand) command);
 		
 		map.register(command.getPlugin().getName(), cmd);
-		
 	}
 	
 	public CommandMap getCommandMap() {
