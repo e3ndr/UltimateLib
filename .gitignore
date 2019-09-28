@@ -1,0 +1,7 @@
+
+.metadata/
+*target/
+*.classpath
+*.project
+*.prefs
+*dependency-reduced-pom.xml
