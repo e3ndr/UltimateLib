@@ -11,9 +11,9 @@
   	</repositories>
   	<dependencies>
   	<dependency>
-		<groupId>com.github.e3ndr</groupId>
+		<groupId>cf.e3ndr</groupId>
 		<artifactId>UltimateLib</artifactId>
-		<version>master-SNAPSHOT</version>
+		<version>3</version>
 	</dependency>
   	</dependencies>
 </project>
