@@ -5,6 +5,8 @@
 # UltimateLib
 A library for all ultimate plugins and for YOU!
 
+Join my (https://discord.gg/NFtDEDQ)[discord]!
+
 ## What is this witchery?!?
 This little gem is planned to help you write plugins for all platforms without breaking your neck!
 By wrapping eveything your plugin is never directly exposed to any server api.
