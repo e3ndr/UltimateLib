@@ -23,5 +23,5 @@ public class BungeeLogger extends UltimateLogger {
 	public void println(Object obj) {
 		ProxyServer.getInstance().getConsole().sendMessage(new TextComponent(this.prefix + String.valueOf(obj)));
 	}
-		
+	
 }

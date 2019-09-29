@@ -5,17 +5,16 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cn.nukkit.Player;
+import cn.nukkit.command.CommandSender;
+import cn.nukkit.command.ConsoleCommandSender;
 
-public class BukkitCommandPlayer implements WrappedPlayer {
+public class NukkitCommandPlayer implements WrappedPlayer {
 	private CommandSender sender;
 	
-	public BukkitCommandPlayer(CommandSender sender) {
+	public NukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
 	}
 	
@@ -49,7 +48,7 @@ public class BukkitCommandPlayer implements WrappedPlayer {
 		return (this.sender instanceof ConsoleCommandSender);
 	}
 	
-	public Player getBukkitPlayer() {
+	public Player getNukkitPlayer() {
 		return (Player) this.sender;
 	}
 

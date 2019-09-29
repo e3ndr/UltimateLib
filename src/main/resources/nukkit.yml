@@ -1,0 +1,6 @@
+name: UltimateLib
+version: "5"
+api: ["1.0.0"]
+author: e3ndr
+description: UltimateLib
+main: cf.e3ndr.UltimateLib.Nukkit.UltimateLibNukkit

@@ -45,7 +45,7 @@ public class CommandUltimateLib implements CommandExec {
 				} else if (args.length == 1) {
 					for (UltimatePlugin p : UltimateLib.getPlugins()) {
 						if (p.getName().equalsIgnoreCase(args[0])) {
-							String s = p.getColor() + p.getName() + "&r\n";
+							String s = p.getColor() + "&o" + p.getName() + "&r\n";
 							
 							if (p.getCommands().size() > 0) {
 								s += "\n&aCommands:&r\n&2";
