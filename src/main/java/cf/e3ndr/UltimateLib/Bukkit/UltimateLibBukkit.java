@@ -20,7 +20,6 @@ import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
-import cf.e3ndr.UltimateLib.Wrappers.Command.BukkitCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
@@ -44,7 +43,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	@Override
 	public void registerCommand(UltimateCommand command) {
 		CommandMap map = this.getCommandMap();
-		Command cmd = new BukkitCMD(command.getAliases()[0], new ArrayList<String>(Arrays.asList(command.getAliases())), (BukkitCommand) command);
+		Command cmd = new BukkitCMD(command.getAliases()[0], new ArrayList<String>(Arrays.asList(command.getAliases())), command);
 		
 		map.register(command.getPlugin().getName(), cmd);
 	}
@@ -63,7 +62,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 
 	@Override
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String basePerm, String[] names) {
-		BukkitCommand cmd = new BukkitCommand(plugin, basePerm, names);
+		UltimateCommand cmd = new UltimateCommand(plugin, basePerm, names);
 		this.registerCommand(cmd);
 		return cmd;
 	}

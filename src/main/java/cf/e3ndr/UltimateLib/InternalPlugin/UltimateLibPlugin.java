@@ -16,7 +16,6 @@ public class UltimateLibPlugin extends UltimatePlugin {
 	}
 	
 	@Override
-	protected void pluginDisable(UltimateLib lib) {
-	}
+	protected void pluginDisable(UltimateLib lib) {}
 	
 }

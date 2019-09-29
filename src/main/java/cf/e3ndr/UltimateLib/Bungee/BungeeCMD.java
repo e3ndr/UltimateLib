@@ -5,15 +5,15 @@
  */
 package cf.e3ndr.UltimateLib.Bungee;
 
-import cf.e3ndr.UltimateLib.Wrappers.Command.BungeeCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
 public class BungeeCMD extends Command {
-	private BungeeCommand command;
+	private UltimateCommand command;
 	
-	public BungeeCMD(String name, String permission, String[] aliases, BungeeCommand cmd) {
+	public BungeeCMD(String name, String permission, String[] aliases, UltimateCommand cmd) {
 		super(name, permission, aliases);
 		this.command = cmd;
 	}

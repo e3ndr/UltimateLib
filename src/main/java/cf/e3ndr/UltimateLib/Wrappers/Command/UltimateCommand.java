@@ -16,7 +16,7 @@ public class UltimateCommand {
 	protected String[] aliases;
 	protected String basePerm = "";
 	
-	protected UltimateCommand(UltimatePlugin plugin, String basePerm, String... names) {
+	public UltimateCommand(UltimatePlugin plugin, String basePerm, String... names) {
 		this.plugin = plugin;
 		this.aliases = names;
 		this.basePerm = basePerm;

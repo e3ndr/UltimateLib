@@ -9,23 +9,22 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 
-import cf.e3ndr.UltimateLib.Wrappers.Command.BukkitCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitCommandPlayer;
 
 public class BukkitCMD extends Command {
-	private BukkitCommand exec;
+	private UltimateCommand command;
 	
-	public BukkitCMD(String name, List<String> aliases, BukkitCommand command) {
+	public BukkitCMD(String name, List<String> aliases, UltimateCommand command) {
 		super(name, "", "", aliases);
-		this.exec = command;
+		this.command = command;
 	}
 	
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		return ((CommandExecutor) this.exec).onCommand(sender, this, commandLabel, args);
+		return this.command.execute(new BukkitCommandPlayer(sender), commandLabel, args);
 	}
 	
 	@Override
@@ -35,6 +34,6 @@ public class BukkitCMD extends Command {
 	
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
-		return ((TabCompleter) this.exec).onTabComplete(sender, this, alias, args);
+		return this.command.tabComplete(new BukkitCommandPlayer(sender), alias, args);
     }
 }

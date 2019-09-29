@@ -9,7 +9,6 @@ import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.NukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
-import cf.e3ndr.UltimateLib.Wrappers.Command.NukkitCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
@@ -42,7 +41,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 
 	@Override
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String basePerm, String[] names) {
-		NukkitCommand cmd = new NukkitCommand(plugin, basePerm, names);
+		UltimateCommand cmd = new UltimateCommand(plugin, basePerm, names);
 		this.registerCommand(cmd);
 		return cmd;
 	}
