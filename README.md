@@ -18,3 +18,7 @@ See the example plugin in the wiki for more information!
 - [x] Nukkit
 - [x] Bungee
 - [ ] Sponge(Hopefully!)
+
+## Links
+[SpigotMC](https://www.spigotmc.org/resources/ultimatelib.71667/)
+[Bukkit](https://dev.bukkit.org/projects/ultimatelib)
