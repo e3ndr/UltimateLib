@@ -1,4 +1,5 @@
 name: UltimateLibPlugin
 main: cf.e3ndr.UltimateLib.InternalPlugin.UltimateLibPlugin
 color: '&5'
-execute: [bukkit, bungee]
+version: '${project.version}'
+# disallowed-platforms: [bukkit, bungee, nukkit] # The option is there :)

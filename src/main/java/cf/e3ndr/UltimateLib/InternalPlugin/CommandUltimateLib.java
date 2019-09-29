@@ -20,7 +20,7 @@ public class CommandUltimateLib implements CommandExec {
 			+ "&d&m------&r&5UltimateLib&d&m------\n"
 			+ "{}"
 			+ "\n&r"
-			+ "&d&m-----------------------";
+			+ "&d&m---------------------";
 	private static final String tab = "    ";
 	
 	@Override
@@ -35,9 +35,9 @@ public class CommandUltimateLib implements CommandExec {
 						int reg = p.getCommands().size();
 						
 						switch (reg) {
-							case 0: s += p.getColor() + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
-							case 1: s += p.getColor() + p.getName() + "&r has " + reg + " command registered.\n"; break;
-							default: s += p.getColor() + p.getName() + "&r has " + reg + " commands registered.\n"; break;
+							case 0: s += p.getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
+							case 1: s += p.getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n"; break;
+							default: s += p.getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n"; break;
 						}
 					}
 					// TODO pages

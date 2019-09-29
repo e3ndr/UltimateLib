@@ -13,28 +13,39 @@ import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
-/**
- * The main class for UltimateLib.
+/*    __  ______  _                 __       __    _ __  
+ *   / / / / / /_(_)___ ___  ____ _/ /____  / /   (_) /_ 
+ *  / / / / / __/ / __ `__ \/ __ `/ __/ _ \/ /   / / __ \
+ * / /_/ / / /_/ / / / / / / /_/ / /_/  __/ /___/ / /_/ /
+ * \____/_/\__/_/_/ /_/ /_/\__,_/\__/\___/_____/_/_.___/
  */
 public class UltimateLib {
+	public static final String ultimatelib = "\n" +
+			"&5   __  ______  _                 __       &d__    _ __  \n" + 
+			"&5  / / / / / /_(_)___ ___  ____ _/ /____  &d/ /   (_) /_ \n" + 
+			"&5 / / / / / __/ / __ `__ \\/ __ `/ __/ _ \\&d/ /   / / __ \\\n" + 
+			"&5/ /_/ / / /_/ / / / / / / /_/ / /_/  __&d/ /___/ / /_/ /\n" + 
+			"&5\\____/_/\\__/_/_/ /_/ /_/\\__,_/\\__/\\___&d/_____/_/_.___/";
 	
 	/** The instance of the current UltimateLib. */
 	public static UltimateLib instance;
 	public static final String prefix = "&7[&5&l{0}&7]";
+	public static String version;
 	private static ServerType type;
 	private UltimateLibUtil util;
 	private UltimateLogger logger;
 	
 	
-	public UltimateLib(UltimateLibUtil util, UltimateLogger logger, String utiltype) {
+	public UltimateLib(UltimateLibUtil util, UltimateLogger logger, String utiltype, String version) {
 		long start = System.currentTimeMillis();
 		
 		type = ServerType.fromString(utiltype);
 		this.logger = logger;
 		this.util = util;
+		UltimateLib.version = version;
 		instance = this;
 		
-		this.logger.println("Hello world!");
+		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
 		(new PluginLoader(eventLogger)).run();
 		
@@ -43,14 +54,14 @@ public class UltimateLib {
 
 	private static UltimateLogger eventLogger;
 	private ArrayList<UltimatePlugin> plugins = new ArrayList<UltimatePlugin>();
-	public static void registerPlugin(String name, String colorCode, UltimatePlugin plugin) {
+	public static void registerPlugin(String name, String colorCode, String version, UltimatePlugin plugin) {
 		for (UltimatePlugin p : instance.plugins) {
 			if (p.getName().equalsIgnoreCase(name)) {
 				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + name + "&5\" already loaded in the server! Did you forget to delete old jars?"));
 				return;
 			}
 		}
-		instance.plugins.add(plugin.init(name, colorCode, eventLogger));
+		instance.plugins.add(plugin.init(name, colorCode, version, eventLogger));
 	}
 	
 	/**
@@ -74,7 +85,7 @@ public class UltimateLib {
 	public void disable() {
 		String str = "Disabling " + instance.plugins.size() + " plugins.";
 		if (instance.plugins.size() == 1) str = str.replace("plugins", "plugin"); // Just neatness :)
-		if (instance.plugins.size() > 10) str += " Whew! That\'s alot!";
+		if (instance.plugins.size() > 9) str += " Whew! That\'s alot!";
 		eventLogger.println(str);
 		for (UltimatePlugin up : instance.plugins) up.close();
 		
@@ -135,34 +146,4 @@ public class UltimateLib {
 		return type;
 	}
 
-} enum ServerType {
-		BUKKIT(1),
-		BUNGEE(2),
-		SPONGE(3),
-		NUKKIT(4),
-		UNKNOWN(-1);
-		
-		private int i;
-		private ServerType(int i) {
-			this.i = i;
-		}
-		
-		public static ServerType fromString(String type) {
-			switch (type.toUpperCase()) {
-				case "BUKKIT": return BUKKIT;
-				case "BUNGEE": return BUNGEE;
-				case "SPONGE": return SPONGE;
-				case "NUKKIT": return NUKKIT;
-				
-				default: return UNKNOWN;
-			}
-		}
-
-		public int getInt() {
-			return i;
-		}
-		
-		public String toString() {
-			return this.name();
-		}
-	}
+}

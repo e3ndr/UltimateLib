@@ -10,11 +10,6 @@ private Player nukkit;
 	public NukkitPlayer(Player player) {
 		this.nukkit = player;
 	}
-
-	@Override
-	public boolean playerPresent() {
-		return this.nukkit != null;
-	}
 	
 	@Override
 	public boolean teleportPlayer(WrappedLocation wloc) {

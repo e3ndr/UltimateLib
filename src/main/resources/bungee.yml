@@ -1,4 +1,4 @@
 name: UltimateLib
 main: cf.e3ndr.UltimateLib.Bungee.UltimateLibBungee
-version: 4
+version: ${project.version}
 author: [e3ndr]

@@ -11,7 +11,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	@Override
     public void onEnable() {
-		new UltimateLib(this, new BungeeLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUNGEE");
+		new UltimateLib(this, new BungeeLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUNGEE", this.getDescription().getVersion());
     }
 	
 	@Override

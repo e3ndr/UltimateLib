@@ -12,16 +12,11 @@ import org.bukkit.entity.Player;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
-public class BukkitCommandPlayer implements WrappedPlayer {
+public class BukkitCommandPlayer implements WrappedConsole {
 	private CommandSender sender;
 	
 	public BukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
-	}
-	
-	@Override
-	public boolean playerPresent() {
-		return false;
 	}
 
 	@Override
@@ -48,13 +43,14 @@ public class BukkitCommandPlayer implements WrappedPlayer {
 	public boolean isConsole() {
 		return (this.sender instanceof ConsoleCommandSender);
 	}
-	
-	public Player getBukkitPlayer() {
-		return (Player) this.sender;
-	}
 
 	@Override
 	public String getName() {
 		return "CONSOLE";
+	}
+
+	@Override
+	public WrappedPlayer getPlayer() {
+		return new BukkitPlayer((Player) sender);
 	}
 }

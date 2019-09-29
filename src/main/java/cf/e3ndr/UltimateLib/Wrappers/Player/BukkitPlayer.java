@@ -16,11 +16,6 @@ public class BukkitPlayer implements WrappedPlayer {
 	public BukkitPlayer(Player player) {
 		this.bukkit = player;
 	}
-
-	@Override
-	public boolean playerPresent() {
-		return this.bukkit != null;
-	}
 	
 	@Override
 	public boolean teleportPlayer(WrappedLocation wloc) {

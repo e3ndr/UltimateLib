@@ -11,16 +11,11 @@ import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.ConsoleCommandSender;
 
-public class NukkitCommandPlayer implements WrappedPlayer {
+public class NukkitCommandPlayer implements WrappedConsole {
 	private CommandSender sender;
 	
 	public NukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
-	}
-	
-	@Override
-	public boolean playerPresent() {
-		return false;
 	}
 
 	@Override
@@ -55,5 +50,10 @@ public class NukkitCommandPlayer implements WrappedPlayer {
 	@Override
 	public String getName() {
 		return "CONSOLE";
+	}
+
+	@Override
+	public WrappedPlayer getPlayer() {
+		return new NukkitPlayer((Player) sender);
 	}
 }

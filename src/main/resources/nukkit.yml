@@ -1,5 +1,5 @@
 name: UltimateLib
-version: "5"
+version: "${project.version}"
 api: ["1.0.0"]
 author: e3ndr
 description: UltimateLib

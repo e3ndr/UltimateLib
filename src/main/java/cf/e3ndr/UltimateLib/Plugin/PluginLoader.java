@@ -12,6 +12,7 @@ import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import cf.e3ndr.UltimateLib.ServerType;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Config.YMLConfig;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
@@ -52,8 +53,17 @@ public class PluginLoader {
 			Configuration ultimate = YMLConfig.getConfig(jar.getInputStream(entry));
 			Class<? extends UltimatePlugin> cls = Class.forName(ultimate.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
 			
+			for (String support : ultimate.getStringList("disallowed-platforms")) {
+				if (UltimateLib.getServerType() == ServerType.fromString(support)) {
+					logger.println("Plugin " + ultimate.getString("name") + " doesn\'t support " + support.toLowerCase() + ".");
+					jar.close();
+					plugin.close();
+					return;
+				}
+			} 
+			
 			try {
-				UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), cls.getConstructor().newInstance());
+				UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), ultimate.getString("version"), cls.getConstructor().newInstance());
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 				logger.println("Unable to load plugin \"" + f.getName() + ".\"");

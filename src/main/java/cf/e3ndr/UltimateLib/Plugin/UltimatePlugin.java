@@ -24,18 +24,21 @@ public class UltimatePlugin extends PluginUtil {
 	private UltimateLogger logger;
 	private ArrayList<UltimateCommand> commands = new ArrayList<UltimateCommand>();
 	private String color = "";
+	private String version;
 	
 	/**
 	 * Inits the plugin.
 	 *
 	 * @param name the name
 	 * @param colorCode the color code
+	 * @param version 
 	 * @param eventLogger the event logger
 	 * @return the plugin
 	 */
-	public final UltimatePlugin init(String name, String colorCode, UltimateLogger eventLogger) {
+	public final UltimatePlugin init(String name, String colorCode, String version, UltimateLogger eventLogger) {
 		this.name = UltimateLogger.stripColor(name);
 		this.enabled = true;
+		this.version = version;
 		
 		if ((colorCode != null) && ((colorCode = colorCode.replace(" ", "")).equals(UltimateLogger.transformColor(colorCode)))) {
 			eventLogger.println("Invalid color code \"" + colorCode + "\" for " + name + ".");
@@ -49,7 +52,7 @@ public class UltimatePlugin extends PluginUtil {
 		this.color = colorCode;
 		this.logger = UltimateLib.getLogger("&7[" + this.color + this.name + "&7]");
 		
-		eventLogger.println("Enabling " + this.name);
+		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + this.name + "&r version " + this.version + "."));
 		this.pluginEnable(UltimateLib.instance);
 		
 		return this;

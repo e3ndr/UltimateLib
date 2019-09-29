@@ -14,7 +14,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	
 	@Override
 	public void onEnable() {
-		new UltimateLib(this, new NukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "NUKKIT");
+		new UltimateLib(this, new NukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "NUKKIT", this.getDescription().getVersion());
 	}
 	
 	@Override

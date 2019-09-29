@@ -10,16 +10,11 @@ import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class BungeePlayer implements WrappedPlayer {
+public class BungeePlayer implements WrappedConsole {
 	private CommandSender sender;
 	
 	public BungeePlayer(CommandSender sender) {
 		this.sender = sender;
-	}
-	
-	@Override
-	public boolean playerPresent() {
-		return false;
 	}
 
 	@Override
@@ -50,5 +45,10 @@ public class BungeePlayer implements WrappedPlayer {
 	@Override
 	public String getName() {
 		return sender.getName();
+	}
+
+	@Override
+	public WrappedPlayer getPlayer() {
+		return this;
 	}
 }
