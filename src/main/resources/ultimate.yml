@@ -1,3 +1,4 @@
 name: UltimateLibPlugin
 main: cf.e3ndr.UltimateLib.InternalPlugin.UltimateLibPlugin
 color: '&5'
+execute: [bukkit, bungee]

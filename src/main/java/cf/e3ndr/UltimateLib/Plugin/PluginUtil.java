@@ -3,9 +3,11 @@
  * 
  * Licensed under MIT, do as you please.
  */
-package cf.e3ndr.UltimateLib;
+package cf.e3ndr.UltimateLib.Plugin;
 
-public class LibUtil {
+import cf.e3ndr.UltimateLib.UltimateLib;
+
+public class PluginUtil {
 	/**
 	 * Determines whether or not the server is running Bukkit.
 	 * 

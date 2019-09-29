@@ -27,12 +27,12 @@ public class UltimateCommand {
 		return this;
 	}
 	
-	protected boolean execute(WrappedPlayer executor, String alias, String[] args) {
+	public final boolean execute(WrappedPlayer executor, String alias, String[] args) {
 		// TODO arguments & custom help page
 		return this.exec.onCommand(executor, alias, args);
 	}
 	
-	protected List<String> tabComplete(WrappedPlayer executor, String alias, String[] args) {
+	public final List<String> tabComplete(WrappedPlayer executor, String alias, String[] args) {
 		return this.exec.onTabComplete(executor, alias, args);
 	}
 	

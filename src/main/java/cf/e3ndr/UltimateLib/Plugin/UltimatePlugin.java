@@ -7,8 +7,9 @@ package cf.e3ndr.UltimateLib.Plugin;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import cf.e3ndr.UltimateLib.LibUtil;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Config.YMLConfig;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
@@ -17,10 +18,12 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 /**
  * The Class UltimatePlugin.
  */
-public class UltimatePlugin extends LibUtil {
+public class UltimatePlugin extends PluginUtil {
 	private boolean enabled = false;
 	private String name = "Plugin " + ((int) (Math.random() * 10)) + ((int) (Math.random() * 10));
 	private UltimateLogger logger;
+	private ArrayList<UltimateCommand> commands = new ArrayList<UltimateCommand>();
+	private String color = "";
 	
 	/**
 	 * Inits the plugin.
@@ -43,7 +46,8 @@ public class UltimatePlugin extends LibUtil {
 			for (char c : name.toCharArray()) code += (int) c;
 			colorCode = UltimateLogger.transformColor("&" + String.valueOf(code).subSequence(0, 1));
 		}
-		this.logger = UltimateLib.getLogger("&7[" + colorCode + this.name + "&7]");
+		this.color = colorCode;
+		this.logger = UltimateLib.getLogger("&7[" + this.color + this.name + "&7]");
 		
 		eventLogger.println("Enabling " + this.name);
 		this.pluginEnable(UltimateLib.instance);
@@ -59,7 +63,9 @@ public class UltimatePlugin extends LibUtil {
 	 * @return the ultimate command
 	 */
 	public final UltimateCommand registerCommand(String basePerm, String... names) {
-		return UltimateLib.makeCommand(this, basePerm, names);
+		UltimateCommand cmd = UltimateLib.makeCommand(this, basePerm, names);
+		this.commands.add(cmd);
+		return cmd;
 	}
 	
 	/**
@@ -139,5 +145,23 @@ public class UltimatePlugin extends LibUtil {
 	 * @param lib the lib
 	 */
 	protected void pluginDisable(UltimateLib lib) {}
+
+	/**
+	 * Gets the commands related to the plugin.
+	 *
+	 * @return a list of commands
+	 */
+	public final List<UltimateCommand> getCommands() {
+		return this.commands;
+	}
+
+	/**
+	 * Gets the color code for this plugin.
+	 *
+	 * @return the color code
+	 */
+	public String getColor() {
+		return this.color;
+	}
 	
 }

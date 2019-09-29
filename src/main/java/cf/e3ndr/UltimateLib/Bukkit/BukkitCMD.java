@@ -3,7 +3,7 @@
  * 
  * Licensed under MIT, do as you please.
  */
-package cf.e3ndr.UltimateLib.Misc.Bukkit;
+package cf.e3ndr.UltimateLib.Bukkit;
 
 import java.util.List;
 

@@ -12,15 +12,11 @@ public class UltimateLibPlugin extends UltimatePlugin {
 	
 	@Override
 	protected void pluginEnable(UltimateLib lib) {
-		this.getLogger().println("Hello I\'m the Test plugin wrapped under UltimateLib!");
-		this.registerCommand("", new String[] {"ultimatelib", "ul"}).setExecutor(new PluginExec());
-		
+		this.registerCommand("", new String[] {"ultimatelib", "ul"}).setExecutor(new CommandUltimateLib());
 	}
 	
 	@Override
 	protected void pluginDisable(UltimateLib lib) {
-		this.getLogger().println("Goodbye!");
-		
 	}
 	
 }

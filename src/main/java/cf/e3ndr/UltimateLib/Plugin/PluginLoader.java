@@ -17,7 +17,7 @@ import cf.e3ndr.UltimateLib.Config.YMLConfig;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import net.md_5.bungee.config.Configuration;
 
-public class PluginLoader extends Thread {
+public class PluginLoader {
 	private UltimateLogger logger;
 	
 	public PluginLoader(UltimateLogger logger) {
@@ -26,7 +26,6 @@ public class PluginLoader extends Thread {
 	
 	private static File ultPlugins = new File("UltimateLib/plugins/");
 	private static File plugins = new File("plugins/");
-	@Override
 	public void run() {
 		this.logger.println("Loading plugins.");
 		
@@ -53,17 +52,14 @@ public class PluginLoader extends Thread {
 			Configuration ultimate = YMLConfig.getConfig(jar.getInputStream(entry));
 			Class<? extends UltimatePlugin> cls = Class.forName(ultimate.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
 			
-			(new Thread() {
-				@Override
-				public void run() {
-					try {
-						UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), cls.getConstructor().newInstance());
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-						e.printStackTrace();
-						logger.println("Unable to load plugin \"" + f.getName() + ".\"");
-					}
-				}
-			}).start();
+			try {
+				UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), cls.getConstructor().newInstance());
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+				logger.println("Unable to load plugin \"" + f.getName() + ".\"");
+			}
+			
+			// This could be multithreaded in the future, however it sometimes throws errors when I make new threads (Bukkit, ?).
 			
 			jar.close();
 			plugin.close();

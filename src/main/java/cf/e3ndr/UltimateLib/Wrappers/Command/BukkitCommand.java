@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
-import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitConsolePlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitCommandPlayer;
 
 public class BukkitCommand extends UltimateCommand implements CommandExecutor, TabCompleter {
 	
@@ -23,12 +23,12 @@ public class BukkitCommand extends UltimateCommand implements CommandExecutor, T
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		return this.tabComplete(new BukkitConsolePlayer(sender), alias, args);
+		return this.tabComplete(new BukkitCommandPlayer(sender), alias, args);
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		return this.execute(new BukkitConsolePlayer(sender), label, args);
+		return this.execute(new BukkitCommandPlayer(sender), label, args);
 	}
 	
 }

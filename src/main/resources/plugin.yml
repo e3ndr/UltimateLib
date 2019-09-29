@@ -1,6 +1,5 @@
 name: UltimateLib
-main: cf.e3ndr.UltimateLib.UltimateLibBukkit
-version: 3
+main: cf.e3ndr.UltimateLib.Bukkit.UltimateLibBukkit
+version: 4
 description: An awesome library of stuff for all Ultimate plugins!
 author: [e3ndr]
-website: <spigotmc here>

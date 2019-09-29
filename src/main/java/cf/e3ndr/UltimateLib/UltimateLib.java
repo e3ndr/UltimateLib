@@ -6,12 +6,11 @@
 package cf.e3ndr.UltimateLib;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
-import cf.e3ndr.UltimateLib.Wrappers.Command.BukkitCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
 /**
@@ -26,29 +25,55 @@ public class UltimateLib {
 	private UltimateLibUtil util;
 	private UltimateLogger logger;
 	
-	private void init() {
-		instance = this;
-		this.logger.println("Hello world! I\'m UltimateLib, and you?");
-		eventLogger = logger.newInstance(prefix.replace("{0}", "UltimateLib - PluginFramework"));
-		(new PluginLoader(eventLogger)).start();
+	
+	public UltimateLib(UltimateLibUtil util, UltimateLogger logger, String utiltype) {
+		long start = System.currentTimeMillis();
 		
+		type = ServerType.fromString(utiltype);
+		this.logger = logger;
+		this.util = util;
+		instance = this;
+		
+		this.logger.println("Hello world!");
+		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
+		(new PluginLoader(eventLogger)).run();
+		
+		this.logger.println("Done! Took " + (System.currentTimeMillis() - start) + "ms");
 	}
-	
-	public UltimateLib(UltimateLibBukkit bukkit) {
-		type = ServerType.BUKKIT;
-		this.logger = new BukkitLogger(prefix.replace("{0}", "UltimateLib"));
-		this.util = bukkit;
-		this.init();
-	}
-	
+
 	private static UltimateLogger eventLogger;
 	private ArrayList<UltimatePlugin> plugins = new ArrayList<UltimatePlugin>();
 	public static void registerPlugin(String name, String colorCode, UltimatePlugin plugin) {
+		for (UltimatePlugin p : instance.plugins) {
+			if (p.getName().equalsIgnoreCase(name)) {
+				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + name + "&5\" already loaded in the server! Did you forget to delete old jars?"));
+				return;
+			}
+		}
 		instance.plugins.add(plugin.init(name, colorCode, eventLogger));
 	}
 	
+	/**
+	 * Gets all registered plugins.
+	 * 
+	 * @return a list of plugins
+	 */
+	public static List<UltimatePlugin> getPlugins() {
+		return instance.plugins;
+	}
+	
+	/**
+	 * Makes a command, used internally via UltimatePlugin#registerCommand()
+	 * 
+	 * @return a command instance, null if unable to create it.
+	 */
+	public static UltimateCommand makeCommand(UltimatePlugin plugin, String basePerm, String[] names) {
+		return instance.util.makeCommand(plugin, basePerm, names);
+	}
+	
 	public void disable() {
-		String str = "Disabling " + instance.plugins.size() + " plugin.";
+		String str = "Disabling " + instance.plugins.size() + " plugins.";
+		if (instance.plugins.size() == 1) str = str.replace("plugins", "plugin"); // Just neatness :)
 		if (instance.plugins.size() > 10) str += " Whew! That\'s alot!";
 		eventLogger.println(str);
 		for (UltimatePlugin up : instance.plugins) up.close();
@@ -63,21 +88,6 @@ public class UltimateLib {
 	 */
 	public static UltimateLogger getLogger(String prefix) {
 		return instance.logger.newInstance(prefix);
-	}
-	
-	/**
-	 * Makes a command, used internally via UltimatePlugin#registerCommand()
-	 * 
-	 * @return a command instance, null if unable to create it.
-	 */
-	public static UltimateCommand makeCommand(UltimatePlugin plugin, String basePerm, String[] names) {
-		if (UltimateLib.isBukkit()) {
-			BukkitCommand cmd = new BukkitCommand(plugin, basePerm, names);
-			instance.util.registerCommand(cmd);
-			return cmd;
-		}
-		
-		return null;
 	}
 	
 	/**
@@ -137,6 +147,17 @@ public class UltimateLib {
 			this.i = i;
 		}
 		
+		public static ServerType fromString(String type) {
+			switch (type.toUpperCase()) {
+				case "BUKKIT": return BUKKIT;
+				case "BUNGEE": return BUNGEE;
+				case "SPONGE": return SPONGE;
+				case "NUKKIT": return NUKKIT;
+				
+				default: return UNKNOWN;
+			}
+		}
+
 		public int getInt() {
 			return i;
 		}

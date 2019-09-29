@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
-public class BukkitConsolePlayer implements WrappedPlayer {
+public class BukkitCommandPlayer implements WrappedPlayer {
 	private CommandSender sender;
 	
-	public BukkitConsolePlayer(CommandSender sender) {
+	public BukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
 	}
 	
