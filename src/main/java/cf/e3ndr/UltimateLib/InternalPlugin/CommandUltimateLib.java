@@ -13,7 +13,7 @@ import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.CommandExec;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
-import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
 public class CommandUltimateLib implements CommandExec {
 	private static final String com = ""
@@ -24,7 +24,7 @@ public class CommandUltimateLib implements CommandExec {
 	private static final String tab = "    ";
 	
 	@Override
-	public boolean onCommand(WrappedPlayer executor, String alias, String[] args) {
+	public boolean onCommand(WrappedConsole executor, String alias, String[] args) {
 		(new Thread() {
 			@Override
 			public void run() {
@@ -71,7 +71,7 @@ public class CommandUltimateLib implements CommandExec {
 	}
 	
 	@Override
-	public List<String> onTabComplete(WrappedPlayer executor, String alias, String[] args) {
+	public List<String> onTabComplete(WrappedConsole executor, String alias, String[] args) {
 		ArrayList<String> ret = new ArrayList<String>();
 		
 		if (args.length == 1) for (UltimatePlugin p : UltimateLib.getPlugins()) ret.add(p.getName());

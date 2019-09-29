@@ -8,7 +8,7 @@ package cf.e3ndr.UltimateLib.Wrappers.Command;
 import java.util.List;
 
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
-import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
 public class UltimateCommand {
 	protected UltimatePlugin plugin;
@@ -27,12 +27,12 @@ public class UltimateCommand {
 		return this;
 	}
 	
-	public final boolean execute(WrappedPlayer executor, String alias, String[] args) {
+	public final boolean execute(WrappedConsole executor, String alias, String[] args) {
 		// TODO arguments & custom help page
 		return this.exec.onCommand(executor, alias, args);
 	}
 	
-	public final List<String> tabComplete(WrappedPlayer executor, String alias, String[] args) {
+	public final List<String> tabComplete(WrappedConsole executor, String alias, String[] args) {
 		return this.exec.onTabComplete(executor, alias, args);
 	}
 	

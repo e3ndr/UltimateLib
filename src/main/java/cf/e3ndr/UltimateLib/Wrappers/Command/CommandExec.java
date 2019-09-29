@@ -8,12 +8,12 @@ package cf.e3ndr.UltimateLib.Wrappers.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
 public interface CommandExec {
-	public boolean onCommand(WrappedPlayer executor, String alias, String[] args);
+	public boolean onCommand(WrappedConsole executor, String alias, String[] args);
 	
-	default List<String> onTabComplete(WrappedPlayer executor, String alias, String[] args) {
+	default List<String> onTabComplete(WrappedConsole executor, String alias, String[] args) {
 		return new ArrayList<String>();
 	}
 }
