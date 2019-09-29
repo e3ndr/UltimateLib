@@ -50,7 +50,7 @@ public class UltimatePlugin extends PluginUtil {
 		this.logger = UltimateLib.getLogger("&7[" + colorCode + this.yml.getName() + "&7]");
 		
 		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + "&r version " + this.yml.getVersion() + "."));
-		this.pluginEnable(UltimateLib.instance);
+		this.pluginEnable(UltimateLib.getInstance());
 		
 		return this;
 	}
@@ -111,7 +111,7 @@ public class UltimatePlugin extends PluginUtil {
 	 * Close the plugin.
 	 */
 	public final void close() {
-		this.pluginDisable(UltimateLib.instance);
+		this.pluginDisable(UltimateLib.getInstance());
 	}
 	
 	/**

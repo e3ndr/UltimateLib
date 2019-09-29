@@ -23,15 +23,12 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 public class UltimateLib {
 	/** The ASCII art banner */
 	public static final String ultimatelib = "\n&5   __  ______  _                 __       &d__    _ __  \n&5  / / / / / /_(_)___ ___  ____ _/ /____  &d/ /   (_) /_ \n&5 / / / / / __/ / __ `__ \\/ __ `/ __/ _ \\&d/ /   / / __ \\\n&5/ /_/ / / /_/ / / / / / / /_/ / /_/  __&d/ /___/ / /_/ /\n&5\\____/_/\\__/_/_/ /_/ /_/\\__,_/\\__/\\___&d/_____/_/_.___/";
-	
-	/** The instance of the current UltimateLib. */
-	public static UltimateLib instance;
-	public static final String prefix = "&7[&5&l{0}&7]";
-	public static String version;
+	public static final String prefix = "&7[&5{0}&7]";
+	private static String version;
+	private static UltimateLib instance;
 	private static ServerType type;
 	private UltimateLibUtil util;
 	private UltimateLogger logger;
-	
 	
 	public UltimateLib(UltimateLibUtil util, UltimateLogger logger, String utiltype, String version) {
 		long start = System.currentTimeMillis();
@@ -59,6 +56,24 @@ public class UltimateLib {
 			}
 		}
 		instance.plugins.add(plugin.init(yml, eventLogger));
+	}
+	
+	/**
+	 * Gets the instance of UltimateLib.
+	 * 
+	 * @return the instance
+	 */
+	public static UltimateLib getInstance() {
+		return instance;
+	}
+	
+	/**
+	 * Gets the version of UltimateLib.
+	 * 
+	 * @return the version
+	 */
+	public static String getVersion() {
+		return version;
 	}
 	
 	/**

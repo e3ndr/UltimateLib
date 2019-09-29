@@ -21,14 +21,16 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
+	private BungeeEventWrapper listener = new BungeeEventWrapper();
 	@Override
     public void onEnable() {
+		ProxyServer.getInstance().getPluginManager().registerListener(this, listener);
 		new UltimateLib(this, new BungeeLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUNGEE", this.getDescription().getVersion());
     }
 	
 	@Override
     public void onDisable() {
-		UltimateLib.instance.disable();
+		UltimateLib.getInstance().disable();
     }
 
 	@Override
@@ -50,7 +52,6 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 
 	@Override
 	public WrappedWorld getWorld(String name) {
-		// TODO Auto-generated method stub
 		return new NullWorld();
 	}
 
@@ -68,4 +69,5 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	public void cancelTask(int id) {
 		ProxyServer.getInstance().getScheduler().cancel(id);
 	}
+	
 }

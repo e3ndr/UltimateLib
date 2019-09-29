@@ -25,7 +25,7 @@ public class PluginLoader {
 		this.logger = logger;
 	}
 	
-	private static File ultPlugins = new File("UltimateLib/plugins/");
+	private static File ultPlugins = new File("plugins/UltimateLib/plugins/");
 	private static File plugins = new File("plugins/");
 	public void run() {
 		this.logger.println("Loading plugins.");

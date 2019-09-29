@@ -28,15 +28,17 @@ import cf.e3ndr.UltimateLib.Wrappers.World.BukkitWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
+	private BukkitEventWrapper listener = new BukkitEventWrapper();
 	
 	@Override
 	public void onEnable() {
+		this.getPluginLoader().createRegisteredListeners(listener, this);
 		new UltimateLib(this, new BukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUKKIT", this.getDescription().getVersion());
 	}
 	
 	@Override
 	public void onDisable() {
-		UltimateLib.instance.disable();
+		UltimateLib.getInstance().disable();
 	}
 
 	@Override
@@ -90,4 +92,5 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	public void cancelTask(int id) {
 		Bukkit.getScheduler().cancelTask(id);
 	}
+	
 }

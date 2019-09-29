@@ -12,7 +12,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cn.nukkit.Player;
 
 public class NukkitPlayer implements WrappedPlayer {
-private Player nukkit;
+	private Player nukkit;
 	
 	public NukkitPlayer(Player player) {
 		this.nukkit = player;
@@ -50,5 +50,15 @@ private Player nukkit;
 	@Override
 	public UUID getUUID() {
 		return this.nukkit.getUniqueId();
+	}
+
+	@Override
+	public GameMode getMode() {
+		return GameMode.fromInt(this.nukkit.getGamemode());
+	}
+
+	@Override
+	public void setMode(GameMode gamemode) {
+		this.nukkit.setGamemode(gamemode.getInt());
 	}
 }

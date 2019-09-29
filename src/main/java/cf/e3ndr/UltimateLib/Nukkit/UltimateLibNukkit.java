@@ -21,15 +21,17 @@ import cn.nukkit.level.Location;
 import cn.nukkit.plugin.PluginBase;
 
 public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
+	private NukkitEventWrapper listener = new NukkitEventWrapper();
 	
 	@Override
 	public void onEnable() {
+		Server.getInstance().getPluginManager().registerEvents(listener, this);
 		new UltimateLib(this, new NukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "NUKKIT", this.getDescription().getVersion());
 	}
 	
 	@Override
 	public void onDisable() {
-		UltimateLib.instance.disable();
+		UltimateLib.getInstance().disable();
 	}
 	
 	@Override
@@ -69,5 +71,5 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	public void cancelTask(int id) {
 		Server.getInstance().getScheduler().cancelTask(id);
 	}
-
+	
 }

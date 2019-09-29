@@ -16,5 +16,7 @@ public interface WrappedPlayer {
 	public boolean hasPerm(String permission);
 	public String getName();
 	public UUID getUUID();
+	public GameMode getMode();
+	public void setMode(GameMode gamemode);
 	
 }

@@ -52,5 +52,15 @@ public class BukkitPlayer implements WrappedPlayer {
 	public UUID getUUID() {
 		return this.bukkit.getUniqueId();
 	}
+
+	@Override
+	public GameMode getMode() {
+		return GameMode.fromString(this.bukkit.getGameMode().toString());
+	}
+
+	@Override
+	public void setMode(GameMode gamemode) {
+		this.bukkit.setGameMode(org.bukkit.GameMode.valueOf(gamemode.toString()));
+	}
 	
 }
