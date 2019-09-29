@@ -20,11 +20,9 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
  */
 public class UltimatePlugin extends PluginUtil {
 	private boolean enabled = false;
-	private String name = "Plugin " + ((int) (Math.random() * 10)) + ((int) (Math.random() * 10));
 	private UltimateLogger logger;
 	private ArrayList<UltimateCommand> commands = new ArrayList<UltimateCommand>();
-	private String color = "";
-	private String version;
+	private PluginDescription yml;
 	
 	/**
 	 * Inits the plugin.
@@ -35,27 +33,35 @@ public class UltimatePlugin extends PluginUtil {
 	 * @param eventLogger the event logger
 	 * @return the plugin
 	 */
-	public final UltimatePlugin init(String name, String colorCode, String version, UltimateLogger eventLogger) {
-		this.name = UltimateLogger.stripColor(name);
+	public final UltimatePlugin init(PluginDescription yml, UltimateLogger eventLogger) {
 		this.enabled = true;
-		this.version = version;
+		this.yml = yml;
 		
+		String colorCode = this.yml.getColor();
 		if ((colorCode != null) && ((colorCode = colorCode.replace(" ", "")).equals(UltimateLogger.transformColor(colorCode)))) {
-			eventLogger.println("Invalid color code \"" + colorCode + "\" for " + name + ".");
+			eventLogger.println("Invalid color code \"" + colorCode + "\" for " + this.yml.getName() + ".");
 			colorCode = null;
 		}
 		if (colorCode == null) {
 			long code = 0;
-			for (char c : name.toCharArray()) code += (int) c;
+			for (char c : this.yml.getName().toCharArray()) code += (int) c;
 			colorCode = UltimateLogger.transformColor("&" + String.valueOf(code).subSequence(0, 1));
 		}
-		this.color = colorCode;
-		this.logger = UltimateLib.getLogger("&7[" + this.color + this.name + "&7]");
+		this.logger = UltimateLib.getLogger("&7[" + colorCode + this.yml.getName() + "&7]");
 		
-		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + this.name + "&r version " + this.version + "."));
+		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + "&r version " + this.yml.getVersion() + "."));
 		this.pluginEnable(UltimateLib.instance);
 		
 		return this;
+	}
+	
+	/**
+	 * Gets the plugin description.
+	 * 
+	 * @return the plugin description
+	 */
+	public PluginDescription getYml() {
+		return this.yml;
 	}
 	
 	/**
@@ -78,7 +84,7 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return true, if present
 	 */
 	public final boolean configPresent(String config) {
-		return new File("plugins/" + this.name + "/" + config).exists();
+		return new File("plugins/" + this + "/" + config).exists();
 	}
 	
 	/**
@@ -88,7 +94,7 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return true, if successful
 	 */
 	public final boolean saveConfig(String config) {
-		return YMLConfig.saveConfig(YMLConfig.getConfig(this.getResourceAsStream(config)), "plugins/" + this.name + "/" + config);
+		return YMLConfig.saveConfig(YMLConfig.getConfig(this.getResourceAsStream(config)), "plugins/" + this.yml.getName() + "/" + config);
 	}
 	
 	/**
@@ -127,15 +133,6 @@ public class UltimatePlugin extends PluginUtil {
 	}
 	
 	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public final String getName() {
-		return this.name;
-	}
-	
-	/**
 	 * Plugin enable.
 	 *
 	 * @param lib the lib
@@ -159,12 +156,13 @@ public class UltimatePlugin extends PluginUtil {
 	}
 
 	/**
-	 * Gets the color code for this plugin.
+	 * Gets the name of the plugin.
 	 *
-	 * @return the color code
+	 * @return the name
 	 */
-	public String getColor() {
-		return this.color;
+	public String getName() {
+		return this.yml.getName();
 	}
+
 	
 }

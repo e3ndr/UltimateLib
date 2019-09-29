@@ -35,9 +35,9 @@ public class CommandUltimateLib implements CommandExec {
 						int reg = p.getCommands().size();
 						
 						switch (reg) {
-							case 0: s += p.getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
-							case 1: s += p.getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n"; break;
-							default: s += p.getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n"; break;
+							case 0: s += p.getYml().getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
+							case 1: s += p.getYml().getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n"; break;
+							default: s += p.getYml().getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n"; break;
 						}
 					}
 					// TODO pages
@@ -45,7 +45,7 @@ public class CommandUltimateLib implements CommandExec {
 				} else if (args.length == 1) {
 					for (UltimatePlugin p : UltimateLib.getPlugins()) {
 						if (p.getName().equalsIgnoreCase(args[0])) {
-							String s = p.getColor() + "&o" + p.getName() + "&r\n";
+							String s = p.getYml().getColor() + "&o" + p.getName() + "&r\n";
 							
 							if (p.getCommands().size() > 0) {
 								s += "\n&aCommands:&r\n&2";

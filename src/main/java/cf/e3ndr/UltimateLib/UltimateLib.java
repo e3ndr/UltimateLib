@@ -10,6 +10,7 @@ import java.util.List;
 
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
+import cf.e3ndr.UltimateLib.Plugin.PluginDescription;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
@@ -20,12 +21,8 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
  * \____/_/\__/_/_/ /_/ /_/\__,_/\__/\___/_____/_/_.___/
  */
 public class UltimateLib {
-	public static final String ultimatelib = "\n" +
-			"&5   __  ______  _                 __       &d__    _ __  \n" + 
-			"&5  / / / / / /_(_)___ ___  ____ _/ /____  &d/ /   (_) /_ \n" + 
-			"&5 / / / / / __/ / __ `__ \\/ __ `/ __/ _ \\&d/ /   / / __ \\\n" + 
-			"&5/ /_/ / / /_/ / / / / / / /_/ / /_/  __&d/ /___/ / /_/ /\n" + 
-			"&5\\____/_/\\__/_/_/ /_/ /_/\\__,_/\\__/\\___&d/_____/_/_.___/";
+	/** The ASCII art banner */
+	public static final String ultimatelib = "\n&5   __  ______  _                 __       &d__    _ __  \n&5  / / / / / /_(_)___ ___  ____ _/ /____  &d/ /   (_) /_ \n&5 / / / / / __/ / __ `__ \\/ __ `/ __/ _ \\&d/ /   / / __ \\\n&5/ /_/ / / /_/ / / / / / / /_/ / /_/  __&d/ /___/ / /_/ /\n&5\\____/_/\\__/_/_/ /_/ /_/\\__,_/\\__/\\___&d/_____/_/_.___/";
 	
 	/** The instance of the current UltimateLib. */
 	public static UltimateLib instance;
@@ -54,14 +51,14 @@ public class UltimateLib {
 
 	private static UltimateLogger eventLogger;
 	private ArrayList<UltimatePlugin> plugins = new ArrayList<UltimatePlugin>();
-	public static void registerPlugin(String name, String colorCode, String version, UltimatePlugin plugin) {
+	public static void registerPlugin(PluginDescription yml, UltimatePlugin plugin) {
 		for (UltimatePlugin p : instance.plugins) {
-			if (p.getName().equalsIgnoreCase(name)) {
-				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + name + "&5\" already loaded in the server! Did you forget to delete old jars?"));
+			if (p.getName().equalsIgnoreCase(yml.getName())) {
+				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + yml.getName() + "&5\" already loaded in the server! Did you forget to delete old jars?"));
 				return;
 			}
 		}
-		instance.plugins.add(plugin.init(name, colorCode, version, eventLogger));
+		instance.plugins.add(plugin.init(yml, eventLogger));
 	}
 	
 	/**
@@ -90,6 +87,15 @@ public class UltimateLib {
 		for (UltimatePlugin up : instance.plugins) up.close();
 		
 		instance = null;
+	}
+	
+	/**
+	 * Gets the server instance.
+	 * 
+	 * @return the server instance
+	 */
+	public static ServerUtil getServer() {
+		return (ServerUtil) instance.util;
 	}
 
 	/**

@@ -5,6 +5,8 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
+import java.util.UUID;
+
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
 public interface WrappedPlayer {
@@ -13,5 +15,6 @@ public interface WrappedPlayer {
 	public WrappedLocation getLocation();
 	public boolean hasPerm(String permission);
 	public String getName();
+	public UUID getUUID();
 	
 }

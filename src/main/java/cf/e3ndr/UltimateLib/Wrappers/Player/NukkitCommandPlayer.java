@@ -56,4 +56,5 @@ public class NukkitCommandPlayer implements WrappedConsole {
 	public WrappedPlayer getPlayer() {
 		return new NukkitPlayer((Player) sender);
 	}
+	
 }

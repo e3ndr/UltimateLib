@@ -8,6 +8,9 @@ package cf.e3ndr.UltimateLib.Wrappers.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import cf.e3ndr.UltimateLib.Wrappers.World.BukkitWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
+
 public class BukkitLocation implements WrappedLocation {
 	private Location loc;
 	
@@ -46,5 +49,10 @@ public class BukkitLocation implements WrappedLocation {
 	
 	public Location getBukkit() {
 		return this.loc;
+	}
+
+	@Override
+	public WrappedWorld getWorld() {
+		return new BukkitWorld(this.loc.getWorld());
 	}
 }

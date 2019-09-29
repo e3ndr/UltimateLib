@@ -5,6 +5,8 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
 
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
@@ -43,7 +45,12 @@ public class BukkitPlayer implements WrappedPlayer {
 
 	@Override
 	public String getName() {
-		return bukkit.getName();
+		return this.bukkit.getName();
+	}
+
+	@Override
+	public UUID getUUID() {
+		return this.bukkit.getUniqueId();
 	}
 	
 }

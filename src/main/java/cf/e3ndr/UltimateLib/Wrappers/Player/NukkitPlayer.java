@@ -1,4 +1,11 @@
+/**
+ * Made with <3 by e3ndr.
+ * 
+ * Licensed under MIT, do as you please.
+ */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
+
+import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
@@ -37,6 +44,11 @@ private Player nukkit;
 
 	@Override
 	public String getName() {
-		return nukkit.getName();
+		return this.nukkit.getName();
+	}
+
+	@Override
+	public UUID getUUID() {
+		return this.nukkit.getUniqueId();
 	}
 }

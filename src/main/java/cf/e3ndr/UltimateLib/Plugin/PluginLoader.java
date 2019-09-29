@@ -50,12 +50,13 @@ public class PluginLoader {
 				return;
 			}
 			
-			Configuration ultimate = YMLConfig.getConfig(jar.getInputStream(entry));
-			Class<? extends UltimatePlugin> cls = Class.forName(ultimate.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
+			Configuration cfg = YMLConfig.getConfig(jar.getInputStream(entry));
+			PluginDescription yml = new PluginDescription(cfg);
+			Class<? extends UltimatePlugin> cls = Class.forName(cfg.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
 			
-			for (String support : ultimate.getStringList("disallowed-platforms")) {
+			for (String support : yml.getDisallowedPlatforms()) {
 				if (UltimateLib.getServerType() == ServerType.fromString(support)) {
-					logger.println("Plugin " + ultimate.getString("name") + " doesn\'t support " + support.toLowerCase() + ".");
+					logger.println("Plugin " + yml.getName() + " doesn\'t support " + support.toLowerCase() + ".");
 					jar.close();
 					plugin.close();
 					return;
@@ -63,13 +64,13 @@ public class PluginLoader {
 			} 
 			
 			try {
-				UltimateLib.registerPlugin(ultimate.getString("name"), ultimate.getString("color"), ultimate.getString("version"), cls.getConstructor().newInstance());
+				UltimateLib.registerPlugin(yml, cls.getConstructor().newInstance());
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 				logger.println("Unable to load plugin \"" + f.getName() + ".\"");
 			}
 			
-			// This could be multithreaded in the future, however it sometimes throws errors when I make new threads (Bukkit, ?).
+			// This could be multithreaded in the future, however it sometimes throws errors when I make new threads (Bukkit, Nukkit).
 			
 			jar.close();
 			plugin.close();

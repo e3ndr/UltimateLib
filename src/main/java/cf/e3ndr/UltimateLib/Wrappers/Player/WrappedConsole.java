@@ -5,7 +5,14 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
+import java.util.UUID;
+
 public interface WrappedConsole extends WrappedPlayer {
 	public boolean isConsole();
 	public WrappedPlayer getPlayer();
+	
+	@Override
+	default UUID getUUID() {
+		return null; // CONSOLE doesn't have a UUID, use a WrappedPlayer instead.
+	}
 }

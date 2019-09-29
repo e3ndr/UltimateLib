@@ -1,5 +1,12 @@
+/**
+ * Made with <3 by e3ndr.
+ * 
+ * Licensed under MIT, do as you please.
+ */
 package cf.e3ndr.UltimateLib.Wrappers.Location;
 
+import cf.e3ndr.UltimateLib.Wrappers.World.NukkitWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 import cn.nukkit.level.Location;
 
 public class NukkitLocation implements WrappedLocation {
@@ -40,5 +47,10 @@ private Location loc;
 	
 	public Location getNukkit() {
 		return this.loc;
+	}
+
+	@Override
+	public WrappedWorld getWorld() {
+		return new NukkitWorld(this.loc.level);
 	}
 }

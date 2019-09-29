@@ -9,6 +9,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.SimplePluginManager;
@@ -20,6 +22,10 @@ import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.BukkitCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
+import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.BukkitWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	
@@ -58,5 +64,30 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		BukkitCommand cmd = new BukkitCommand(plugin, basePerm, names);
 		this.registerCommand(cmd);
 		return cmd;
+	}
+
+	@Override
+	public WrappedLocation getLocation(WrappedWorld world, float x, float y, float z, float pitch, float yaw) {
+		return new BukkitLocation(new Location(Bukkit.getWorld(world.getName()), x, y, z, yaw, pitch));
+	}
+
+	@Override
+	public WrappedWorld getWorld(String name) {
+		return new BukkitWorld(Bukkit.getWorld(name));
+	}
+
+	@Override
+	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency) {
+		return Bukkit.getScheduler().scheduleSyncRepeatingTask(this, run, startDelay, runFrequency);
+	}
+
+	@Override
+	public int scheduleAsyncTask(Runnable run) {
+		return Bukkit.getScheduler().runTaskAsynchronously(this, run).getTaskId();
+	}
+
+	@Override
+	public void cancelTask(int id) {
+		Bukkit.getScheduler().cancelTask(id);
 	}
 }

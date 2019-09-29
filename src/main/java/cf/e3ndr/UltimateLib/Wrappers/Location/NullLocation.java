@@ -5,6 +5,9 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Location;
 
+import cf.e3ndr.UltimateLib.Wrappers.World.NullWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
+
 public class NullLocation implements WrappedLocation {
 
 	@Override
@@ -30,5 +33,10 @@ public class NullLocation implements WrappedLocation {
 	@Override
 	public float getPitch() {
 		return 0;
+	}
+
+	@Override
+	public WrappedWorld getWorld() {
+		return new NullWorld();
 	}
 }
