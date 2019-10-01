@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
+import cf.e3ndr.UltimateLib.Logging.ReturningLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.CommandExec;
@@ -25,6 +26,11 @@ public class CommandUltimateLib implements CommandExec {
 	
 	@Override
 	public boolean onCommand(WrappedConsole executor, String alias, String[] args) {
+		if (!executor.hasPerm("UltimateLib.admin")) {
+			executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4 You don\'t have permission to do this!"));
+			return true;
+		}
+		
 		(new Thread() {
 			@Override
 			public void run() {
@@ -32,20 +38,23 @@ public class CommandUltimateLib implements CommandExec {
 					String s = "";
 					
 					for (UltimatePlugin p : UltimateLib.getPlugins()) {
-						int reg = p.getCommands().size();
-						
-						switch (reg) {
-							case 0: s += p.getYml().getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
-							case 1: s += p.getYml().getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n"; break;
-							default: s += p.getYml().getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n"; break;
+						if (p.isEnabled()) {
+							int reg = p.getCommands().size();
+							switch (reg) {
+								case 0: s += p.getDescription().getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
+								case 1: s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n"; break;
+								default: s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n"; break;
+							}
+						} else {
+							s += "&c&o" + p.getName() + "&r&4 is disabled.\n";
 						}
 					}
-					// TODO pages
+					// TODO multiple pages
 					executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", s)));
 				} else if (args.length == 1) {
 					for (UltimatePlugin p : UltimateLib.getPlugins()) {
 						if (p.getName().equalsIgnoreCase(args[0])) {
-							String s = p.getYml().getColor() + "&o" + p.getName() + "&r\n";
+							String s = p.getDescription().getColor() + "&o" + p.getName() + "&r\n";
 							
 							if (p.getCommands().size() > 0) {
 								s += "\n&aCommands:&r\n&2";
@@ -62,7 +71,37 @@ public class CommandUltimateLib implements CommandExec {
 							return;
 						}
 					}
-					executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", "&5Cannot find plugin \"&c" + args[0] + "&5\"")));
+					
+					executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Cannot find plugin \"&c" + args[0] + "&5\""));
+				} else if (args.length == 2) {
+					for (UltimatePlugin p : UltimateLib.getPlugins()) {
+						if (p.getName().equalsIgnoreCase(args[0])) {
+							if (p.isEnabled()) {
+								if (p.getName().equalsIgnoreCase("UltimateLibPlugin") && args[1].equalsIgnoreCase("disable")) {
+									executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " UltimateLibPlugin cannot be disabled as it\'s internal and eternal."));
+									return;
+								} else if (args[1].equalsIgnoreCase("disable")) {
+									p.close();
+									executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &2Sucessfully disabled \"&a" + args[0] + "&5\""));
+								//} else if (args[1].equalsIgnoreCase("reload")) {
+								//	p.reload(); // TODO Not yet
+								//	executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &2Sucessfully reloaded \"&a" + args[0] + "&5\""));
+								} else {
+									executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
+								}
+							} else {
+								if (args[1].equalsIgnoreCase("enable")) {
+									p.init(p.getDescription(), new ReturningLogger(executor, "UltimateLib"));
+								} else {
+									executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
+								}
+							}
+							
+							return;
+						}
+					}
+					
+					executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Cannot find plugin \"&c" + args[0] + "&5\""));
 				}
 			}
 		}).start(); // Threaded to prevent hangs, useful here but in your plugin it probably isn't that great of an idea. (Depends on situation)
@@ -74,7 +113,20 @@ public class CommandUltimateLib implements CommandExec {
 	public List<String> onTabComplete(WrappedConsole executor, String alias, String[] args) {
 		ArrayList<String> ret = new ArrayList<String>();
 		
-		if (args.length == 1) for (UltimatePlugin p : UltimateLib.getPlugins()) ret.add(p.getName());
+		if (args.length == 1) {
+			for (UltimatePlugin p : UltimateLib.getPlugins()) ret.add(p.getName());
+		} else if (args.length == 2) {
+			for (UltimatePlugin p : UltimateLib.getPlugins()) {
+				if (p.getName().equalsIgnoreCase(args[0])) {
+					if (p.isEnabled()) {
+						ret.add("disable");
+					} else {
+						// ret.add("reload");
+						ret.add("enable");
+					}
+				}
+			}
+		}
 		
 		return ret;
 	}

@@ -3,3 +3,4 @@ main: cf.e3ndr.UltimateLib.InternalPlugin.UltimateLibPlugin
 color: '&5'
 version: '${project.version}'
 # disallowed-platforms: [bukkit, bungee, nukkit] # The option is there :)
+disallow-reload: false

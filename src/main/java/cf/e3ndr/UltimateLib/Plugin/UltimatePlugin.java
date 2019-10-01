@@ -8,10 +8,12 @@ package cf.e3ndr.UltimateLib.Plugin;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Config.YMLConfig;
+import cf.e3ndr.UltimateLib.Logging.ReturningLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
@@ -22,6 +24,7 @@ public class UltimatePlugin extends PluginUtil {
 	private boolean enabled = false;
 	private UltimateLogger logger;
 	private ArrayList<UltimateCommand> commands = new ArrayList<UltimateCommand>();
+	private boolean loaded = false;
 	private PluginDescription yml;
 	
 	/**
@@ -34,6 +37,11 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return the plugin
 	 */
 	public final UltimatePlugin init(PluginDescription yml, UltimateLogger eventLogger) {
+		if (loaded && this.yml.disallowReload()) throw new IllegalStateException("Plugin \"" + this.getName() + "\" explicitly disallows reloading, yet it has been reloaded.");
+		if (enabled) {
+			eventLogger.println("Plugin \"" + this.getName() + "\" already enabled.");
+			return this;
+		}
 		this.enabled = true;
 		this.yml = yml;
 		
@@ -49,18 +57,33 @@ public class UltimatePlugin extends PluginUtil {
 		}
 		this.logger = UltimateLib.getLogger("&7[" + colorCode + this.yml.getName() + "&7]");
 		
-		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + "&r version " + this.yml.getVersion() + "."));
+		String verString = "";
+		if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
+		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + verString + "."));
 		this.pluginEnable(UltimateLib.getInstance());
+		
+		if (eventLogger instanceof ReturningLogger) eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
 		
 		return this;
 	}
-	
+
+	/**
+	 * Gets the plugin description.
+	 * 
+	 * @deprecated @see {@link UltimatePlugin#getDescription()}
+	 * 
+	 * @return the plugin description
+	 */
+	public PluginDescription getYml() {
+		return this.getDescription();
+	}
+
 	/**
 	 * Gets the plugin description.
 	 * 
 	 * @return the plugin description
 	 */
-	public PluginDescription getYml() {
+	public PluginDescription getDescription() {
 		return this.yml;
 	}
 	
@@ -72,6 +95,11 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return the ultimate command
 	 */
 	public final UltimateCommand registerCommand(String basePerm, String... names) {
+		if (this.loaded) {
+			for (UltimateCommand cmd : this.commands) { // This ensures that we never double register this.commands in the server, as that can be problematic.
+				if (Arrays.equals(cmd.getAliases(), names)) return cmd;
+			}
+		}
 		UltimateCommand cmd = UltimateLib.makeCommand(this, basePerm, names);
 		this.commands.add(cmd);
 		return cmd;
@@ -106,12 +134,15 @@ public class UltimatePlugin extends PluginUtil {
 	public InputStream getResourceAsStream(String file) {
 		return this.getClass().getClassLoader().getResourceAsStream(file);
 	}
-	
+
 	/**
 	 * Close the plugin.
 	 */
 	public final void close() {
+		this.loaded = true;
+		this.enabled = false;
 		this.pluginDisable(UltimateLib.getInstance());
+		for (UltimateCommand c : this.commands) c.setExecutor(new DeadExecutor(this));
 	}
 	
 	/**
@@ -147,9 +178,9 @@ public class UltimatePlugin extends PluginUtil {
 	protected void pluginDisable(UltimateLib lib) {}
 
 	/**
-	 * Gets the commands related to the plugin.
+	 * Gets the this.commands related to the plugin.
 	 *
-	 * @return a list of commands
+	 * @return a list of this.commands
 	 */
 	public final List<UltimateCommand> getCommands() {
 		return this.commands;
@@ -164,5 +195,13 @@ public class UltimatePlugin extends PluginUtil {
 		return this.yml.getName();
 	}
 
+	/**
+	 * Checks if it has been this.loaded.
+	 *
+	 * @return true, if has been this.loaded
+	 */
+	public boolean hasBeenloaded() {
+		return this.loaded;
+	}
 	
 }

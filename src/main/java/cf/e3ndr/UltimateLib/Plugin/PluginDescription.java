@@ -51,5 +51,9 @@ public class PluginDescription {
 	public String getVersion() {
 		return this.config.getString("version");
 	}
+
+	public boolean disallowReload() {
+		return this.config.getBoolean("disallow-reload", false);
+	}
 	
 }
