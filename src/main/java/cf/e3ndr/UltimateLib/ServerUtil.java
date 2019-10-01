@@ -5,7 +5,10 @@
  */
 package cf.e3ndr.UltimateLib;
 
+import java.util.ArrayList;
+
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 /**
@@ -33,6 +36,20 @@ public interface ServerUtil {
 	 * @return the world
 	 */
 	public WrappedWorld getWorld(String name);
+
+	/**
+	 * Gets the worlds on the server.
+	 * 
+	 * @return a list of worlds
+	 */
+	public ArrayList<WrappedWorld> getWorlds();
+
+	/**
+	 * Gets the players on the server.
+	 * 
+	 * @return a list of players
+	 */
+	public ArrayList<WrappedPlayer> getPlayers();
 	
 	/**
 	 * Schedule sync task.

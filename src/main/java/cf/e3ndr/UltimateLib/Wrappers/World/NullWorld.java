@@ -7,6 +7,8 @@ package cf.e3ndr.UltimateLib.Wrappers.World;
 
 import java.util.List;
 
+import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.Misc.WrappedParticle;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
 public class NullWorld implements WrappedWorld {
@@ -20,5 +22,11 @@ public class NullWorld implements WrappedWorld {
 	public List<WrappedPlayer> getPlayers() {
 		return null;
 	}
+
+	@Override
+	public void playSound(WrappedLocation loc, String sound, float volume, float pitch) {}
+
+	@Override
+	public void addParticle(WrappedLocation loc, WrappedParticle particle) {}
 
 }

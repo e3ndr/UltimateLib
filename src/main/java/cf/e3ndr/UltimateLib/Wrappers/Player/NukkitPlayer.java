@@ -61,4 +61,5 @@ public class NukkitPlayer implements WrappedPlayer {
 	public void setMode(GameMode gamemode) {
 		this.nukkit.setGamemode(gamemode.getInt());
 	}
+	
 }

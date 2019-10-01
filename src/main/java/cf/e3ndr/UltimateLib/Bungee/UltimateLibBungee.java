@@ -5,6 +5,7 @@
  */
 package cf.e3ndr.UltimateLib.Bungee;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
@@ -14,9 +15,12 @@ import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.NullWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
@@ -67,6 +71,18 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	@Override
 	public void cancelTask(int id) {
 		ProxyServer.getInstance().getScheduler().cancel(id);
+	}
+
+	@Override
+	public ArrayList<WrappedWorld> getWorlds() {return new ArrayList<WrappedWorld>();}
+
+	@Override
+	public ArrayList<WrappedPlayer> getPlayers() {
+		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+		
+		for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) ret.add(new BungeePlayer(p));
+		
+		return ret;
 	}
 	
 }

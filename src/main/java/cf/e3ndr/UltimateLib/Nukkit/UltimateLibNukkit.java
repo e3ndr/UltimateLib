@@ -5,6 +5,8 @@
  */
 package cf.e3ndr.UltimateLib.Nukkit;
 
+import java.util.ArrayList;
+
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.NukkitLogger;
@@ -12,10 +14,14 @@ import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.NukkitWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
+import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.SimpleCommandMap;
+import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.plugin.PluginBase;
 
@@ -69,6 +75,24 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	@Override
 	public void cancelTask(int id) {
 		Server.getInstance().getScheduler().cancelTask(id);
+	}
+
+	@Override
+	public ArrayList<WrappedWorld> getWorlds() {
+		ArrayList<WrappedWorld> worlds = new ArrayList<WrappedWorld>();
+		
+		for (Level l : Server.getInstance().getLevels().values()) worlds.add(new NukkitWorld(l));
+		
+		return worlds;
+	}
+
+	@Override
+	public ArrayList<WrappedPlayer> getPlayers() {
+		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+		
+		for (Player p : Server.getInstance().getOnlinePlayers().values()) ret.add(new NukkitPlayer(p));
+		
+		return ret;
 	}
 	
 }

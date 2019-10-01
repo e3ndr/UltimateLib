@@ -11,8 +11,10 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,6 +25,8 @@ import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.BukkitWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
@@ -90,6 +94,24 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	@Override
 	public void cancelTask(int id) {
 		Bukkit.getScheduler().cancelTask(id);
+	}
+
+	@Override
+	public ArrayList<WrappedWorld> getWorlds() {
+		ArrayList<WrappedWorld> worlds = new ArrayList<WrappedWorld>();
+		
+		for (World w : Bukkit.getWorlds()) worlds.add(new BukkitWorld(w));
+		
+		return worlds;
+	}
+
+	@Override
+	public ArrayList<WrappedPlayer> getPlayers() {
+		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+		
+		for (Player p : Bukkit.getOnlinePlayers()) ret.add(new BukkitPlayer(p));
+		
+		return ret;
 	}
 	
 }

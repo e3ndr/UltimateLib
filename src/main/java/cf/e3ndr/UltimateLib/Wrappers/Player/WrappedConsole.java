@@ -11,17 +11,12 @@ public interface WrappedConsole extends WrappedPlayer {
 	public boolean isConsole();
 	public WrappedPlayer getPlayer();
 	
+	// CONSOLE doesn't have any of these, use a WrappedPlayer instead.
 	@Override
-	default UUID getUUID() {
-		return null; // CONSOLE doesn't have a UUID, use a WrappedPlayer instead.
-	}
-	
+	default UUID getUUID() {return null;}
 	@Override
-	default GameMode getMode() {
-		return null; // CONSOLE doesn't have a GameMode, use a WrappedPlayer instead.
-	}
-	
+	default GameMode getMode() {return null;}
 	@Override
-	default void setMode(GameMode gamemode) {} // CONSOLE doesn't have a GameMode, use a WrappedPlayer instead.
+	default void setMode(GameMode gamemode) {}
 	
 }
