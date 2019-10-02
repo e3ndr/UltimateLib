@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cf.e3ndr</groupId>
 	<artifactId>UltimateLib</artifactId>
-	<version>12</version>
+	<version>13</version>
   	<build>
         <plugins>
 	        <plugin>

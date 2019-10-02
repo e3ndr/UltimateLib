@@ -20,6 +20,7 @@ import net.md_5.bungee.config.Configuration;
 
 public class PluginLoader {
 	private UltimateLogger logger;
+	private static char[] allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789_- ".toCharArray();
 	
 	public PluginLoader(UltimateLogger logger) {
 		this.logger = logger;
@@ -53,6 +54,17 @@ public class PluginLoader {
 			Configuration cfg = YMLConfig.getConfig(jar.getInputStream(entry));
 			PluginDescription yml = new PluginDescription(cfg);
 			Class<? extends UltimatePlugin> cls = Class.forName(cfg.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
+			
+			String n = yml.getName();
+			for (char c : allowedChars) {
+				n = n.replace(String.valueOf(c), "");
+			}
+			if (n.length() > 0) {
+				logger.println("Plugin name must be alphanumerical including \'_\', \'_\', and \' \' (" + yml.getName() + ")");
+				jar.close();
+				plugin.close();
+				return;
+			}
 			
 			for (String support : yml.getDisallowedPlatforms()) {
 				if (UltimateLib.getServerType() == ServerType.fromString(support)) {

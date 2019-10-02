@@ -5,3 +5,4 @@
 *.project
 *.prefs
 *dependency-reduced-pom.xml
+/bin/
