@@ -27,22 +27,7 @@ public class UltimatePlugin extends PluginUtil {
 	private boolean loaded = false;
 	private PluginDescription yml;
 	
-	/**
-	 * Inits the plugin.
-	 *
-	 * @param name the name
-	 * @param colorCode the color code
-	 * @param version 
-	 * @param eventLogger the event logger
-	 * @return the plugin
-	 */
-	public final UltimatePlugin init(PluginDescription yml, UltimateLogger eventLogger) {
-		if (loaded && this.yml.disallowReload()) throw new IllegalStateException("Plugin \"" + this.getName() + "\" explicitly disallows reloading, yet it has been reloaded.");
-		if (enabled) {
-			eventLogger.println("Plugin \"" + this.getName() + "\" already enabled.");
-			return this;
-		}
-		this.enabled = true;
+	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger) {
 		this.yml = yml;
 		
 		String colorCode = this.yml.getColor();
@@ -57,14 +42,27 @@ public class UltimatePlugin extends PluginUtil {
 		}
 		this.logger = UltimateLib.getLogger("&7[" + colorCode + this.yml.getName() + "&7]");
 		
+		return this;
+	}
+	
+	/**
+	 * Inits the plugin.
+	 * 
+	 * @param eventLogger the event logger
+	 */
+	public final void init(UltimateLogger eventLogger) {
+		if (loaded && this.yml.disallowReload()) eventLogger.println("Plugin \"" + this.getName() + "\" explicitly disallows reloading, yet it has been reloaded.");
+		if (enabled) {
+			eventLogger.println("Plugin \"" + this.getName() + "\" already enabled.");
+		}
+		this.enabled = true;
 		String verString = "";
+		
 		if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
 		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + verString + "."));
 		this.pluginEnable(UltimateLib.getInstance());
 		
 		if (eventLogger instanceof ReturningLogger) eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
-		
-		return this;
 	}
 
 	/**

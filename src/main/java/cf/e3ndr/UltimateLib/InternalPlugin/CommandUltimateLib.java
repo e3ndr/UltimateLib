@@ -91,7 +91,7 @@ public class CommandUltimateLib implements CommandExec {
 								}
 							} else {
 								if (args[1].equalsIgnoreCase("enable")) {
-									p.init(p.getDescription(), new ReturningLogger(executor, "UltimateLib"));
+									p.init(new ReturningLogger(executor, "UltimateLib"));
 								} else {
 									executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
 								}

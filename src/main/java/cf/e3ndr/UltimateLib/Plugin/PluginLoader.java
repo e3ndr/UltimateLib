@@ -55,12 +55,16 @@ public class PluginLoader {
 			PluginDescription yml = new PluginDescription(cfg);
 			Class<? extends UltimatePlugin> cls = Class.forName(cfg.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
 			
-			String n = yml.getName();
-			for (char c : allowedChars) {
-				n = n.replace(String.valueOf(c), "");
+			if (yml.getName().length() > 24) {
+				logger.println("Plugin name cannot be longer than 24 characters (" + yml.getName() + ")");
+				jar.close();
+				plugin.close();
+				return;
 			}
+			String n = yml.getName().toLowerCase();
+			for (char c : allowedChars) n = n.replace(String.valueOf(c), "");
 			if (n.length() > 0) {
-				logger.println("Plugin name must be alphanumerical including \'_\', \'_\', and \' \' (" + yml.getName() + ")");
+				logger.println("Plugin name must be alphanumerical including \'_\', \'-\', and \' \' (" + yml.getName() + ")");
 				jar.close();
 				plugin.close();
 				return;
@@ -76,7 +80,7 @@ public class PluginLoader {
 			} 
 			
 			try {
-				UltimateLib.registerPlugin(yml, cls.getConstructor().newInstance());
+				UltimateLib.registerPlugin(cls.getConstructor().newInstance().make(yml, logger));
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 				logger.println("Unable to load plugin \"" + f.getName() + ".\"");

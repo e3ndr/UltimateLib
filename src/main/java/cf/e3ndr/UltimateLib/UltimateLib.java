@@ -10,7 +10,6 @@ import java.util.List;
 
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
-import cf.e3ndr.UltimateLib.Plugin.PluginDescription;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
@@ -42,20 +41,27 @@ public class UltimateLib {
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
 		(new PluginLoader(eventLogger)).run();
+		this.initPlugins();
 		
 		this.logger.println("Done! Took " + (System.currentTimeMillis() - start) + "ms");
 	}
 
 	private static UltimateLogger eventLogger;
 	private ArrayList<UltimatePlugin> plugins = new ArrayList<UltimatePlugin>();
-	public static void registerPlugin(PluginDescription yml, UltimatePlugin plugin) {
+	public static void registerPlugin(UltimatePlugin plugin) {
 		for (UltimatePlugin p : instance.plugins) {
-			if (p.getName().equalsIgnoreCase(yml.getName())) {
-				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + yml.getName() + "&5\" already loaded in the server! Did you forget to delete old jars?"));
+			if (p.getName().equalsIgnoreCase(plugin.getName())) {
+				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + plugin.getName() + "&5\" already loaded in the server! Did you forget to delete old jars?"));
 				return;
 			}
 		}
-		instance.plugins.add(plugin.init(yml, eventLogger));
+		instance.plugins.add(plugin);
+	}
+	
+	private void initPlugins() {
+		for (UltimatePlugin p : instance.plugins) {
+			if (!p.isEnabled()) p.init(eventLogger);
+		}
 	}
 	
 	/**
