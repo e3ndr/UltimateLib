@@ -86,8 +86,6 @@ public class PluginLoader {
 				logger.println("Unable to load plugin \"" + f.getName() + ".\"");
 			}
 			
-			// This could be multithreaded in the future, however it sometimes throws errors when I make new threads (Bukkit, Nukkit).
-			
 			jar.close();
 			plugin.close();
 		} catch (Exception e) {

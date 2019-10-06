@@ -9,14 +9,14 @@ import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
-public interface WrappedPlayer {
+public interface WrappedPlayer extends WrappedConsole {
 	public boolean teleportPlayer(WrappedLocation wloc);
-	public void sendMessage(String message);
 	public WrappedLocation getLocation();
-	public boolean hasPerm(String permission);
-	public String getName();
+	public void sendJSON(String json);
 	public UUID getUUID();
 	public GameMode getMode();
 	public void setMode(GameMode gamemode);
 	
+	default boolean isConsole() { return false; }
+	default WrappedPlayer getPlayer() { return this; }
 }

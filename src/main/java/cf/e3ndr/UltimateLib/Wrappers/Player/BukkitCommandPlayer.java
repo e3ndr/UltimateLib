@@ -9,9 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
-
 public class BukkitCommandPlayer implements WrappedConsole {
 	private CommandSender sender;
 	
@@ -20,18 +17,8 @@ public class BukkitCommandPlayer implements WrappedConsole {
 	}
 
 	@Override
-	public boolean teleportPlayer(WrappedLocation wloc) {
-		return false;
-	}
-
-	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(message);
-	}
-
-	@Override
-	public WrappedLocation getLocation() {
-		return new NullLocation();
 	}
 
 	@Override
@@ -53,4 +40,5 @@ public class BukkitCommandPlayer implements WrappedConsole {
 	public WrappedPlayer getPlayer() {
 		return new BukkitPlayer((Player) sender);
 	}
+	
 }

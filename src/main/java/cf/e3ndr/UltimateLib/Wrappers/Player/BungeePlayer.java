@@ -5,12 +5,16 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
+import java.util.UUID;
+
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.chat.ComponentSerializer;
 
-public class BungeePlayer implements WrappedConsole {
+public class BungeePlayer implements WrappedPlayer {
 	private CommandSender sender;
 	
 	public BungeePlayer(CommandSender sender) {
@@ -18,18 +22,8 @@ public class BungeePlayer implements WrappedConsole {
 	}
 
 	@Override
-	public boolean teleportPlayer(WrappedLocation wloc) {
-		return false;
-	}
-
-	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(new TextComponent(message));
-	}
-
-	@Override
-	public WrappedLocation getLocation() {
-		return new NullLocation();
 	}
 
 	@Override
@@ -44,11 +38,40 @@ public class BungeePlayer implements WrappedConsole {
 
 	@Override
 	public String getName() {
-		return sender.getName();
+		return this.sender.getName();
 	}
 
 	@Override
 	public WrappedPlayer getPlayer() {
-		return this;
+		return (WrappedPlayer) this;
 	}
+
+	@Override
+	public void sendJSON(String json) {
+		this.sender.sendMessage(ComponentSerializer.parse(json));
+	}
+
+	@Override
+	public boolean teleportPlayer(WrappedLocation wloc) {
+		return false;
+	}
+
+	@Override
+	public WrappedLocation getLocation() {
+		return new NullLocation();
+	}
+
+	@Override
+	public UUID getUUID() {
+		if (this.sender instanceof ProxiedPlayer) return ((ProxiedPlayer) this.sender).getUniqueId();
+		return null;
+	}
+
+	@Override
+	public GameMode getMode() {
+		return null;
+	}
+
+	@Override
+	public void setMode(GameMode gamemode) {}
 }

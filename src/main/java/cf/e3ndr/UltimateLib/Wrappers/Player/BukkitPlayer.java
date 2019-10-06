@@ -6,7 +6,9 @@
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
 import java.util.UUID;
+import java.util.concurrent.Callable;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
@@ -61,6 +63,18 @@ public class BukkitPlayer implements WrappedPlayer {
 	@Override
 	public void setMode(GameMode gamemode) {
 		this.bukkit.setGameMode(org.bukkit.GameMode.valueOf(gamemode.toString()));
+	}
+
+	@Override
+	public void sendJSON(String json) {
+		Bukkit.getScheduler().callSyncMethod(Bukkit.getPluginManager().getPlugin("UltimateLib"), new Callable<Integer>() {
+			@Override
+			public Integer call() throws Exception {
+				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + bukkit.getName() + " " + json);
+				return 0; // We love threading :)
+			}}
+		);
+		
 	}
 	
 }

@@ -81,7 +81,7 @@ public class UltimateLib {
 	public static String getVersion() {
 		return version;
 	}
-	
+
 	/**
 	 * Gets all registered plugins.
 	 * 
@@ -89,6 +89,19 @@ public class UltimateLib {
 	 */
 	public static List<UltimatePlugin> getPlugins() {
 		return instance.plugins;
+	}
+
+	/**
+	 * Gets a registered plugin.
+	 * 
+	 * @return a plugin, null if not found
+	 */
+	public static UltimatePlugin getPlugin(String name) {
+		for (UltimatePlugin p : getPlugins()) {
+			if (p.getName().equals(name)) return p;
+		}
+		
+		return null;
 	}
 	
 	/**

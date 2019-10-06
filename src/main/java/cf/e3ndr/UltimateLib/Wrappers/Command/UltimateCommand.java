@@ -5,8 +5,10 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Command;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
@@ -15,11 +17,13 @@ public class UltimateCommand {
 	protected CommandExec exec;
 	protected String[] aliases;
 	protected String basePerm = "";
+	protected ArrayList<HelpArgument> helpArguments = new ArrayList<HelpArgument>();
 	
 	public UltimateCommand(UltimatePlugin plugin, String basePerm, String... names) {
 		this.plugin = plugin;
 		this.aliases = names;
 		this.basePerm = basePerm;
+		
 	}
 	
 	public final UltimateCommand setExecutor(CommandExec exec) {
@@ -27,9 +31,34 @@ public class UltimateCommand {
 		return this;
 	}
 	
+	public final UltimateCommand addHelp(String alias, String argument, String permission) {
+		return this.addHelp(new HelpArgument(alias, argument, permission));
+	}
+	
+	public final UltimateCommand addHelp(HelpArgument helpArgument) {
+		this.helpArguments.add(helpArgument);
+		return this;
+	}
+	
 	public final boolean execute(WrappedConsole executor, String alias, String[] args) {
-		// TODO arguments & custom help page
-		return this.exec.onCommand(executor, alias, args);
+		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && executor.hasPerm(basePerm)) {
+			final String commandBody = "{p}&r\n{c}".replace("{p}", this.plugin.getDescription().getColor() + this.plugin.getName());
+			final String arg = "{color}/{alias} {arg}";
+			String content = "";
+			
+			for (HelpArgument ha : this.helpArguments) {
+				String color = "&c";
+				if (executor.hasPerm(ha.getPermission())) color = "&a";
+				
+				content += "    " + arg.replace("{alias}", ha.getAlias()).replace("{color}", color).replace("{arg}", ha.getArgument()) + "\n";
+			}
+			
+			executor.sendMessage(UltimateLogger.transformColor(commandBody.replace("{c}", content)));
+		} else {
+			this.exec.onCommand(executor, alias, args);
+		}
+		
+		return true;
 	}
 	
 	public final List<String> tabComplete(WrappedConsole executor, String alias, String[] args) {

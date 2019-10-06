@@ -5,8 +5,6 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.ConsoleCommandSender;
@@ -19,18 +17,8 @@ public class NukkitCommandPlayer implements WrappedConsole {
 	}
 
 	@Override
-	public boolean teleportPlayer(WrappedLocation wloc) {
-		return false;
-	}
-
-	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(message);
-	}
-
-	@Override
-	public WrappedLocation getLocation() {
-		return new NullLocation();
 	}
 
 	@Override

@@ -10,9 +10,29 @@ import java.util.List;
 
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
+/**
+ * The Interface CommandExec.
+ */
 public interface CommandExec {
-	public boolean onCommand(WrappedConsole executor, String alias, String[] args);
 	
+	/**
+	 * On command.
+	 *
+	 * @param executor the executor
+	 * @param alias the alias used
+	 * @param args the command arguments
+	 * @return true, if successful
+	 */
+	public void onCommand(WrappedConsole executor, String alias, String[] args);
+	
+	/**
+	 * On tab complete.
+	 *
+	 * @param executor the executor
+	 * @param alias the alias used
+	 * @param args the command arguments
+	 * @return a list of arguments
+	 */
 	default List<String> onTabComplete(WrappedConsole executor, String alias, String[] args) {
 		return new ArrayList<String>();
 	}
