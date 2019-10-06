@@ -22,3 +22,4 @@ See the example plugin in the wiki for more information!
 ## Links
 [SpigotMC](https://www.spigotmc.org/resources/ultimatelib.71667/)
 [Bukkit](https://dev.bukkit.org/projects/ultimatelib)
+[MCM](https://www.mc-market.org/resources/12470/)
