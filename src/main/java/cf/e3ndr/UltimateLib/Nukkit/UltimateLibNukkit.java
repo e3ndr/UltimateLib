@@ -87,8 +87,8 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	}
 
 	@Override
-	public ArrayList<WrappedPlayer> getPlayers() {
-		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+	public ArrayList<WrappedPlayer<?>> getPlayers() {
+		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (Player p : Server.getInstance().getOnlinePlayers().values()) ret.add(new NukkitPlayer(p));
 		

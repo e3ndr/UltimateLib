@@ -10,6 +10,6 @@ public interface WrappedConsole {
 	public boolean hasPerm(String permission);
 	public String getName();
 	public boolean isConsole();
-	public WrappedPlayer getPlayer();
+	public WrappedPlayer<?> getPlayer();
 	
 }

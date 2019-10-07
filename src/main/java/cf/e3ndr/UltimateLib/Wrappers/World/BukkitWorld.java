@@ -31,8 +31,8 @@ public class BukkitWorld implements WrappedWorld {
 	}
 
 	@Override
-	public List<WrappedPlayer> getPlayers() {
-		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+	public List<WrappedPlayer<?>> getPlayers() {
+		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (Player p : this.world.getPlayers()) ret.add(new BukkitPlayer(p));
 		

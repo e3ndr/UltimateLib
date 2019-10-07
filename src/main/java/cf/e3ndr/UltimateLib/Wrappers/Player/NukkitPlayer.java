@@ -12,16 +12,11 @@ import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cn.nukkit.Player;
 import cn.nukkit.network.protocol.TextPacket;
 
-public class NukkitPlayer implements WrappedPlayer {
+public class NukkitPlayer implements WrappedPlayer<Player> {
 	private Player nukkit;
 	
 	public NukkitPlayer(Player player) {
 		this.nukkit = player;
-	}
-	
-	@Override
-	public boolean teleportPlayer(WrappedLocation wloc) {
-		return this.nukkit.teleport(((NukkitLocation) wloc).getNukkit());
 	}
 	
 	@Override
@@ -69,6 +64,26 @@ public class NukkitPlayer implements WrappedPlayer {
 		pk.type = TextPacket.TYPE_JSON;
 		pk.message = json; // Theoretically
 		nukkit.dataPacket(pk);
+	}
+
+	@Override
+	public boolean teleport(WrappedLocation wloc) {
+		return this.nukkit.teleport(((NukkitLocation) wloc).getNukkit());
+	}
+
+	@Override
+	public long getID() {
+		return this.nukkit.getId();
+	}
+
+	@Override
+	public Player getNative() {
+		return this.nukkit;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.nukkit.getDisplayName();
 	}
 	
 }

@@ -37,7 +37,7 @@ public class BukkitCommandPlayer implements WrappedConsole {
 	}
 
 	@Override
-	public WrappedPlayer getPlayer() {
+	public WrappedPlayer<?> getPlayer() {
 		return new BukkitPlayer((Player) sender);
 	}
 	

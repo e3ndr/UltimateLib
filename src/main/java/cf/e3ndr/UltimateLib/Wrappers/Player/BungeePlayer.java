@@ -14,7 +14,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.chat.ComponentSerializer;
 
-public class BungeePlayer implements WrappedPlayer {
+public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	private CommandSender sender;
 	
 	public BungeePlayer(CommandSender sender) {
@@ -32,9 +32,7 @@ public class BungeePlayer implements WrappedPlayer {
 	}
 	
 	@Override
-	public boolean isConsole() {
-		return true;
-	}
+	public boolean isConsole() { return true; }
 
 	@Override
 	public String getName() {
@@ -42,20 +40,15 @@ public class BungeePlayer implements WrappedPlayer {
 	}
 
 	@Override
-	public WrappedPlayer getPlayer() {
-		return (WrappedPlayer) this;
+	public WrappedPlayer<?> getPlayer() {
+		return (WrappedPlayer<?>) this;
 	}
 
 	@Override
 	public void sendJSON(String json) {
 		this.sender.sendMessage(ComponentSerializer.parse(json));
 	}
-
-	@Override
-	public boolean teleportPlayer(WrappedLocation wloc) {
-		return false;
-	}
-
+	
 	@Override
 	public WrappedLocation getLocation() {
 		return new NullLocation();
@@ -68,10 +61,28 @@ public class BungeePlayer implements WrappedPlayer {
 	}
 
 	@Override
-	public GameMode getMode() {
+	public GameMode getMode() { return null; }
+
+	@Override
+	public void setMode(GameMode gamemode) {}
+
+	@Override
+	public boolean teleport(WrappedLocation wloc) { return false; }
+
+	@Override
+	public long getID() {
+		return -2;
+	}
+
+	@Override
+	public ProxiedPlayer getNative() {
+		if (this.sender instanceof ProxiedPlayer) return (ProxiedPlayer) this.sender;
 		return null;
 	}
 
 	@Override
-	public void setMode(GameMode gamemode) {}
+	public String getDisplayName() {
+		if (this.sender instanceof ProxiedPlayer) return ((ProxiedPlayer) this.sender).getDisplayName();
+		return this.getName();
+	}
 }

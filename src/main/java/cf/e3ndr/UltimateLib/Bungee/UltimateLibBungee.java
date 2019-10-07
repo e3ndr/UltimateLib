@@ -77,8 +77,8 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	public ArrayList<WrappedWorld> getWorlds() {return new ArrayList<WrappedWorld>();}
 
 	@Override
-	public ArrayList<WrappedPlayer> getPlayers() {
-		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+	public ArrayList<WrappedPlayer<?>> getPlayers() {
+		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) ret.add(new BungeePlayer(p));
 		

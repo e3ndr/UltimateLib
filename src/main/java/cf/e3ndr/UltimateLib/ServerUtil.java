@@ -49,7 +49,7 @@ public interface ServerUtil {
 	 * 
 	 * @return a list of players
 	 */
-	public ArrayList<WrappedPlayer> getPlayers();
+	public ArrayList<WrappedPlayer<?>> getPlayers();
 	
 	/**
 	 * Schedule sync task.

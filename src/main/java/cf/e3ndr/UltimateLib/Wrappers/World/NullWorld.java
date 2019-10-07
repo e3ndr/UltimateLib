@@ -19,7 +19,7 @@ public class NullWorld implements WrappedWorld {
 	}
 
 	@Override
-	public List<WrappedPlayer> getPlayers() {
+	public List<WrappedPlayer<?>> getPlayers() {
 		return null;
 	}
 

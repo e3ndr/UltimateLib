@@ -47,8 +47,8 @@ public class NukkitWorld implements WrappedWorld {
 	}
 
 	@Override
-	public List<WrappedPlayer> getPlayers() {
-		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+	public List<WrappedPlayer<?>> getPlayers() {
+		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (Long p : this.world.getPlayers().keySet()) ret.add(new NukkitPlayer(this.world.getPlayers().get(p)));
 		

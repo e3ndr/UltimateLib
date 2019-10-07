@@ -106,8 +106,8 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	}
 
 	@Override
-	public ArrayList<WrappedPlayer> getPlayers() {
-		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+	public ArrayList<WrappedPlayer<?>> getPlayers() {
+		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (Player p : Bukkit.getOnlinePlayers()) ret.add(new BukkitPlayer(p));
 		

@@ -14,16 +14,11 @@ import org.bukkit.entity.Player;
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
-public class BukkitPlayer implements WrappedPlayer {
+public class BukkitPlayer implements WrappedPlayer<Player> {
 	private Player bukkit;
 	
 	public BukkitPlayer(Player player) {
 		this.bukkit = player;
-	}
-	
-	@Override
-	public boolean teleportPlayer(WrappedLocation wloc) {
-		return this.bukkit.teleport(((BukkitLocation) wloc).getBukkit());
 	}
 	
 	@Override
@@ -75,6 +70,26 @@ public class BukkitPlayer implements WrappedPlayer {
 			}}
 		);
 		
+	}
+
+	@Override
+	public boolean teleport(WrappedLocation wloc) {
+		return this.bukkit.teleport(((BukkitLocation) wloc).getBukkit());
+	}
+
+	@Override
+	public long getID() {
+		return this.bukkit.getEntityId();
+	}
+
+	@Override
+	public Player getNative() {
+		return this.bukkit;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.bukkit.getDisplayName();
 	}
 	
 }
