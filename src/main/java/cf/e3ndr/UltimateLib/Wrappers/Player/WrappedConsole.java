@@ -11,5 +11,5 @@ public interface WrappedConsole {
 	public String getName();
 	public boolean isConsole();
 	public WrappedPlayer<?> getPlayer();
-	
+
 }

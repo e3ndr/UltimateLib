@@ -16,5 +16,5 @@ public interface WrappedWorld {
 	public List<WrappedPlayer<?>> getPlayers();
 	public void playSound(WrappedLocation loc, String sound, float volume, float pitch);
 	void addParticle(WrappedLocation loc, WrappedParticle particle);
-	
+
 }

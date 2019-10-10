@@ -14,5 +14,5 @@ public interface WrappedLocation {
 	public float getYaw();
 	public float getPitch();
 	public WrappedWorld getWorld();
-	
+
 }
