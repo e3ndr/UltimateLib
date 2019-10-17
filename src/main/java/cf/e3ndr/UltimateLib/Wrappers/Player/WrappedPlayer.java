@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Wrappers.Entity.EntityTypes;
 import cf.e3ndr.UltimateLib.Wrappers.Entity.WrappedEntity;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
 public interface WrappedPlayer<T> extends WrappedConsole, WrappedEntity<T> {
@@ -24,6 +26,8 @@ public interface WrappedPlayer<T> extends WrappedConsole, WrappedEntity<T> {
 	public GameMode getMode();
 	public void setMode(GameMode gamemode);
 	public String getDisplayName();
+	public PlayerInventory getInventory();
+	public void setInventory(Inventory inv);
 	
 	default boolean isConsole() { return false; }
 	default WrappedPlayer<?> getPlayer() { return this; }

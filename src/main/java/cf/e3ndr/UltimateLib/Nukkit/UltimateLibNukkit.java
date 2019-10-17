@@ -6,12 +6,16 @@
 package cf.e3ndr.UltimateLib.Nukkit;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.NukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
@@ -95,4 +99,22 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 		return ret;
 	}
 	
+	@Override
+	public WrappedPlayer<?> getPlayer(String name) {
+		Player p = Server.getInstance().getPlayer(name);
+		if (p != null) return new NukkitPlayer(p); 
+		return null;
+	}
+
+	@Override
+	public WrappedPlayer<?> getPlayer(UUID uuid) {
+		Optional<Player> p = Server.getInstance().getPlayer(uuid);
+		if (p.isPresent()) return new NukkitPlayer(p.get()); 
+		return null;
+	}
+
+	@Override
+	public Stack getStack(String material, int ammount) {
+		return new NukkitStack(material, ammount);
+	}
 }

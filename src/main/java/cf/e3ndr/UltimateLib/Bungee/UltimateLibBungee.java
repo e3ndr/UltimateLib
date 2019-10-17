@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib.Bungee;
 
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
@@ -13,6 +14,8 @@ import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BungeeLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.NullStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
@@ -83,6 +86,25 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 		for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) ret.add(new BungeePlayer(p));
 		
 		return ret;
+	}
+
+	@Override
+	public WrappedPlayer<?> getPlayer(String name) {
+		ProxiedPlayer p = ProxyServer.getInstance().getPlayer(name);
+		if (p != null) return new BungeePlayer(p); 
+		return null;
+	}
+
+	@Override
+	public WrappedPlayer<?> getPlayer(UUID uuid) {
+		ProxiedPlayer p = ProxyServer.getInstance().getPlayer(uuid);
+		if (p != null) return new BungeePlayer(p); 
+		return null;
+	}
+
+	@Override
+	public Stack getStack(String material, int ammount) {
+		return new NullStack(material, ammount);
 	}
 	
 }

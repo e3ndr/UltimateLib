@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import cf.e3ndr.UltimateLib.Wrappers.World.BukkitWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
-public class BukkitLocation implements WrappedLocation {
+public class BukkitLocation extends WrappedLocation {
 	private Location loc;
 	
 	public BukkitLocation(Location loc) {

@@ -6,7 +6,6 @@
 package cf.e3ndr.UltimateLib.Plugin;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
@@ -16,14 +15,19 @@ import cf.e3ndr.UltimateLib.ServerType;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Config.YMLConfig;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
+import cf.e3ndr.UltimateLib.Util.TextUtil;
 import net.md_5.bungee.config.Configuration;
 
 public class PluginLoader {
+	private static boolean canReload = true;
+	
 	private UltimateLogger logger;
+	private double version;
 	private static char[] allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789_- ".toCharArray();
 	
-	public PluginLoader(UltimateLogger logger) {
+	public PluginLoader(UltimateLogger logger, double version) {
 		this.logger = logger;
+		this.version = version;
 	}
 	
 	private static File ultPlugins = new File("plugins/UltimateLib/plugins/");
@@ -34,8 +38,8 @@ public class PluginLoader {
 		ultPlugins.mkdirs();
 		plugins.mkdirs();
 		
-		for (File f : plugins.listFiles()) loadFile(f);
 		for (File f : ultPlugins.listFiles()) loadFile(f);
+		for (File f : plugins.listFiles()) loadFile(f);
 	}
 
 	public void loadFile(File f) {
@@ -61,10 +65,16 @@ public class PluginLoader {
 				plugin.close();
 				return;
 			}
-			String n = yml.getName().toLowerCase();
-			for (char c : allowedChars) n = n.replace(String.valueOf(c), "");
-			if (n.length() > 0) {
+
+			if (TextUtil.containsExcessChars(allowedChars, yml.getName().toLowerCase())) {
 				logger.println("Plugin name must be alphanumerical including \'_\', \'-\', and \' \' (" + yml.getName() + ")");
+				jar.close();
+				plugin.close();
+				return;
+			}
+			
+			if (version < cfg.getDouble("ultimate-version", 0)) {
+				logger.println("Plugin " + yml.getName() + " cannot run on UltimateLib version " + String.valueOf(this.version).replace(".0", "") + " as it requires version" + String.valueOf(cfg.getDouble("ultimate-version", 0)).replace(".0", "") + " or higher.");
 				jar.close();
 				plugin.close();
 				return;
@@ -79,18 +89,21 @@ public class PluginLoader {
 				}
 			} 
 			
-			try {
-				UltimateLib.registerPlugin(cls.getConstructor().newInstance().make(yml, logger));
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				e.printStackTrace();
-				logger.println("Unable to load plugin \"" + f.getName() + ".\"");
-			}
+			if (cfg.getBoolean("disallow-reload", false)) canReload = false;
+			
+			UltimateLib.registerPlugin(cls.getConstructor().newInstance().make(yml, logger));
 			
 			jar.close();
 			plugin.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.logger.println("Unable to load plugin \"" + f.getName() + ".\"");
+		} catch (Error err) {
+			logger.println(UltimateLogger.transformColor("&5Runtime error while enabling plugin \"&c" + f.getName() + ".&5\" Plugin can not recover. Error \"&c" + err.toString() + "&5\""));
 		}
+	}
+
+	public static boolean canReload() {
+		return canReload;
 	}
 }

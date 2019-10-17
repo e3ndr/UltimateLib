@@ -8,7 +8,7 @@ package cf.e3ndr.UltimateLib.Wrappers.Location;
 import cf.e3ndr.UltimateLib.Wrappers.World.NullWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
-public class NullLocation implements WrappedLocation {
+public class NullLocation extends WrappedLocation {
 
 	@Override
 	public double getX() {

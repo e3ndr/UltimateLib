@@ -7,12 +7,14 @@ package cf.e3ndr.UltimateLib.Wrappers.Location;
 
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
-public interface WrappedLocation {
-	public double getX();
-	public double getY();
-	public double getZ();
-	public float getYaw();
-	public float getPitch();
-	public WrappedWorld getWorld();
+public abstract class WrappedLocation {
+	// TODO method, do same for world
+	
+	public abstract double getX();
+	public abstract double getY();
+	public abstract double getZ();
+	public abstract float getYaw();
+	public abstract float getPitch();
+	public abstract WrappedWorld getWorld();
 
 }

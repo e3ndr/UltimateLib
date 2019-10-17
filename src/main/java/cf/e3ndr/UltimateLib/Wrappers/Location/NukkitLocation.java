@@ -9,7 +9,7 @@ import cf.e3ndr.UltimateLib.Wrappers.World.NukkitWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 import cn.nukkit.level.Location;
 
-public class NukkitLocation implements WrappedLocation {
+public class NukkitLocation extends WrappedLocation {
 private Location loc;
 	
 	public NukkitLocation(Location loc) {

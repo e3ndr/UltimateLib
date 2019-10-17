@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib.Bukkit;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,6 +24,8 @@ import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
@@ -35,6 +38,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	
 	@Override
 	public void onEnable() {
+		this.getPluginLoader().createRegisteredListeners(new ReloadListener(), this);
 		this.getPluginLoader().createRegisteredListeners(listener, this);
 		new UltimateLib(this, new BukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUKKIT", this.getDescription().getVersion());
 	}
@@ -112,6 +116,26 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		for (Player p : Bukkit.getOnlinePlayers()) ret.add(new BukkitPlayer(p));
 		
 		return ret;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public WrappedPlayer<?> getPlayer(String name) {
+		Player p = Bukkit.getPlayer(name);
+		if (p != null) return new BukkitPlayer(p);
+		return null;
+	}
+
+	@Override
+	public WrappedPlayer<?> getPlayer(UUID uuid) {
+		Player p = Bukkit.getPlayer(uuid);
+		if (p != null) return new BukkitPlayer(p);
+		return null;
+	}
+
+	@Override
+	public Stack getStack(String material, int ammount) {
+		return new BukkitStack(material, ammount);
 	}
 	
 }

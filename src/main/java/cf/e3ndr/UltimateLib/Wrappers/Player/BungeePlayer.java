@@ -7,6 +7,8 @@ package cf.e3ndr.UltimateLib.Wrappers.Player;
 
 import java.util.UUID;
 
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import net.md_5.bungee.api.CommandSender;
@@ -85,4 +87,14 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 		if (this.sender instanceof ProxiedPlayer) return ((ProxiedPlayer) this.sender).getDisplayName();
 		return this.getName();
 	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public PlayerInventory getInventory() {
+		return new PlayerInventory(this);
+	}
+
+	@Override
+	public void setInventory(Inventory inv) {}
+
 }

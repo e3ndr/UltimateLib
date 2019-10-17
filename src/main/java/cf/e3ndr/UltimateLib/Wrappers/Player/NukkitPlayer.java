@@ -5,11 +5,17 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cn.nukkit.Player;
+import cn.nukkit.item.Item;
 import cn.nukkit.network.protocol.TextPacket;
 
 public class NukkitPlayer implements WrappedPlayer<Player> {
@@ -84,6 +90,33 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 	@Override
 	public String getDisplayName() {
 		return this.nukkit.getDisplayName();
+	}
+
+	@Override
+	public PlayerInventory getInventory() {
+		ArrayList<Stack> inv = new ArrayList<>(this.nukkit.getInventory().getSize());
+		
+		for (int slot : this.nukkit.getInventory().slots.keySet()) { // Incase they're not in order, probably safer to use the map's integer as the location anyways.
+			Item i = this.nukkit.getInventory().slots.get(slot);
+			
+			if (i != null) inv.set(slot, new NukkitStack(i));
+		}
+		
+		return new PlayerInventory(inv, this.nukkit.getInventory().getSize(), this);
+	}
+
+	@Override
+	public void setInventory(Inventory inv) {
+		for (int i = 0; i != inv.getSize(); i++) {
+			Stack s = inv.getSlot(i);
+			
+			if (s instanceof NukkitStack) {
+				this.nukkit.getInventory().setItem(i, (Item) inv.getSlot(i).getNative());
+			} else {
+				this.nukkit.getInventory().setItem(i, new Item(Integer.valueOf(inv.getSlot(i).getMaterial()), 0, inv.getSlot(i).getAmmount()));
+			}
+			
+		}
 	}
 	
 }

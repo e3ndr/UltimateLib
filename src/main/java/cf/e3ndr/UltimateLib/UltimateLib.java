@@ -23,7 +23,7 @@ public class UltimateLib {
 	/** The ASCII art banner */
 	public static final String ultimatelib = "\n&5   __  ______  _                 __       &d__    _ __  \n&5  / / / / / /_(_)___ ___  ____ _/ /____  &d/ /   (_) /_ \n&5 / / / / / __/ / __ `__ \\/ __ `/ __/ _ \\&d/ /   / / __ \\\n&5/ /_/ / / /_/ / / / / / / /_/ / /_/  __&d/ /___/ / /_/ /\n&5\\____/_/\\__/_/_/ /_/ /_/\\__,_/\\__/\\___&d/_____/_/_.___/";
 	public static final String prefix = "&7[&5{0}&7]";
-	private static String version;
+	private static double version;
 	private static UltimateLib instance;
 	private static ServerType type;
 	private UltimateLibUtil util;
@@ -35,12 +35,12 @@ public class UltimateLib {
 		type = ServerType.fromString(utiltype);
 		this.logger = logger;
 		this.util = util;
-		UltimateLib.version = version;
+		UltimateLib.version = Double.valueOf(version);
 		instance = this;
 		
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
-		(new PluginLoader(eventLogger)).run();
+		(new PluginLoader(eventLogger, UltimateLib.version)).run();
 		this.initPlugins();
 		
 		this.logger.println("Done! Took " + (System.currentTimeMillis() - start) + "ms");
@@ -79,7 +79,7 @@ public class UltimateLib {
 	 * @return the version
 	 */
 	public static String getVersion() {
-		return version;
+		return String.valueOf(version).replace(".0", "");
 	}
 
 	/**

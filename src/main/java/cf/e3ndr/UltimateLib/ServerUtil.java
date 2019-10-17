@@ -6,7 +6,9 @@
 package cf.e3ndr.UltimateLib;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
@@ -28,7 +30,7 @@ public interface ServerUtil {
 	 * @return the location
 	 */
 	public WrappedLocation getLocation(WrappedWorld world, float x, float y, float z, float pitch, float yaw);
-	
+
 	/**
 	 * Gets the world.
 	 *
@@ -37,6 +39,31 @@ public interface ServerUtil {
 	 */
 	public WrappedWorld getWorld(String name);
 
+	/**
+	 * Gets a player by name.
+	 *
+	 * @param name the name
+	 * @return the player, Null if not found.
+	 */
+	public WrappedPlayer<?> getPlayer(String name);
+	
+	/**
+	 * Gets a player by uuid.
+	 *
+	 * @param uuid the uuid
+	 * @return the player, Null if not found.
+	 */
+	public WrappedPlayer<?> getPlayer(UUID uuid);
+	
+	/**
+	 * Gets a stack.
+	 *
+	 * @param material the material
+	 * @param ammount the ammount in the stack
+	 * @return the stack
+	 */
+	public Stack getStack(String material, int ammount);
+	
 	/**
 	 * Gets the worlds on the server.
 	 * 
@@ -75,5 +102,5 @@ public interface ServerUtil {
 	 * @param id the id
 	 */
 	public void cancelTask(int id);
-	
+
 }

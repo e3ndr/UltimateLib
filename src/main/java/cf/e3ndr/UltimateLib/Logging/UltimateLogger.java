@@ -101,7 +101,21 @@ public class UltimateLogger {
 	 * @param obj the message
 	 */
 	public void println(Object obj) {
-		System.out.println(prefix + obj);
+		System.out.println(stripColor(prefix + obj));
+	}
+
+	/**
+	 * Println.
+	 *
+	 * @param obj the message
+	 * @param autoColor whether or not to auto color the message
+	 */
+	public void println(Object obj, boolean autoColor) {
+		if (autoColor) {
+			this.println(transformColor(String.valueOf(obj)));
+		} else {
+			this.println(obj);
+		}
 	}
 
 }

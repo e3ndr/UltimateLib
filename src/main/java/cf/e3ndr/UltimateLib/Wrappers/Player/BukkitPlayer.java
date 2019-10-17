@@ -5,12 +5,19 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
@@ -90,6 +97,30 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	@Override
 	public String getDisplayName() {
 		return this.bukkit.getDisplayName();
+	}
+
+	@Override
+	public PlayerInventory getInventory() {
+		ArrayList<Stack> inv = new ArrayList<>(this.bukkit.getInventory().getSize());
+		
+		for (ItemStack is : this.bukkit.getInventory().getContents()) {
+			if (is != null) inv.add(new BukkitStack(is));
+		}
+		
+		return new PlayerInventory(inv, this.bukkit.getInventory().getSize(), this);
+	}
+
+	@Override
+	public void setInventory(Inventory inv) {
+		for (int i = 0; i != inv.getSize(); i++) {
+			Stack s = inv.getSlot(i);
+			
+			if (s instanceof BukkitStack) {
+				this.bukkit.getInventory().setItem(i, (ItemStack) inv.getSlot(i).getNative());
+			} else {
+				this.bukkit.getInventory().setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmmount()));
+			}
+		}
 	}
 	
 }

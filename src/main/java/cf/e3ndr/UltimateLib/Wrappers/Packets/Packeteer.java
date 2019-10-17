@@ -1,29 +1,34 @@
+/**
+ * Made with <3 by e3ndr.
+ * 
+ * Licensed under MIT, do as you please.
+ */
 package cf.e3ndr.UltimateLib.Wrappers.Packets;
 
 import java.util.ArrayList;
 
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
-public abstract class Packeteer implements PacketListener {
-	private ArrayList<PacketListener> listeners = new ArrayList<PacketListener>();
+public interface Packeteer extends PacketListener {
+	public ArrayList<PacketListener> listeners = new ArrayList<PacketListener>();
 
-	public abstract boolean sendPacket(Packet packets, WrappedPlayer<?>... players);
+	public boolean sendPacket(Packet packets, WrappedPlayer<?>... players);
 	
-	public final void addListener(PacketListener listener) {
-		this.listeners .add(listener);
+	default void addListener(PacketListener listener) {
+		listeners.add(listener);
 	}
 	
 	
 	/* Listeners */
 	@Override
-	public void handle(Packet packet, boolean toClient) {
-		for (PacketListener listener : this.listeners) listener.handle(packet, toClient);
+	default void handle(Packet packet, boolean toClient) {
+		for (PacketListener listener : listeners) listener.handle(packet, toClient);
 	}
 	
 	@Override
-	public void handle(PacketNamedEntitySpawn packet, boolean toClient) {
+	default void handle(PacketNamedEntitySpawn packet, boolean toClient) {
 		this.handle((Packet) packet, toClient);
-		for (PacketListener listener : this.listeners) listener.handle(packet, toClient);
+		for (PacketListener listener : listeners) listener.handle(packet, toClient);
 	}
 	
 }
