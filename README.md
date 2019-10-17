@@ -1,6 +1,8 @@
-![](https://github.com/e3ndr/UltimateLib/raw/master/banner.PNG)
+![](https://github.com/e3ndr/UltimateLib/raw/master/banner.PNG)<br/>
 [![](https://jitpack.io/v/e3ndr/UltimateLib.svg)](https://jitpack.io/#e3ndr/UltimateLib)
 [![](https://jitci.com/gh/e3ndr/UltimateLib/svg)](https://jitci.com/gh/e3ndr/UltimateLib)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=e3ndr_UltimateLib&metric=ncloc)](https://sonarcloud.io/dashboard?id=e3ndr_UltimateLib)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=e3ndr_UltimateLib&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=e3ndr_UltimateLib)
 
 # UltimateLib
 A library for all ultimate plugins and for YOU!
