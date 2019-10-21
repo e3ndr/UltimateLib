@@ -114,6 +114,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	public void setInventory(Inventory inv) {
 		for (int i = 0; i != inv.getSize(); i++) {
 			Stack s = inv.getSlot(i);
+			if (s == null) continue;
 			
 			if (s instanceof BukkitStack) {
 				this.bukkit.getInventory().setItem(i, (ItemStack) inv.getSlot(i).getNative());

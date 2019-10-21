@@ -109,6 +109,7 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 	public void setInventory(Inventory inv) {
 		for (int i = 0; i != inv.getSize(); i++) {
 			Stack s = inv.getSlot(i);
+			if (s == null) continue;
 			
 			if (s instanceof NukkitStack) {
 				this.nukkit.getInventory().setItem(i, (Item) inv.getSlot(i).getNative());

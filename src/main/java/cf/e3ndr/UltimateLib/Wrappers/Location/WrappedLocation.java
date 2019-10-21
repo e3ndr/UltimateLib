@@ -8,8 +8,6 @@ package cf.e3ndr.UltimateLib.Wrappers.Location;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 public abstract class WrappedLocation {
-	// TODO method, do same for world
-	
 	public abstract double getX();
 	public abstract double getY();
 	public abstract double getZ();

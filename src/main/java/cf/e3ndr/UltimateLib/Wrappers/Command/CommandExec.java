@@ -34,6 +34,6 @@ public interface CommandExec {
 	 * @return a list of arguments
 	 */
 	default List<String> onTabComplete(WrappedConsole executor, String alias, String[] args) {
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 }

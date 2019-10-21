@@ -20,7 +20,7 @@ public class PacketNamedEntitySpawn extends Packet {
 	}
 
 	public WrappedPlayer<?> getPlayer() {
-		return player;
+		return this.player;
 	}
 
 }

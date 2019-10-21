@@ -6,29 +6,36 @@
 package cf.e3ndr.UltimateLib.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Config.YMLConfig;
-import cf.e3ndr.UltimateLib.Logging.ReturningLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
 /**
  * The Class UltimatePlugin.
+ * 
+ * You might want to start by overriding<br/>{@link UltimatePlugin#pluginEnable(UltimateLib)} and<br/>{@link UltimatePlugin#pluginDisable(UltimateLib)}
  */
 public class UltimatePlugin extends PluginUtil {
 	private boolean enabled = false;
 	private UltimateLogger logger;
-	private ArrayList<UltimateCommand> commands = new ArrayList<UltimateCommand>();
+	private ArrayList<UltimateCommand> commands;
 	private boolean loaded = false;
 	private PluginDescription yml;
+	private JarFile jar;
 	
-	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger) {
+	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger, JarFile jar) {
 		this.yml = yml;
+		this.jar = jar;
+		this.commands = new ArrayList<UltimateCommand>();
 		
 		String colorCode = this.yml.getColor();
 		if ((colorCode != null) && ((colorCode = colorCode.replace(" ", "")).equals(UltimateLogger.transformColor(colorCode)))) {
@@ -59,10 +66,8 @@ public class UltimatePlugin extends PluginUtil {
 		String verString = "";
 		
 		if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
-		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + verString + "."));
 		this.pluginEnable(UltimateLib.getInstance());
-		
-		if (eventLogger instanceof ReturningLogger) eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
+		eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
 	}
 
 	/**
@@ -130,7 +135,16 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return the file
 	 */
 	public InputStream getResourceAsStream(String file) {
-		return this.getClass().getClassLoader().getResourceAsStream(file);
+		try {
+			JarEntry je = this.jar.getJarEntry(file);
+			if (je != null) {
+				return this.jar.getInputStream(je);
+			} else {
+				return null;
+			}
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 	/**

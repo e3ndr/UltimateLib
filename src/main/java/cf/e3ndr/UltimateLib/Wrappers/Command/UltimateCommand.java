@@ -41,7 +41,7 @@ public class UltimateCommand {
 	}
 	
 	public final boolean execute(WrappedConsole executor, String alias, String[] args) {
-		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && executor.hasPerm(basePerm)) {
+		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && executor.hasPerm(basePerm) && this.plugin.isEnabled()) {
 			final String commandBody = "{p}&r\n{c}".replace("{p}", this.plugin.getDescription().getColor() + this.plugin.getName());
 			final String arg = "{color}/{alias} {arg}";
 			String content = "";

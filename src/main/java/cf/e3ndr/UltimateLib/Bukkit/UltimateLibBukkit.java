@@ -41,6 +41,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		this.getPluginLoader().createRegisteredListeners(new ReloadListener(), this);
 		this.getPluginLoader().createRegisteredListeners(listener, this);
 		new UltimateLib(this, new BukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUKKIT", this.getDescription().getVersion());
+		
 	}
 	
 	@Override

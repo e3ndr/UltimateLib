@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib.Plugin;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -42,16 +43,15 @@ public class PluginLoader {
 		for (File f : plugins.listFiles()) loadFile(f);
 	}
 
+	@SuppressWarnings("resource")
 	public void loadFile(File f) {
 		if (f.isDirectory()) return;
 		try {
-			URLClassLoader plugin = new URLClassLoader(new URL[] {f.toURI().toURL()}, PluginLoader.class.getClassLoader());
+			URLClassLoader plugin = new URLClassLoader(new URL[] {f.toURI().toURL()}, this.getClass().getClassLoader());
 			JarFile jar = new JarFile(f);
 			JarEntry entry = jar.getJarEntry("ultimate.yml");
 			
 			if (entry == null) {
-				jar.close();
-				plugin.close();
 				return;
 			}
 			
@@ -61,48 +61,50 @@ public class PluginLoader {
 			
 			if (yml.getName().length() > 24) {
 				logger.println("Plugin name cannot be longer than 24 characters (" + yml.getName() + ")");
-				jar.close();
-				plugin.close();
 				return;
 			}
 
 			if (TextUtil.containsExcessChars(allowedChars, yml.getName().toLowerCase())) {
 				logger.println("Plugin name must be alphanumerical including \'_\', \'-\', and \' \' (" + yml.getName() + ")");
-				jar.close();
-				plugin.close();
 				return;
 			}
 			
 			if (version < cfg.getDouble("ultimate-version", 0)) {
 				logger.println("Plugin " + yml.getName() + " cannot run on UltimateLib version " + String.valueOf(this.version).replace(".0", "") + " as it requires version" + String.valueOf(cfg.getDouble("ultimate-version", 0)).replace(".0", "") + " or higher.");
-				jar.close();
-				plugin.close();
 				return;
 			}
 			
 			for (String support : yml.getDisallowedPlatforms()) {
 				if (UltimateLib.getServerType() == ServerType.fromString(support)) {
 					logger.println("Plugin " + yml.getName() + " doesn\'t support " + support.toLowerCase() + ".");
-					jar.close();
-					plugin.close();
 					return;
 				}
 			} 
 			
 			if (cfg.getBoolean("disallow-reload", false)) canReload = false;
 			
-			UltimateLib.registerPlugin(cls.getConstructor().newInstance().make(yml, logger));
+			Enumeration<JarEntry> en = jar.entries();
+			while (en.hasMoreElements()) { // Load all jar classes into memory
+				JarEntry e = en.nextElement();
+				if (!e.isDirectory() && e.getName().endsWith(".class")) {
+					try {
+						plugin.loadClass(e.getName().substring(0, e.getName().length() - 6).replace("/", "."));
+					} catch (Error err) {}
+				}
+			}
 			
-			jar.close();
+			UltimatePlugin p = cls.getConstructor().newInstance();
+			UltimateLib.registerPlugin(p.make(yml, logger, jar));
+			
 			plugin.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.logger.println("Unable to load plugin \"" + f.getName() + ".\"");
 		} catch (Error err) {
-			logger.println(UltimateLogger.transformColor("&5Runtime error while enabling plugin \"&c" + f.getName() + ".&5\" Plugin can not recover. Error \"&c" + err.toString() + "&5\""));
+			logger.println(UltimateLogger.transformColor("&5Runtime error while enabling plugin \"&c" + f.getName() + "&5\" Plugin can not recover. Error \"&c" + err.toString() + "&5\""));
 		}
 	}
-
+	
 	public static boolean canReload() {
 		return canReload;
 	}

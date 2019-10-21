@@ -52,6 +52,11 @@ public class PluginDescription {
 		return this.config.getString("version");
 	}
 
+	/**
+	 * Returns whether or not the plugin disallows reload.
+	 *
+	 * @return true if so
+	 */
 	public boolean disallowReload() {
 		return this.config.getBoolean("disallow-reload", false);
 	}

@@ -9,11 +9,28 @@ import java.util.ArrayList;
 
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
+/**
+ * The Interface Packeteer.
+ */
 public interface Packeteer extends PacketListener {
+	
+	/** The listeners. */
 	public ArrayList<PacketListener> listeners = new ArrayList<PacketListener>();
 
-	public boolean sendPacket(Packet packets, WrappedPlayer<?>... players);
+	/**
+	 * Send a packet.
+	 *
+	 * @param packet the packet
+	 * @param players the players to send the packet to
+	 * @return true, if successful
+	 */
+	public boolean sendPacket(Packet packet, WrappedPlayer<?>... players);
 	
+	/**
+	 * Adds a listener.
+	 *
+	 * @param listener the listener
+	 */
 	default void addListener(PacketListener listener) {
 		listeners.add(listener);
 	}

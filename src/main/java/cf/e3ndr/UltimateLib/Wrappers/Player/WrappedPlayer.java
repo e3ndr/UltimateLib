@@ -13,20 +13,71 @@ import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 
+/**
+ * The Interface WrappedPlayer.
+ *
+ * @param <T> the generic type
+ */
 public interface WrappedPlayer<T> extends WrappedConsole, WrappedEntity<T> {
+	
 	/**
-	 * @deprecated
+	 * Teleport player.
+	 *
+	 * @param wloc the wloc
+	 * @return true, if successful
+	 * @deprecated 
 	 */
 	default boolean teleportPlayer(WrappedLocation wloc) {
 		return this.teleport(wloc);
 	}
 	
+	/**
+	 * Send a JSON message.
+	 *
+	 * @param json the json
+	 */
 	public void sendJSON(String json);
+	
+	/**
+	 * Gets the player's uuid.
+	 *
+	 * @return the uuid
+	 */
 	public UUID getUUID();
+	
+	/**
+	 * Gets the gamemode of the player.
+	 *
+	 * @return the mode
+	 */
 	public GameMode getMode();
+	
+	/**
+	 * Sets the gamemode.
+	 *
+	 * @param gamemode the new mode
+	 */
 	public void setMode(GameMode gamemode);
+	
+	/**
+	 * Gets the player's display name.
+	 *
+	 * @return the display name
+	 */
 	public String getDisplayName();
+	
+	/**
+	 * Gets the player's inventory.
+	 *
+	 * @return the inventory
+	 */
 	public PlayerInventory getInventory();
+	
+	/**
+	 * Sets the player's inventory.
+	 *
+	 * @param inv the new inventory
+	 */
 	public void setInventory(Inventory inv);
 	
 	default boolean isConsole() { return false; }
