@@ -23,7 +23,6 @@ public class UltimateCommand {
 		this.plugin = plugin;
 		this.aliases = names;
 		this.basePerm = basePerm;
-		
 	}
 	
 	public final UltimateCommand setExecutor(CommandExec exec) {
@@ -42,18 +41,7 @@ public class UltimateCommand {
 	
 	public final boolean execute(WrappedConsole executor, String alias, String[] args) {
 		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && executor.hasPerm(basePerm) && this.plugin.isEnabled()) {
-			final String commandBody = "{p}&r\n{c}".replace("{p}", this.plugin.getDescription().getColor() + this.plugin.getName());
-			final String arg = "{color}/{alias} {arg}";
-			String content = "";
-			
-			for (HelpArgument ha : this.helpArguments) {
-				String color = "&c";
-				if (executor.hasPerm(ha.getPermission())) color = "&a";
-				
-				content += "    " + arg.replace("{alias}", ha.getAlias()).replace("{color}", color).replace("{arg}", ha.getArgument()) + "\n";
-			}
-			
-			executor.sendMessage(UltimateLogger.transformColor(commandBody.replace("{c}", content)));
+			this.help(executor, alias);
 		} else {
 			this.exec.onCommand(executor, alias, args);
 		}
@@ -61,6 +49,20 @@ public class UltimateCommand {
 		return true;
 	}
 	
+	public final void help(WrappedConsole executor, String alias) {
+		final String commandBody = "{p}&r\n{c}".replace("{p}", this.plugin.getDescription().getColor() + this.plugin.getName());
+		final String arg = "{color}/{alias} {arg}";
+		String content = "";
+		
+		for (HelpArgument ha : this.helpArguments) {
+			String color = executor.hasPerm(ha.getPermission()) ? "&c" : "&a";
+			String label = ha.getAlias() == null ? alias : ha.getAlias();
+			content += "    " + arg.replace("{alias}", label).replace("{color}", color).replace("{arg}", ha.getArgument()) + "\n";
+		}
+		
+		executor.sendMessage(UltimateLogger.transformColor(commandBody.replace("{c}", content)));
+	}
+
 	public final List<String> tabComplete(WrappedConsole executor, String alias, String[] args) {
 		return this.exec.onTabComplete(executor, alias, args);
 	}
