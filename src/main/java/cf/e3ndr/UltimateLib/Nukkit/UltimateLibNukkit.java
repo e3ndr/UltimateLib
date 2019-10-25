@@ -50,8 +50,8 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	}
 
 	@Override
-	public UltimateCommand makeCommand(UltimatePlugin plugin, String basePerm, String[] names) {
-		UltimateCommand cmd = new UltimateCommand(plugin, basePerm, names);
+	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names) {
+		UltimateCommand cmd = new UltimateCommand(plugin, names);
 		this.registerCommand(cmd);
 		return cmd;
 	}
@@ -116,5 +116,10 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	@Override
 	public Stack getStack(String material, int ammount) {
 		return new NukkitStack(material, ammount);
+	}
+
+	@Override
+	public boolean isNativePluginPresent(String name) {
+		return (Server.getInstance().getPluginManager().getPlugin(name) != null);
 	}
 }

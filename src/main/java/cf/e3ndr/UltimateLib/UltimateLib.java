@@ -41,7 +41,6 @@ public class UltimateLib {
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version + "\n"));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
 		(new PluginLoader(eventLogger, UltimateLib.version)).run();
-		this.initPlugins();
 		
 		this.logger.println("Done! Took " + (System.currentTimeMillis() - start) + "ms");
 	}
@@ -49,18 +48,10 @@ public class UltimateLib {
 	private static UltimateLogger eventLogger;
 	private ArrayList<UltimatePlugin> plugins = new ArrayList<UltimatePlugin>();
 	public static void registerPlugin(UltimatePlugin plugin) {
-		for (UltimatePlugin p : instance.plugins) {
-			if (p.getName().equalsIgnoreCase(plugin.getName())) {
-				eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + plugin.getName() + "&5\" already loaded in the server! Did you forget to delete old jars?"));
-				return;
-			}
-		}
-		instance.plugins.add(plugin);
-	}
-	
-	private void initPlugins() {
-		for (UltimatePlugin p : instance.plugins) {
-			if (!p.isEnabled()) p.init(eventLogger);
+		if (getPlugin(plugin.getName()) != null) {
+			eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + plugin.getName() + "&5\" already loaded in the server! Did you forget to delete old jars?"));
+		} else {
+			instance.plugins.add(plugin);
 		}
 	}
 	
@@ -109,8 +100,8 @@ public class UltimateLib {
 	 * 
 	 * @return a command instance, null if unable to create it.
 	 */
-	public static UltimateCommand makeCommand(UltimatePlugin plugin, String basePerm, String[] names) {
-		return instance.util.makeCommand(plugin, basePerm, names);
+	public static UltimateCommand makeCommand(UltimatePlugin plugin, String[] names) {
+		return instance.util.makeCommand(plugin, names);
 	}
 	
 	public void disable() {

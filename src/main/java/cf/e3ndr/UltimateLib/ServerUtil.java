@@ -102,5 +102,12 @@ public interface ServerUtil {
 	 * @param id the id
 	 */
 	public void cancelTask(int id);
-
+	
+	/**
+	 * Is a native plugin present.
+	 * 
+	 * @param name the name of the plugin
+	 * @return true, if present
+	 */
+	public boolean isNativePluginPresent(String name);
 }

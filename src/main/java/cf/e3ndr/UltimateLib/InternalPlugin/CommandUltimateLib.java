@@ -26,14 +26,14 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 	@Override
 	public void onCommand(WrappedConsole executor, String alias, String[] args) {
 		if (!executor.hasPerm("UltimateLib.admin")) {
-			executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4 You don\'t have permission to do this!"));
+			executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &5You don\'t have permission to do this!"));
 			return;
 		}
 		
 		(new Thread() {
 			@Override
 			public void run() {
-				if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && args[0].equalsIgnoreCase("plugin")) {
+				if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugin"))) {
 					if (args.length == 1) {
 						String s = "";
 						
@@ -50,7 +50,7 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 								s += "&c&o" + p.getName() + "&r&4 is disabled.\n";
 							}
 						}
-						// TODO multiple pages
+						// TODO multiple pages, and string builder
 						executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", s)));
 						return;
 					} else if (args.length == 2) {
@@ -122,7 +122,7 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 			if (args.length == 1) {
 				ret.add("plugin");
 			} else if (args.length > 1) {
-				if (args[0].equalsIgnoreCase("plugin")) { // Separated for tidiness :)
+				if (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugins")) { // Separated for tidiness :)
 					if (args.length == 2) {
 						for (UltimatePlugin p : UltimateLib.getPlugins()) ret.add(p.getName());
 					} else if (args.length == 3) {

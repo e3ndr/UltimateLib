@@ -13,8 +13,8 @@ import net.md_5.bungee.api.plugin.Command;
 public class BungeeCMD extends Command {
 	private UltimateCommand command;
 	
-	public BungeeCMD(String name, String permission, String[] aliases, UltimateCommand cmd) {
-		super(name, permission, aliases);
+	public BungeeCMD(String name, String[] aliases, UltimateCommand cmd) {
+		super(name, "", aliases);
 		this.command = cmd;
 	}
 
