@@ -111,5 +111,5 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	public boolean isNativePluginPresent(String name) {
 		return (ProxyServer.getInstance().getPluginManager().getPlugin(name) != null);
 	}
-	
+
 }

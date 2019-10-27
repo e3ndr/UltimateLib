@@ -77,7 +77,7 @@ public interface ServerUtil {
 	 * @return a list of players
 	 */
 	public ArrayList<WrappedPlayer<?>> getPlayers();
-	
+
 	/**
 	 * Schedule sync task.
 	 *
@@ -87,7 +87,7 @@ public interface ServerUtil {
 	 * @return the task id
 	 */
 	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency);
-	
+
 	/**
 	 * Schedule async task.
 	 *
@@ -102,7 +102,7 @@ public interface ServerUtil {
 	 * @param id the id
 	 */
 	public void cancelTask(int id);
-	
+
 	/**
 	 * Is a native plugin present.
 	 * 
@@ -110,4 +110,5 @@ public interface ServerUtil {
 	 * @return true, if present
 	 */
 	public boolean isNativePluginPresent(String name);
+	
 }

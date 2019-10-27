@@ -4,3 +4,4 @@ color: '&5'
 version: '${project.version}'
 # disallowed-platforms: [bukkit, bungee, nukkit] # The option is there :)
 disallow-reload: false
+needs-loader: false # Because the class is always loaded, watch what you do with this.

@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
@@ -41,6 +42,7 @@ public class UltimateLib {
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version + "\n"));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
 		(new PluginLoader(eventLogger, UltimateLib.version)).run();
+		this.util.scheduleSyncTask(new SyncTasks(), 0, 10);
 		
 		this.logger.println("Done! Took " + (System.currentTimeMillis() - start) + "ms");
 	}
@@ -177,4 +179,20 @@ public class UltimateLib {
 		return type;
 	}
 
+	public void callSyncTask(Runnable run) {
+		SyncTasks.runnables.add(run);
+	}
+
+} class SyncTasks implements Runnable {
+	public static ArrayList<Runnable> runnables = new ArrayList<>();
+	@Override
+	public void run() {
+		Iterator<Runnable> it = runnables.iterator();
+		
+		while(it.hasNext()) {
+			it.next().run();
+			it.remove();
+		}
+	}
+	
 }

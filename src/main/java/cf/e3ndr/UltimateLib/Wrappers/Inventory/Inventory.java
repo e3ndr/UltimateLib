@@ -9,19 +9,41 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
+
 /**
  * The Class Inventory.
  */
 public class Inventory {
 	private ArrayList<Stack> inv = new ArrayList<Stack>();
 	private int size;
-	
+	private String name;
+
 	/**
 	 * Instantiates a new inventory.
 	 * @deprecated Never instantiate directly, this is for Bungee support.
 	 */
 	public Inventory() {
-		this(null, 0);
+		this(0);
+	}
+
+	/**
+	 * Instantiates a new inventory.
+	 * 
+	 * @param size the size
+	 */
+	public Inventory(int size) {
+		this(null, size);
+	}
+
+	/**
+	 * Instantiates a new inventory.
+	 * 
+	 * @param size the size
+	 * @param name the name
+	 */
+	public Inventory(int size, String name) {
+		this(null, size, name);
 	}
 	
 	/**
@@ -31,8 +53,20 @@ public class Inventory {
 	 * @param size the size
 	 */
 	public Inventory(List<Stack> inv, int size) {
+		this(inv, size, "Inventory");
+	}
+
+	/**
+	 * Instantiates a new inventory.
+	 *
+	 * @param inv the inv
+	 * @param size the size
+	 * @param name the name
+	 */
+	public Inventory(List<Stack> inv, int size, String name) {
 		this.size = size;
 		this.set(inv);
+		this.name = UltimateLogger.transformColor("&r&r&r&r" + name);
 	}
 	
 	/**
@@ -142,5 +176,9 @@ public class Inventory {
 		}
 		
 		return false;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }

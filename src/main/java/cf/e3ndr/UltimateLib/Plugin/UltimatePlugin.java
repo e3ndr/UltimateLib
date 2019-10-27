@@ -34,6 +34,7 @@ public class UltimatePlugin extends PluginUtil {
 	private PluginDescription yml;
 	private JarFile jar;
 	private URLClassLoader loader;
+	private boolean needsLoader;
 	
 	/**
 	 * Makes and loads the plugin
@@ -42,15 +43,17 @@ public class UltimatePlugin extends PluginUtil {
 	 * @param eventLogger the event logger
 	 * @param jar the jar file associated with the plugin
 	 * @param loader the classloader associated with the plugin
+	 * @param b 
 	 * @return the plugin instance
 	 */
-	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger, JarFile jar, URLClassLoader loader) {
+	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger, JarFile jar, URLClassLoader loader, boolean needsLoader) {
 		this.yml = yml;
 		this.jar = jar;
 		this.commands = new ArrayList<UltimateCommand>();
 		this.loaded = true;
 		this.loader = loader;
 		this.logger = UltimateLib.getLogger("&7[" + this.yml.getColor() + this.yml.getName() + "&7]");
+		this.needsLoader = needsLoader;
 		
 		this.loadClasses();
 		this.pluginLoad(UltimateLib.getInstance());
@@ -80,10 +83,12 @@ public class UltimatePlugin extends PluginUtil {
 	}
 	
 	/**
-	 * @deprecated Never use this for anything you do, ever, this is for internal jar loading.
+	 * Loads all jar classes
 	 * 
+	 * @deprecated Never use this for anything you do, ever, this is for internal jar loading.
 	 */
 	private final void loadClasses() {
+		if (!needsLoader) return;
 		Enumeration<JarEntry> en = this.jar.entries();
 		while (en.hasMoreElements()) { // Load all jar classes into memory
 			JarEntry e = en.nextElement();

@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib.Plugin;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -50,13 +51,36 @@ public class PluginLoader {
 		try {
 			URLClassLoader plugin = new URLClassLoader(new URL[] {f.toURI().toURL()}, this.getClass().getClassLoader());
 			JarFile jar = new JarFile(f);
-			JarEntry entry = jar.getJarEntry("ultimate.yml");
+			Configuration cfg = null;
 			
-			if (entry == null) {
-				return;
+			Enumeration<JarEntry> en = jar.entries();
+			while (en.hasMoreElements()) { // Look for annotation
+				JarEntry e = en.nextElement();
+				if (!e.isDirectory() && e.getName().endsWith(".class")) {
+					String claz = e.getName().substring(0, e.getName().length() - 6).replace("/", ".");
+					Class<?> cls = Class.forName(claz);
+					Plugin plug = cls.getAnnotation(Plugin.class);
+					if (plug != null) {
+						cfg = new Configuration();
+						cfg.set("color", plug.colorCode());
+						cfg.set("name", plug.pluginName());
+						cfg.set("main", claz);
+						cfg.set("disallow-reload", plug.disallowReload());
+						cfg.set("needs-loader", plug.needsClassLoader());
+					} else {
+						return;
+					}
+				}
+			}
+			if (cfg == null) {
+				JarEntry entry = jar.getJarEntry("ultimate.yml");
+				if (entry == null) {
+					return;
+				} else {
+					cfg = YMLConfig.getConfig(jar.getInputStream(entry));
+				}
 			}
 			
-			Configuration cfg = YMLConfig.getConfig(jar.getInputStream(entry));
 			PluginDescription yml = new PluginDescription(cfg);
 			Class<? extends UltimatePlugin> cls = Class.forName(cfg.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
 			
@@ -85,7 +109,7 @@ public class PluginLoader {
 			if (cfg.getBoolean("disallow-reload", false)) canReload = false;
 			
 			UltimatePlugin p = cls.getConstructor().newInstance();
-			UltimateLib.registerPlugin(p.make(yml, logger, jar, plugin));
+			UltimateLib.registerPlugin(p.make(yml, logger, jar, plugin, cfg.getBoolean("needs-loader", true)));
 			
 			plugin.close();
 		} catch (Exception e) {

@@ -143,5 +143,5 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	public boolean isNativePluginPresent(String name) {
 		return (Bukkit.getPluginManager().getPlugin(name) != null);
 	}
-	
+
 }

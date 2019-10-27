@@ -72,13 +72,28 @@ public interface WrappedPlayer<T> extends WrappedConsole, WrappedEntity<T> {
 	 * @return the inventory
 	 */
 	public PlayerInventory getInventory();
-	
+
 	/**
 	 * Sets the player's inventory.
 	 *
 	 * @param inv the new inventory
 	 */
 	public void setInventory(Inventory inv);
+
+	/**
+	 * Shows a player an inventory.
+	 * @apiNote This only works on Bukkit.
+	 * 
+	 * @param inv the inventory
+	 */
+	public void showInventory(Inventory inv);
+	
+	/**
+	 * Closes the player's inventory
+	 * @apiNote This only works on Bukkit.
+	 * 
+	 */
+	public void closeInventory();
 	
 	default boolean isConsole() { return false; }
 	default WrappedPlayer<?> getPlayer() { return this; }

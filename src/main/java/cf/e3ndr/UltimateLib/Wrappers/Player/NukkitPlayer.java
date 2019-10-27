@@ -119,5 +119,11 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 			
 		}
 	}
+
+	@Override
+	public void showInventory(Inventory inv) {}
+
+	@Override
+	public void closeInventory() {}
 	
 }

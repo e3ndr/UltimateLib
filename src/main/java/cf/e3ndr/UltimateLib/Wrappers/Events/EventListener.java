@@ -17,6 +17,7 @@ package cf.e3ndr.UltimateLib.Wrappers.Events;
 public interface EventListener {
 	default boolean onEvent(EventBlock e) {return true;}
 	default boolean onEvent(EventPlayerChat e) {return true;}
+	default boolean onEvent(EventInventory e) {return true;}
 	
 	
 }

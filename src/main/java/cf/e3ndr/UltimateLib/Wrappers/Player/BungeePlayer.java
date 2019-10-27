@@ -97,4 +97,10 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	@Override
 	public void setInventory(Inventory inv) {}
 
+	@Override
+	public void showInventory(Inventory inv) {}
+
+	@Override
+	public void closeInventory() {}
+
 }

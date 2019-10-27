@@ -101,7 +101,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 
 	@Override
 	public PlayerInventory getInventory() {
-		ArrayList<Stack> inv = new ArrayList<>(this.bukkit.getInventory().getSize());
+		ArrayList<Stack> inv = new ArrayList<>();
 		
 		for (ItemStack is : this.bukkit.getInventory().getContents()) {
 			if (is != null) inv.add(new BukkitStack(is));
@@ -122,6 +122,27 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 				this.bukkit.getInventory().setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmmount()));
 			}
 		}
+	}
+
+	@Override
+	public void showInventory(Inventory inv) {
+		org.bukkit.inventory.Inventory ninv = Bukkit.getServer().createInventory(null, inv.getSize(), inv.getName());
+		for (int i = 0; i != inv.getSize(); i++) {
+			Stack s = inv.getSlot(i);
+			if (s == null) continue;
+			
+			if (s instanceof BukkitStack) {
+				ninv.setItem(i, (ItemStack) inv.getSlot(i).getNative());
+			} else {
+				ninv.setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmmount()));
+			}
+		}
+		this.bukkit.openInventory(ninv);
+	}
+
+	@Override
+	public void closeInventory() {
+		this.bukkit.closeInventory();
 	}
 	
 }

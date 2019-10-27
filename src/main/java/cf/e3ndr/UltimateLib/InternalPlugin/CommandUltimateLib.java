@@ -91,7 +91,7 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 									}
 								} else {
 									if (args[2].equalsIgnoreCase("enable")) {
-										p.init(new ReturningLogger(executor, "UltimateLib"));
+										UltimateLib.getInstance().callSyncTask(() -> p.init(new ReturningLogger(executor, "UltimateLib")));
 									} else {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
 									}
