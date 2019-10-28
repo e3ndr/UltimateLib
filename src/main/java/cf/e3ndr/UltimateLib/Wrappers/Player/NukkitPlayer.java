@@ -114,7 +114,7 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 			if (s instanceof NukkitStack) {
 				this.nukkit.getInventory().setItem(i, (Item) inv.getSlot(i).getNative());
 			} else {
-				this.nukkit.getInventory().setItem(i, new Item(Integer.valueOf(inv.getSlot(i).getMaterial()), 0, inv.getSlot(i).getAmmount()));
+				this.nukkit.getInventory().setItem(i, new Item(Integer.valueOf(inv.getSlot(i).getMaterial()), 0, inv.getSlot(i).getAmount()));
 			}
 			
 		}
@@ -125,5 +125,15 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 
 	@Override
 	public void closeInventory() {}
+
+	@Override
+	public boolean isOnline() {
+		return this.nukkit.isOnline();
+	}
+
+	@Override
+	public boolean hasPlayedBefore() {
+		return this.nukkit.hasPlayedBefore();
+	}
 	
 }

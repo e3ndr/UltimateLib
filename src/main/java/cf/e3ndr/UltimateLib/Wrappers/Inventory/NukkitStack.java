@@ -21,7 +21,7 @@ public class NukkitStack extends Stack {
 	}
 	
 	@Override
-	public int getAmmount() {
+	public int getAmount() {
 		return this.item.getCount();
 	}
 

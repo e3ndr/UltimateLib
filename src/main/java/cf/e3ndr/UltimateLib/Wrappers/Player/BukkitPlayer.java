@@ -7,13 +7,13 @@ package cf.e3ndr.UltimateLib.Wrappers.Player;
 
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
@@ -69,14 +69,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 
 	@Override
 	public void sendJSON(String json) {
-		Bukkit.getScheduler().callSyncMethod(Bukkit.getPluginManager().getPlugin("UltimateLib"), new Callable<Integer>() {
-			@Override
-			public Integer call() throws Exception {
-				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + bukkit.getName() + " " + json);
-				return 0; // We love threading :)
-			}}
-		);
-		
+		UltimateLib.getInstance().callSyncTask(() -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + bukkit.getName() + " " + json));
 	}
 
 	@Override
@@ -116,11 +109,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 			Stack s = inv.getSlot(i);
 			if (s == null) continue;
 			
-			if (s instanceof BukkitStack) {
-				this.bukkit.getInventory().setItem(i, (ItemStack) inv.getSlot(i).getNative());
-			} else {
-				this.bukkit.getInventory().setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmmount()));
-			}
+			this.bukkit.getInventory().setItem(i, (ItemStack) inv.getSlot(i).getNative());
 		}
 	}
 
@@ -134,7 +123,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 			if (s instanceof BukkitStack) {
 				ninv.setItem(i, (ItemStack) inv.getSlot(i).getNative());
 			} else {
-				ninv.setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmmount()));
+				ninv.setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmount()));
 			}
 		}
 		this.bukkit.openInventory(ninv);
@@ -143,6 +132,16 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	@Override
 	public void closeInventory() {
 		this.bukkit.closeInventory();
+	}
+
+	@Override
+	public boolean isOnline() {
+		return this.bukkit.isOnline();
+	}
+
+	@Override
+	public boolean hasPlayedBefore() {
+		return this.bukkit.hasPlayedBefore();
 	}
 	
 }

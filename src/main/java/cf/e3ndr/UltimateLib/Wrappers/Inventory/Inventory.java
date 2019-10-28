@@ -64,6 +64,8 @@ public class Inventory {
 	 * @param name the name
 	 */
 	public Inventory(List<Stack> inv, int size, String name) {
+		if ((inv == null) || (inv.size() == 0)) inv = new ArrayList<>(size);
+		
 		this.size = size;
 		this.set(inv);
 		this.name = UltimateLogger.transformColor("&r&r&r&r" + name);
@@ -100,6 +102,7 @@ public class Inventory {
 		if (inv == null) {
 			this.inv = new ArrayList<>(this.size);
 		} else {
+			this.inv = new ArrayList<>();
 			for (int i = 0; i != this.size; i++) {
 				if (i > (inv.size() - 1)) {
 					this.inv.add(null);
@@ -117,6 +120,7 @@ public class Inventory {
 	 * @return the slot
 	 */
 	public Stack getSlot(int slot) {
+		if ((this.inv.size() - 1) < slot) return null;
 		return this.inv.get(slot);
 	}
 	

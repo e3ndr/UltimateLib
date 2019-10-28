@@ -53,11 +53,15 @@ public class UltimateCommand {
 		sb.append("&r\n");
 		
 		for (HelpArgument ha : this.helpArguments) {
-			sb.append("    ");
-			sb.append(executor.hasPerm(ha.getPermission()) ? "&c" : "&a");
+			sb.append("\n    ");
+			sb.append(executor.hasPerm(ha.getPermission()) ? "&a" : "&c");
 			sb.append((ha.getAlias() == null) ? alias : ha.getAlias());
 			sb.append(" ");
 			sb.append(ha.getArgument());
+			if (ha.getDescription() != null) {
+				sb.append("&7 - &r&o");
+				sb.append(ha.getDescription());
+			}
 		}
 		
 		executor.sendMessage(UltimateLogger.transformColor(sb.toString()));

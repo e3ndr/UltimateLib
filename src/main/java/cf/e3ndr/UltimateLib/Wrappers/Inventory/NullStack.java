@@ -12,7 +12,7 @@ public class NullStack extends Stack {
 	}
 
 	@Override
-	public int getAmmount() {
+	public int getAmount() {
 		return 0;
 	}
 

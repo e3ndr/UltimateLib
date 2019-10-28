@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ServerUtil.
  */
@@ -44,16 +47,22 @@ public interface ServerUtil {
 	 *
 	 * @param name the name
 	 * @return the player, Null if not found.
+	 * @deprecated Use {@link ServerUtil#getOfflinePlayer()}
 	 */
-	public WrappedPlayer<?> getPlayer(String name);
+	default WrappedPlayer<?> getPlayer(String name) {
+		return this.getOfflinePlayer(name).getPlayer();
+	}
 	
 	/**
 	 * Gets a player by uuid.
 	 *
 	 * @param uuid the uuid
 	 * @return the player, Null if not found.
+	 * @deprecated Use {@link ServerUtil#getOfflinePlayer()}
 	 */
-	public WrappedPlayer<?> getPlayer(UUID uuid);
+	default WrappedPlayer<?> getPlayer(UUID uuid) {
+		return this.getOfflinePlayer(uuid).getPlayer();
+	}
 	
 	/**
 	 * Gets a stack.
@@ -70,14 +79,17 @@ public interface ServerUtil {
 	 * @return a list of worlds
 	 */
 	public ArrayList<WrappedWorld> getWorlds();
-
+	
 	/**
 	 * Gets the players on the server.
-	 * 
+	 *
 	 * @return a list of players
+	 * @deprecated Use {@link ServerUtil#getOnlinePlayers()}
 	 */
-	public ArrayList<WrappedPlayer<?>> getPlayers();
-
+	default ArrayList<WrappedPlayer<?>> getPlayers() {
+		return this.getOnlinePlayers();
+	}
+	
 	/**
 	 * Schedule sync task.
 	 *
@@ -111,4 +123,51 @@ public interface ServerUtil {
 	 */
 	public boolean isNativePluginPresent(String name);
 	
+	/**
+	 * Creates a GUI.
+	 * 
+	 * @param inv the inventory
+	 * @param name the name
+	 * @param size the size
+	 * @return a new GUI
+	 */
+	public GUI makeGUI(Stack[] inv, String name, int size);
+	
+	/**
+	 * Sends a command using console.<br/><br/>
+	 *
+	 * @param command the command
+	 * @apiNote Unsupported by Bungee.
+	 */
+	public void sendConsoleCommand(String command);
+	
+	/**
+	 * Gets an offline player.
+	 * 
+	 * @apiNote Bungee returns an online player or null
+	 * 
+	 * @param uuid the uuid
+	 * @return the offline player
+	 */
+	public WrappedOfflinePlayer getOfflinePlayer(UUID uuid);
+
+	/**
+	 * Gets an offline player.
+	 * 
+	 * @apiNote Bungee returns an online player or null
+	 * 
+	 * @param name the name
+	 * @return the offline player
+	 */
+	public WrappedOfflinePlayer getOfflinePlayer(String name);
+
+	/**
+	 * Gets all online players.
+	 * 
+	 * @apiNote Bungee returns an online player or null
+	 * 
+	 * @return a list of online players
+	 */
+	public ArrayList<WrappedPlayer<?>> getOnlinePlayers();
+
 }

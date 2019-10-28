@@ -6,7 +6,7 @@
 package cf.e3ndr.UltimateLib.Bungee;
 
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
-import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.BungeeCommandPlayer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -20,7 +20,7 @@ public class BungeeCMD extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		this.command.execute(new BungeePlayer(sender), this.command.getAliases()[0], args);
+		this.command.execute(new BungeeCommandPlayer(sender), this.command.getAliases()[0], args);
 	}
 
 }

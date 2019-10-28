@@ -11,44 +11,20 @@ import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
-import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.chat.ComponentSerializer;
 
 public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
-	private CommandSender sender;
+	private ProxiedPlayer bungee;
 	
-	public BungeePlayer(CommandSender sender) {
-		this.sender = sender;
-	}
-
-	@Override
-	public void sendMessage(String message) {
-		this.sender.sendMessage(new TextComponent(message));
-	}
-
-	@Override
-	public boolean hasPerm(String permission) {
-		return this.sender.hasPermission(permission);
+	public BungeePlayer(ProxiedPlayer player) {
+		this.bungee = player;
 	}
 	
-	@Override
-	public boolean isConsole() { return true; }
-
-	@Override
-	public String getName() {
-		return this.sender.getName();
-	}
-
-	@Override
-	public WrappedPlayer<?> getPlayer() {
-		return (WrappedPlayer<?>) this;
-	}
-
 	@Override
 	public void sendJSON(String json) {
-		this.sender.sendMessage(ComponentSerializer.parse(json));
+		this.bungee.sendMessage(ComponentSerializer.parse(json));
 	}
 	
 	@Override
@@ -58,7 +34,7 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 
 	@Override
 	public UUID getUUID() {
-		if (this.sender instanceof ProxiedPlayer) return ((ProxiedPlayer) this.sender).getUniqueId();
+		if (this.bungee instanceof ProxiedPlayer) return ((ProxiedPlayer) this.bungee).getUniqueId();
 		return null;
 	}
 
@@ -78,13 +54,13 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 
 	@Override
 	public ProxiedPlayer getNative() {
-		if (this.sender instanceof ProxiedPlayer) return (ProxiedPlayer) this.sender;
+		if (this.bungee instanceof ProxiedPlayer) return (ProxiedPlayer) this.bungee;
 		return null;
 	}
 
 	@Override
 	public String getDisplayName() {
-		if (this.sender instanceof ProxiedPlayer) return ((ProxiedPlayer) this.sender).getDisplayName();
+		if (this.bungee instanceof ProxiedPlayer) return ((ProxiedPlayer) this.bungee).getDisplayName();
 		return this.getName();
 	}
 
@@ -103,4 +79,28 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	@Override
 	public void closeInventory() {}
 
+	@Override
+	public boolean isOnline() {
+		return this.bungee.isConnected();
+	}
+
+	@Override
+	public String getName() {
+		return this.bungee.getName();
+	}
+
+	@Override
+	public void sendMessage(String message) {
+		this.bungee.sendMessage(new TextComponent(message));
+	}
+
+	@Override
+	public boolean hasPerm(String permission) {
+		return this.bungee.hasPermission(permission);
+	}
+
+	@Override
+	public boolean hasPlayedBefore() {
+		return true;
+	}
 }

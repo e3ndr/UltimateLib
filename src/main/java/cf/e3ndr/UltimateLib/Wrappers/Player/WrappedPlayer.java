@@ -5,20 +5,19 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
-import java.util.UUID;
-
 import cf.e3ndr.UltimateLib.Wrappers.Entity.EntityTypes;
 import cf.e3ndr.UltimateLib.Wrappers.Entity.WrappedEntity;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
 
 /**
  * The Interface WrappedPlayer.
  *
  * @param <T> the generic type
  */
-public interface WrappedPlayer<T> extends WrappedConsole, WrappedEntity<T> {
+public interface WrappedPlayer<T> extends WrappedOfflinePlayer, WrappedConsole, WrappedEntity<T> {
 	
 	/**
 	 * Teleport player.
@@ -37,13 +36,6 @@ public interface WrappedPlayer<T> extends WrappedConsole, WrappedEntity<T> {
 	 * @param json the json
 	 */
 	public void sendJSON(String json);
-	
-	/**
-	 * Gets the player's uuid.
-	 *
-	 * @return the uuid
-	 */
-	public UUID getUUID();
 	
 	/**
 	 * Gets the gamemode of the player.

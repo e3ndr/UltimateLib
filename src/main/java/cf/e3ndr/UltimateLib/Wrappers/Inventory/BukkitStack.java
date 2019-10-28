@@ -27,7 +27,7 @@ public class BukkitStack extends Stack {
 	}
 
 	@Override
-	public int getAmmount() {
+	public int getAmount() {
 		return this.getNative().getAmount();
 	}
 

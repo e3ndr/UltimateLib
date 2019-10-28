@@ -6,7 +6,6 @@
 package cf.e3ndr.UltimateLib.Nukkit;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
@@ -16,12 +15,15 @@ import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.NukkitOfflinePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.NukkitWorld;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
+import cn.nukkit.IPlayer;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.SimpleCommandMap;
@@ -91,7 +93,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	}
 
 	@Override
-	public ArrayList<WrappedPlayer<?>> getPlayers() {
+	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (Player p : Server.getInstance().getOnlinePlayers().values()) ret.add(new NukkitPlayer(p));
@@ -100,17 +102,16 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	}
 	
 	@Override
-	public WrappedPlayer<?> getPlayer(String name) {
+	public WrappedPlayer<?> getOfflinePlayer(String name) {
 		Player p = Server.getInstance().getPlayer(name);
 		if (p != null) return new NukkitPlayer(p); 
 		return null;
 	}
 
 	@Override
-	public WrappedPlayer<?> getPlayer(UUID uuid) {
-		Optional<Player> p = Server.getInstance().getPlayer(uuid);
-		if (p.isPresent()) return new NukkitPlayer(p.get()); 
-		return null;
+	public NukkitOfflinePlayer getOfflinePlayer(UUID uuid) {
+		IPlayer p = Server.getInstance().getOfflinePlayer(uuid);
+		return new NukkitOfflinePlayer(p);
 	}
 
 	@Override
@@ -122,4 +123,16 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	public boolean isNativePluginPresent(String name) {
 		return (Server.getInstance().getPluginManager().getPlugin(name) != null);
 	}
+
+	@Override
+	public GUI makeGUI(Stack[] inv, String name, int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void sendConsoleCommand(String command) {
+		UltimateLib.getInstance().callSyncTask(() -> Server.getInstance().dispatchCommand(Server.getInstance().getConsoleSender(), command));
+	}
+
 }

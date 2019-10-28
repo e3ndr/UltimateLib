@@ -41,6 +41,7 @@ public class UltimateLib {
 		
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version + "\n"));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
+		new Events();
 		(new PluginLoader(eventLogger, UltimateLib.version)).run();
 		this.util.scheduleSyncTask(new SyncTasks(), 0, 10);
 		

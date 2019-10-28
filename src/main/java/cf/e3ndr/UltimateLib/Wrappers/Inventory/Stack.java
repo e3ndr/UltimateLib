@@ -9,12 +9,18 @@ import cf.e3ndr.UltimateLib.UltimateLib;
 
 public abstract class Stack {
 	public static Stack getStack(String material, String itemName, int ammount) {
-		return UltimateLib.getServer().getStack(material, ammount);
+		Stack stack = UltimateLib.getServer().getStack(material, ammount);
+		
+		if (itemName != null) {
+			stack.setName(itemName);
+		}
+		
+		return stack;
 	}
 	
 	protected Stack(String material, int ammount) {}
 	
-	public abstract int getAmmount();
+	public abstract int getAmount();
 	
 	public abstract String getMaterial();
 	
@@ -44,4 +50,17 @@ public abstract class Stack {
 	
 	public abstract void setLore(String[] lore);
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Stack) {
+			Stack other = (Stack) obj;
+			if (other.getName().equals(this.getName()) && other.getMaterial().equals(this.getMaterial()) && (other.getAmount() == this.getAmount())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

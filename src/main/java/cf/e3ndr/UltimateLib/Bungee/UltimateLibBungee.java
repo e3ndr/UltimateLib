@@ -16,6 +16,7 @@ import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NullStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
@@ -80,7 +81,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	public ArrayList<WrappedWorld> getWorlds() {return new ArrayList<WrappedWorld>();}
 
 	@Override
-	public ArrayList<WrappedPlayer<?>> getPlayers() {
+	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
 		for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) ret.add(new BungeePlayer(p));
@@ -89,14 +90,14 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	}
 
 	@Override
-	public WrappedPlayer<?> getPlayer(String name) {
+	public WrappedPlayer<?> getOfflinePlayer(String name) {
 		ProxiedPlayer p = ProxyServer.getInstance().getPlayer(name);
 		if (p != null) return new BungeePlayer(p); 
 		return null;
 	}
 
 	@Override
-	public WrappedPlayer<?> getPlayer(UUID uuid) {
+	public WrappedPlayer<?> getOfflinePlayer(UUID uuid) {
 		ProxiedPlayer p = ProxyServer.getInstance().getPlayer(uuid);
 		if (p != null) return new BungeePlayer(p); 
 		return null;
@@ -111,5 +112,13 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	public boolean isNativePluginPresent(String name) {
 		return (ProxyServer.getInstance().getPluginManager().getPlugin(name) != null);
 	}
+
+	@Override
+	public GUI makeGUI(Stack[] inv, String name, int size) {
+		return null;
+	}
+
+	@Override
+	public void sendConsoleCommand(String command) {}
 
 }

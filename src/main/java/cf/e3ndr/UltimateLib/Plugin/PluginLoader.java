@@ -8,7 +8,6 @@ package cf.e3ndr.UltimateLib.Plugin;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -53,7 +52,7 @@ public class PluginLoader {
 			JarFile jar = new JarFile(f);
 			Configuration cfg = null;
 			
-			Enumeration<JarEntry> en = jar.entries();
+			/*Enumeration<JarEntry> en = jar.entries();
 			while (en.hasMoreElements()) { // Look for annotation
 				JarEntry e = en.nextElement();
 				if (!e.isDirectory() && e.getName().endsWith(".class")) {
@@ -71,7 +70,8 @@ public class PluginLoader {
 						return;
 					}
 				}
-			}
+			}*/
+			
 			if (cfg == null) {
 				JarEntry entry = jar.getJarEntry("ultimate.yml");
 				if (entry == null) {
@@ -108,8 +108,10 @@ public class PluginLoader {
 			
 			if (cfg.getBoolean("disallow-reload", false)) canReload = false;
 			
+			boolean needsLoader = cfg.getBoolean("needs-loader", true); // take care
+			
 			UltimatePlugin p = cls.getConstructor().newInstance();
-			UltimateLib.registerPlugin(p.make(yml, logger, jar, plugin, cfg.getBoolean("needs-loader", true)));
+			UltimateLib.registerPlugin(p.make(yml, logger, jar, plugin, needsLoader));
 			
 			plugin.close();
 		} catch (Exception e) {
