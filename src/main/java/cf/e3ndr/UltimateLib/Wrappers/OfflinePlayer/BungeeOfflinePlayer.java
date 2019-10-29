@@ -7,8 +7,6 @@ package cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer;
 
 import java.util.UUID;
 
-import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
-
 /**
  * The Class BungeeOfflinePlayer.
  * @apiNote Doesn't work on Bungee.
@@ -42,16 +40,6 @@ public class BungeeOfflinePlayer implements WrappedOfflinePlayer {
 	 */
 	@Override
 	public UUID getUUID() {
-		return null;
-	}
-
-	/**
-	 * Gets the player.
-	 *
-	 * @return the player
-	 */
-	@Override
-	public WrappedPlayer<?> getPlayer() {
 		return null;
 	}
 

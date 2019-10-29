@@ -10,9 +10,9 @@ import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 /**
@@ -21,26 +21,18 @@ import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 public interface ServerUtil {
 	
 	/**
-	 * Gets the location.
-	 *
-	 * @param world the world
-	 * @param x the x
-	 * @param y the y
-	 * @param z the z
-	 * @param pitch the pitch
-	 * @param yaw the yaw
-	 * @return the location
-	 */
-	public WrappedLocation getLocation(WrappedWorld world, float x, float y, float z, float pitch, float yaw);
-
-	/**
 	 * Gets the world.
 	 *
 	 * @param name the name
 	 * @return the world
 	 */
 	public WrappedWorld getWorld(String name);
-
+	
+	/**
+	 * @deprecated Never use directly
+	 */
+	public WorldLocation getLocation(Object nativeLoc);
+	
 	/**
 	 * Gets a player by name.
 	 *
@@ -49,7 +41,7 @@ public interface ServerUtil {
 	 * @deprecated Use {@link ServerUtil#getOfflinePlayer()}
 	 */
 	default WrappedPlayer<?> getPlayer(String name) {
-		return this.getOfflinePlayer(name).getPlayer();
+		return (WrappedPlayer<?>) this.getOfflinePlayer(name);
 	}
 	
 	/**
@@ -60,7 +52,7 @@ public interface ServerUtil {
 	 * @deprecated Use {@link ServerUtil#getOfflinePlayer()}
 	 */
 	default WrappedPlayer<?> getPlayer(UUID uuid) {
-		return this.getOfflinePlayer(uuid).getPlayer();
+		return (WrappedPlayer<?>) this.getOfflinePlayer(uuid);
 	}
 	
 	/**

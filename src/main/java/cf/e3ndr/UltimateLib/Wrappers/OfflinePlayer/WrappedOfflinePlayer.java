@@ -7,8 +7,6 @@ package cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer;
 
 import java.util.UUID;
 
-import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
-
 public interface WrappedOfflinePlayer {
 
 	/**
@@ -37,13 +35,5 @@ public interface WrappedOfflinePlayer {
 	 * @return the uuid
 	 */
 	public UUID getUUID();
-	
-	/**
-	 * Get's the online player object.
-	 * 
-	 * @apiNote Doesn't work on Bungee.
-	 * 
-	 * @return the player;
-	 */
-	public WrappedPlayer<?> getPlayer();
+
 }

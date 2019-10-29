@@ -6,9 +6,9 @@
 package cf.e3ndr.UltimateLib.Nukkit;
 
 import cf.e3ndr.UltimateLib.Events;
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlock;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventPlayerChat;
-import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
@@ -20,7 +20,7 @@ public class NukkitEventWrapper implements Listener {
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventBlock(new NukkitLocation(e.getBlock().getLocation()), new NukkitPlayer(e.getPlayer()), false)));
+		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), new NukkitPlayer(e.getPlayer()), false)));
 	}
 	
 	@EventHandler
@@ -30,6 +30,6 @@ public class NukkitEventWrapper implements Listener {
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventBlock(new NukkitLocation(e.getBlock().getLocation()), new NukkitPlayer(e.getPlayer()), true)));
+		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), new NukkitPlayer(e.getPlayer()), true)));
 	}
 }

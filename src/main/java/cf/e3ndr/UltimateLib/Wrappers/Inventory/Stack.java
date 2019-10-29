@@ -9,7 +9,7 @@ import cf.e3ndr.UltimateLib.UltimateLib;
 
 public abstract class Stack {
 	public static Stack getStack(String material, String itemName, int ammount) {
-		Stack stack = UltimateLib.getServer().getStack(material, ammount);
+		Stack stack = UltimateLib.getInstance().getStack(material, ammount);
 		
 		if (itemName != null) {
 			stack.setName(itemName);

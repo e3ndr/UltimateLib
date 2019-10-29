@@ -9,8 +9,6 @@ import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
 
-import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
-
 public class BukkitOfflinePlayer implements WrappedOfflinePlayer {
 	private OfflinePlayer bukkit;
 	
@@ -31,11 +29,6 @@ public class BukkitOfflinePlayer implements WrappedOfflinePlayer {
 	@Override
 	public UUID getUUID() {
 		return this.bukkit.getUniqueId();
-	}
-
-	@Override
-	public BukkitPlayer getPlayer() {
-		return new BukkitPlayer(this.bukkit.getPlayer());
 	}
 
 }

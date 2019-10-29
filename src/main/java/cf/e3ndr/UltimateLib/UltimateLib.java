@@ -8,11 +8,18 @@ package cf.e3ndr.UltimateLib;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
+import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 /*    __  ______  _                 __       __    _ __       //  __  ____ 
  *   / / / / / /_(_)___ ___  ____ _/ /____  / /   (_) /_     //  / / / / / 
@@ -20,7 +27,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
  * / /_/ / / /_/ / / / / / / /_/ / /_/  __/ /___/ / /_/ /  //  / /_/ / /___
  * \____/_/\__/_/_/ /_/ /_/\__,_/\__/\___/_____/_/_.___/  //   \____/_____/
  */
-public class UltimateLib {
+public class UltimateLib implements ServerUtil {
 	/** The ASCII art banner */
 	public static final String ultimatelib = "\n&5   __  ______  _                 __       &d__    _ __  \n&5  / / / / / /_(_)___ ___  ____ _/ /____  &d/ /   (_) /_ \n&5 / / / / / __/ / __ `__ \\/ __ `/ __/ _ \\&d/ /   / / __ \\\n&5/ /_/ / / /_/ / / / / / / /_/ / /_/  __&d/ /___/ / /_/ /\n&5\\____/_/\\__/_/_/ /_/ /_/\\__,_/\\__/\\___&d/_____/_/_.___/";
 	public static final String prefix = "&7[&5{0}&7]";
@@ -29,6 +36,7 @@ public class UltimateLib {
 	private static ServerType type;
 	private UltimateLibUtil util;
 	private UltimateLogger logger;
+	private ServerHandler handler;
 	
 	public UltimateLib(UltimateLibUtil util, UltimateLogger logger, String utiltype, String version) {
 		long start = System.currentTimeMillis();
@@ -42,6 +50,7 @@ public class UltimateLib {
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version + "\n"));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
 		new Events();
+		this.handler = new ServerHandler();
 		(new PluginLoader(eventLogger, UltimateLib.version)).run();
 		this.util.scheduleSyncTask(new SyncTasks(), 0, 10);
 		
@@ -120,6 +129,8 @@ public class UltimateLib {
 	/**
 	 * Gets the server instance.
 	 * 
+	 * @deprecated Plugins should never access the ServerAPI
+	 * 
 	 * @return the server instance
 	 */
 	public static ServerUtil getServer() {
@@ -182,6 +193,74 @@ public class UltimateLib {
 
 	public void callSyncTask(Runnable run) {
 		SyncTasks.runnables.add(run);
+	}
+	
+	
+	/* Util Start */
+	@SuppressWarnings("deprecation")
+	@Override
+	public WorldLocation getLocation(Object nativeLoc) {
+		return this.util.getLocation(nativeLoc);
+	}
+
+	@Override
+	public WrappedWorld getWorld(String name) {
+		return this.util.getWorld(name);
+	}
+
+	@Override
+	public Stack getStack(String material, int ammount) {
+		return this.util.getStack(material, ammount);
+	}
+
+	@Override
+	public ArrayList<WrappedWorld> getWorlds() {
+		return this.util.getWorlds();
+	}
+
+	@Override
+	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency) {
+		return this.util.scheduleSyncTask(run, startDelay, runFrequency);
+	}
+
+	@Override
+	public int scheduleAsyncTask(Runnable run) {
+		return this.util.scheduleAsyncTask(run);
+	}
+
+	@Override
+	public void cancelTask(int id) {
+		this.util.cancelTask(id);
+	}
+
+	@Override
+	public boolean isNativePluginPresent(String name) {
+		return this.util.isNativePluginPresent(name);
+	}
+
+	@Override
+	public GUI makeGUI(Stack[] inv, String name, int size) {
+		return this.util.makeGUI(inv, name, size);
+	}
+
+	@Override
+	public void sendConsoleCommand(String command) {
+		this.util.sendConsoleCommand(command);
+	}
+
+	@Override
+	public WrappedOfflinePlayer getOfflinePlayer(UUID uuid) {
+		return this.handler.getOfflinePlayer(uuid);
+	}
+
+	@Override
+	public WrappedOfflinePlayer getOfflinePlayer(String name) {
+		return this.handler.getOfflinePlayer(name);
+	}
+
+	@Override
+	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
+		return this.handler.getOnlinePlayers();
 	}
 
 } class SyncTasks implements Runnable {

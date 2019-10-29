@@ -5,7 +5,7 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Entity;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 
 /**
  * The Interface WrappedEntity.
@@ -19,7 +19,7 @@ public interface WrappedEntity<T> {
 	 *
 	 * @return the location
 	 */
-	public WrappedLocation getLocation();
+	public WorldLocation getLocation();
 	
 	/**
 	 * Teleports the entity.
@@ -27,7 +27,7 @@ public interface WrappedEntity<T> {
 	 * @param wloc the location
 	 * @return true, if successful
 	 */
-	public boolean teleport(WrappedLocation wloc);
+	public boolean teleport(WorldLocation wloc);
 	
 	/**
 	 * Gets the name of the entity.

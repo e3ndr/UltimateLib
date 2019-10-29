@@ -7,7 +7,6 @@ package cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer;
 
 import java.util.UUID;
 
-import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
 import cn.nukkit.IPlayer;
 
 public class NukkitOfflinePlayer implements WrappedOfflinePlayer {
@@ -30,11 +29,6 @@ public class NukkitOfflinePlayer implements WrappedOfflinePlayer {
 	@Override
 	public UUID getUUID() {
 		return this.nukkit.getUniqueId();
-	}
-
-	@Override
-	public NukkitPlayer getPlayer() {
-		return new NukkitPlayer(this.nukkit.getPlayer());
 	}
 
 }

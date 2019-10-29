@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,8 +19,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
-import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 
 public class BukkitPlayer implements WrappedPlayer<Player> {
 	private Player bukkit;
@@ -34,8 +34,8 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	}
 	
 	@Override
-	public WrappedLocation getLocation() {
-		return new BukkitLocation(this.bukkit.getLocation());
+	public WorldLocation getLocation() {
+		return UltimateLib.getInstance().getLocation(this.bukkit.getLocation());
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	}
 
 	@Override
-	public boolean teleport(WrappedLocation wloc) {
-		return this.bukkit.teleport(((BukkitLocation) wloc).getBukkit());
+	public boolean teleport(WorldLocation wloc) {
+		return this.bukkit.teleport(new Location(Bukkit.getWorld(wloc.getWorld().getName()), wloc.getY(), wloc.getZ(), wloc.getX(), wloc.getPitch(), wloc.getYaw()));
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public abstract class GUI {
 	 * @return the a new gui
 	 */
 	public static GUI makeGUI(Stack[] inv, String name, int size) {
-		return UltimateLib.getServer().makeGUI(inv, name, size);
+		return UltimateLib.getInstance().makeGUI(inv, name, size);
 	}
 	
 	protected GUI(Stack[] inv, String name, int size) {}

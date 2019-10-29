@@ -8,12 +8,11 @@ package cf.e3ndr.UltimateLib.Wrappers.World;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Misc.WrappedParticle;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
@@ -40,13 +39,13 @@ public class BukkitWorld implements WrappedWorld {
 	}
 
 	@Override
-	public void playSound(WrappedLocation loc, String sound, float volume, float pitch) {
-		this.world.playSound(((BukkitLocation) loc).getBukkit(), sound, volume, pitch);
+	public void playSound(WorldLocation loc, String sound, float volume, float pitch) {
+		this.world.playSound(new Location(this.world, loc.getY(), loc.getZ(), loc.getX(), loc.getPitch(), loc.getYaw()), sound, volume, pitch);
 	}
 	
 	@Override
-	public void addParticle(WrappedLocation loc, WrappedParticle particle) {
-		this.world.spawnParticle(getParticle(particle), ((BukkitLocation) loc).getBukkit(), 1);
+	public void addParticle(WorldLocation loc, WrappedParticle particle) {
+		this.world.spawnParticle(getParticle(particle), new Location(this.world, loc.getY(), loc.getZ(), loc.getX(), loc.getPitch(), loc.getYaw()), 1);
 	}
 	
 	public static Particle getParticle(WrappedParticle particle) {

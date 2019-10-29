@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BungeeLogger;
@@ -17,11 +18,11 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NullStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
-import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.World.NullLocation;
 import cf.e3ndr.UltimateLib.Wrappers.World.NullWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -53,7 +54,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	}
 
 	@Override
-	public WrappedLocation getLocation(WrappedWorld world, float x, float y, float z, float pitch, float yaw) {
+	public WorldLocation getLocation(Object nativeLoc) {
 		return new NullLocation();
 	}
 
@@ -120,5 +121,10 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 
 	@Override
 	public void sendConsoleCommand(String command) {}
+
+	@Override
+	public void setHandler(ServerHandler handler) {
+		// TODO
+	}
 
 }

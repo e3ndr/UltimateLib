@@ -6,8 +6,6 @@
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 
 public class BukkitCommandPlayer implements WrappedConsole {
 	private CommandSender sender;
@@ -25,20 +23,5 @@ public class BukkitCommandPlayer implements WrappedConsole {
 	public boolean hasPerm(String permission) {
 		return this.sender.hasPermission(permission);
 	}
-	
-	@Override
-	public boolean isConsole() {
-		return (this.sender instanceof ConsoleCommandSender);
-	}
 
-	@Override
-	public String getName() {
-		return "CONSOLE";
-	}
-
-	@Override
-	public WrappedPlayer<?> getPlayer() {
-		return new BukkitPlayer((Player) sender);
-	}
-	
 }

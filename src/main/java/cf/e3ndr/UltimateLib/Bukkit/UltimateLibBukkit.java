@@ -17,9 +17,14 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
@@ -29,12 +34,11 @@ import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.BukkitGUI;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
-import cf.e3ndr.UltimateLib.Wrappers.Location.BukkitLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.BukkitOfflinePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.BukkitWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
 public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
@@ -83,8 +87,10 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	}
 
 	@Override
-	public WrappedLocation getLocation(WrappedWorld world, float x, float y, float z, float pitch, float yaw) {
-		return new BukkitLocation(new Location(Bukkit.getWorld(world.getName()), x, y, z, yaw, pitch));
+	public WorldLocation getLocation(Object nativeLoc) {
+		Location loc = (Location) nativeLoc;
+		
+		return new WorldLocation(loc.getX(), loc.getY(), loc.getZ(), this.getWorld(loc.getWorld().getName()), loc.getPitch(), loc.getYaw());
 	}
 
 	@Override
@@ -158,6 +164,21 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	@Override
 	public void sendConsoleCommand(String command) {
 		UltimateLib.getInstance().callSyncTask(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+	}
+
+	@Override
+	public void setHandler(final ServerHandler handler) {
+		Bukkit.getPluginManager().registerEvents(new Listener() {
+			@EventHandler
+			public void onJoin(PlayerJoinEvent e) {
+				handler.join(new BukkitPlayer(e.getPlayer()));
+			}
+			
+			@EventHandler
+			public void onLeave(PlayerQuitEvent e) {
+				handler.leave(e.getPlayer().getUniqueId());
+			}
+		}, instance);
 	}
 
 }

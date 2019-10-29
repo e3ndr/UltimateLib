@@ -32,21 +32,18 @@ public interface WrappedConsole {
 	 *
 	 * @return the name
 	 */
-	public String getName();
+	default String getName() {
+		return "CONSOLE";
+	}
 	
 	/**
 	 * Checks if is console.
 	 *
 	 * @return true, if is console
 	 */
-	public boolean isConsole();
-	
-	/**
-	 * Gets the player.
-	 *
-	 * @return the player
-	 */
-	public WrappedPlayer<?> getPlayer();
+	default boolean isConsole() {
+		return true;
+	}
 	
 	/**
 	 * Send message.
@@ -61,4 +58,5 @@ public interface WrappedConsole {
 			this.sendMessage(message);
 		}
 	}
+	
 }

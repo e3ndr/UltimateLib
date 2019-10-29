@@ -5,10 +5,14 @@
  */
 package cf.e3ndr.UltimateLib.Nukkit;
 
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitCommandPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
+import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.command.ConsoleCommandSender;
 
 public class NukkitCMD extends Command {
 	private UltimateCommand command;
@@ -20,7 +24,13 @@ public class NukkitCMD extends Command {
 
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		return command.execute(new NukkitCommandPlayer(sender), commandLabel, args);
+		WrappedConsole executor = null;
+		if (sender instanceof ConsoleCommandSender) {
+			executor = new NukkitCommandPlayer(sender);
+		} else {
+			UltimateLib.getInstance().getOfflinePlayer(((Player) sender).getUniqueId());
+		}
+		return this.command.execute(executor, commandLabel, args);
 	}
 
 }

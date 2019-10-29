@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib.Nukkit;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.NukkitLogger;
@@ -17,19 +18,17 @@ import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.NukkitGUI;
-import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.NukkitOfflinePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.NukkitWorld;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 import cn.nukkit.IPlayer;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.SimpleCommandMap;
 import cn.nukkit.level.Level;
-import cn.nukkit.level.Location;
 import cn.nukkit.plugin.PluginBase;
 
 public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
@@ -62,8 +61,8 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	}
 
 	@Override
-	public WrappedLocation getLocation(WrappedWorld world, float x, float y, float z, float pitch, float yaw) {
-		return new NukkitLocation(new Location(x, y, z, pitch, yaw, Server.getInstance().getLevelByName(world.getName())));
+	public WorldLocation getLocation(Object nativeLoc) {
+		return null; // TODO
 	}
 
 	@Override
@@ -135,6 +134,12 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	@Override
 	public void sendConsoleCommand(String command) {
 		UltimateLib.getInstance().callSyncTask(() -> Server.getInstance().dispatchCommand(Server.getInstance().getConsoleSender(), command));
+	}
+
+	@Override
+	public void setHandler(ServerHandler handler) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -8,14 +8,15 @@ package cf.e3ndr.UltimateLib.Wrappers.Player;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
-import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
+import cn.nukkit.math.Vector3f;
 import cn.nukkit.network.protocol.TextPacket;
 
 public class NukkitPlayer implements WrappedPlayer<Player> {
@@ -31,8 +32,8 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 	}
 	
 	@Override
-	public WrappedLocation getLocation() {
-		return new NukkitLocation(this.nukkit.getLocation());
+	public WorldLocation getLocation() {
+		return UltimateLib.getInstance().getLocation(this.nukkit.getLocation());
 	}
 
 	@Override
@@ -73,8 +74,8 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 	}
 
 	@Override
-	public boolean teleport(WrappedLocation wloc) {
-		return this.nukkit.teleport(((NukkitLocation) wloc).getNukkit());
+	public boolean teleport(WorldLocation wloc) {
+		return this.nukkit.teleport(new Vector3f(Double.valueOf(wloc.getX()).floatValue(), Double.valueOf(wloc.getY()).floatValue(), Double.valueOf(wloc.getX()).floatValue()).asVector3());
 	}
 
 	@Override

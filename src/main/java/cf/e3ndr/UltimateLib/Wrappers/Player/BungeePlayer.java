@@ -9,8 +9,8 @@ import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
-import cf.e3ndr.UltimateLib.Wrappers.Location.NullLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.NullLocation;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -28,7 +28,7 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	}
 	
 	@Override
-	public WrappedLocation getLocation() {
+	public WorldLocation getLocation() {
 		return new NullLocation();
 	}
 
@@ -45,7 +45,7 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	public void setMode(GameMode gamemode) {}
 
 	@Override
-	public boolean teleport(WrappedLocation wloc) { return false; }
+	public boolean teleport(WorldLocation wloc) { return false; }
 
 	@Override
 	public long getID() {

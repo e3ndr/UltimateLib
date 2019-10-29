@@ -5,15 +5,15 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Events;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 
 public class EventBlock extends Event {
-	private WrappedLocation bloc;
+	private WorldLocation bloc;
 	private WrappedPlayer<?> player;
 	private boolean breakEvent;
 	
-	public EventBlock(WrappedLocation bloc, WrappedPlayer<?> player, boolean isBreakEvent) {
+	public EventBlock(WorldLocation bloc, WrappedPlayer<?> player, boolean isBreakEvent) {
 		this.bloc = bloc;
 		this.player = player;
 		this.breakEvent = isBreakEvent;
@@ -23,7 +23,7 @@ public class EventBlock extends Event {
 		return this.player;
 	}
 	
-	public WrappedLocation getLocation() {
+	public WorldLocation getLocation() {
 		return this.bloc;
 	}
 

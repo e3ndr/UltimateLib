@@ -9,8 +9,8 @@ import cf.e3ndr.UltimateLib.Wrappers.Entity.EntityTypes;
 import cf.e3ndr.UltimateLib.Wrappers.Entity.WrappedEntity;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 
 /**
  * The Interface WrappedPlayer.
@@ -24,11 +24,18 @@ public interface WrappedPlayer<T> extends WrappedOfflinePlayer, WrappedConsole, 
 	 *
 	 * @param wloc the wloc
 	 * @return true, if successful
-	 * @deprecated 
+	 * @deprecated Use {@link WrappedPlayer#teleport(WorldLocation)}
 	 */
-	default boolean teleportPlayer(WrappedLocation wloc) {
+	default boolean teleportPlayer(WorldLocation wloc) {
 		return this.teleport(wloc);
 	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName();
 	
 	/**
 	 * Send a JSON message.
@@ -87,8 +94,11 @@ public interface WrappedPlayer<T> extends WrappedOfflinePlayer, WrappedConsole, 
 	 */
 	public void closeInventory();
 	
+	@Override
 	default boolean isConsole() { return false; }
-	default WrappedPlayer<?> getPlayer() { return this; }
+	@Override
 	default boolean isBaby() { return false; }
+	@Override
 	default EntityTypes getType() { return EntityTypes.PLAYER; }
+
 }
