@@ -33,6 +33,9 @@ public class PluginLoader {
 	private static File ultPlugins = new File("plugins/UltimateLib/plugins/");
 	private static File plugins = new File("plugins/");
 	public void run() {
+		this.logger.println("Loading internal classes.");
+		this.loadClasses();
+		
 		this.logger.println("Loading plugins.");
 		
 		ultPlugins.mkdirs();
@@ -42,6 +45,10 @@ public class PluginLoader {
 		for (File f : plugins.listFiles()) loadFile(f);
 		
 		for (UltimatePlugin p : UltimateLib.getPlugins()) p.init(logger);;
+	}
+
+	private void loadClasses() {
+		
 	}
 
 	@SuppressWarnings("resource")

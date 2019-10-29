@@ -15,7 +15,6 @@ import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ServerUtil.
  */

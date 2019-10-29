@@ -123,7 +123,7 @@ public class UltimateLib {
 	 * @return the server instance
 	 */
 	public static ServerUtil getServer() {
-		return (ServerUtil) instance.util;
+		return instance.util;
 	}
 
 	/**

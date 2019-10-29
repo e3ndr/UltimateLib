@@ -16,6 +16,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.NukkitGUI;
 import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
 import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.NukkitOfflinePlayer;
@@ -32,10 +33,12 @@ import cn.nukkit.level.Location;
 import cn.nukkit.plugin.PluginBase;
 
 public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
+	public static UltimateLibNukkit instance;
 	private NukkitEventWrapper listener = new NukkitEventWrapper();
 	
 	@Override
 	public void onEnable() {
+		instance = this;
 		Server.getInstance().getPluginManager().registerEvents(listener, this);
 		new UltimateLib(this, new NukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "NUKKIT", this.getDescription().getVersion());
 	}
@@ -126,8 +129,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 
 	@Override
 	public GUI makeGUI(Stack[] inv, String name, int size) {
-		// TODO Auto-generated method stub
-		return null;
+		return new NukkitGUI(inv, name, size);
 	}
 
 	@Override
