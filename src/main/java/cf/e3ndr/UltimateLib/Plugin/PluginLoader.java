@@ -32,9 +32,8 @@ public class PluginLoader {
 	
 	private static File ultPlugins = new File("plugins/UltimateLib/plugins/");
 	private static File plugins = new File("plugins/");
+	
 	public void run() {
-		this.logger.println("Loading internal classes.");
-		
 		this.logger.println("Loading plugins.");
 		
 		ultPlugins.mkdirs();
@@ -45,34 +44,26 @@ public class PluginLoader {
 		
 		for (UltimatePlugin p : UltimateLib.getPlugins()) p.init(logger);;
 	}
-
+	
 	@SuppressWarnings("resource")
 	public void loadFile(File f) {
 		if (f.isDirectory()) return;
 		try {
-			URLClassLoader plugin = new URLClassLoader(new URL[] {f.toURI().toURL()}, this.getClass().getClassLoader());
+			URLClassLoader plugin = new URLClassLoader(new URL[] { f.toURI().toURL() }, this.getClass().getClassLoader());
 			JarFile jar = new JarFile(f);
 			Configuration cfg = null;
 			
-			/*Enumeration<JarEntry> en = jar.entries();
-			while (en.hasMoreElements()) { // Look for annotation
-				JarEntry e = en.nextElement();
-				if (!e.isDirectory() && e.getName().endsWith(".class")) {
-					String claz = e.getName().substring(0, e.getName().length() - 6).replace("/", ".");
-					Class<?> cls = Class.forName(claz);
-					Plugin plug = cls.getAnnotation(Plugin.class);
-					if (plug != null) {
-						cfg = new Configuration();
-						cfg.set("color", plug.colorCode());
-						cfg.set("name", plug.pluginName());
-						cfg.set("main", claz);
-						cfg.set("disallow-reload", plug.disallowReload());
-						cfg.set("needs-loader", plug.needsClassLoader());
-					} else {
-						return;
-					}
-				}
-			}*/
+			/*
+			 * Enumeration<JarEntry> en = jar.entries(); while (en.hasMoreElements()) { //
+			 * Look for annotation JarEntry e = en.nextElement(); if (!e.isDirectory() &&
+			 * e.getName().endsWith(".class")) { String claz = e.getName().substring(0,
+			 * e.getName().length() - 6).replace("/", "."); Class<?> cls =
+			 * Class.forName(claz); Plugin plug = cls.getAnnotation(Plugin.class); if (plug
+			 * != null) { cfg = new Configuration(); cfg.set("color", plug.colorCode());
+			 * cfg.set("name", plug.pluginName()); cfg.set("main", claz);
+			 * cfg.set("disallow-reload", plug.disallowReload()); cfg.set("needs-loader",
+			 * plug.needsClassLoader()); } else { return; } } }
+			 */
 			
 			if (cfg == null) {
 				JarEntry entry = jar.getJarEntry("ultimate.yml");
@@ -90,7 +81,7 @@ public class PluginLoader {
 				logger.println("Plugin name cannot be longer than 24 characters (" + yml.getName() + ")");
 				return;
 			}
-
+			
 			if (TextUtil.containsExcessChars(allowedChars, yml.getName().toLowerCase())) {
 				logger.println("Plugin name must be alphanumerical including \'_\', \'-\', and \' \' (" + yml.getName() + ")");
 				return;
@@ -106,7 +97,7 @@ public class PluginLoader {
 					logger.println("Plugin " + yml.getName() + " doesn\'t support " + support.toLowerCase() + ".");
 					return;
 				}
-			} 
+			}
 			
 			if (cfg.getBoolean("disallow-reload", false)) canReload = false;
 			

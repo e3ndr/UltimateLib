@@ -20,15 +20,15 @@ public class NukkitOfflinePlayer implements WrappedOfflinePlayer {
 	public boolean isOnline() {
 		return this.nukkit.isOnline();
 	}
-
+	
 	@Override
 	public boolean hasPlayedBefore() {
 		return this.nukkit.hasPlayedBefore();
 	}
-
+	
 	@Override
 	public UUID getUUID() {
 		return this.nukkit.getUniqueId();
 	}
-
+	
 }

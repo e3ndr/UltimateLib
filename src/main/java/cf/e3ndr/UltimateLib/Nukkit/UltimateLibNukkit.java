@@ -8,7 +8,6 @@ package cf.e3ndr.UltimateLib.Nukkit;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.NukkitLogger;
@@ -29,6 +28,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.SimpleCommandMap;
 import cn.nukkit.level.Level;
+import cn.nukkit.level.Location;
 import cn.nukkit.plugin.PluginBase;
 
 public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
@@ -52,39 +52,41 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 		SimpleCommandMap map = Server.getInstance().getCommandMap();
 		map.register(command.getPlugin().getName(), new NukkitCMD(command.getAliases()[0], command.getAliases(), command));
 	}
-
+	
 	@Override
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names) {
 		UltimateCommand cmd = new UltimateCommand(plugin, names);
 		this.registerCommand(cmd);
 		return cmd;
 	}
-
+	
 	@Override
 	public WorldLocation getLocation(Object nativeLoc) {
-		return null; // TODO
+		Location location = (Location) nativeLoc;
+		
+		return new WorldLocation(location.x, location.y, location.z, this.getWorld(location.getLevel().getName()), Double.valueOf(location.pitch).floatValue(), Double.valueOf(location.yaw).floatValue());
 	}
-
+	
 	@Override
 	public WrappedWorld getWorld(String name) {
 		return new NukkitWorld(Server.getInstance().getLevelByName(name));
 	}
-
+	
 	@Override
 	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency) {
 		return Server.getInstance().getScheduler().scheduleDelayedRepeatingTask(this, run, startDelay, runFrequency, false).getTaskId();
 	}
-
+	
 	@Override
 	public int scheduleAsyncTask(Runnable run) {
 		return Server.getInstance().getScheduler().scheduleDelayedRepeatingTask(this, run, 0, 0, true).getTaskId();
 	}
-
+	
 	@Override
 	public void cancelTask(int id) {
 		Server.getInstance().getScheduler().cancelTask(id);
 	}
-
+	
 	@Override
 	public ArrayList<WrappedWorld> getWorlds() {
 		ArrayList<WrappedWorld> worlds = new ArrayList<WrappedWorld>();
@@ -93,7 +95,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 		
 		return worlds;
 	}
-
+	
 	@Override
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -106,40 +108,34 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	@Override
 	public WrappedPlayer<?> getOfflinePlayer(String name) {
 		Player p = Server.getInstance().getPlayer(name);
-		if (p != null) return new NukkitPlayer(p); 
+		if (p != null) return new NukkitPlayer(p);
 		return null;
 	}
-
+	
 	@Override
 	public NukkitOfflinePlayer getOfflinePlayer(UUID uuid) {
 		IPlayer p = Server.getInstance().getOfflinePlayer(uuid);
 		return new NukkitOfflinePlayer(p);
 	}
-
+	
 	@Override
 	public Stack getStack(String material, int ammount) {
 		return new NukkitStack(material, ammount);
 	}
-
+	
 	@Override
 	public boolean isNativePluginPresent(String name) {
 		return (Server.getInstance().getPluginManager().getPlugin(name) != null);
 	}
-
+	
 	@Override
 	public GUI makeGUI(Stack[] inv, String name, int size) {
 		return new NukkitGUI(inv, name, size);
 	}
-
+	
 	@Override
 	public void sendConsoleCommand(String command) {
 		UltimateLib.getInstance().callSyncTask(() -> Server.getInstance().dispatchCommand(Server.getInstance().getConsoleSender(), command));
 	}
-
-	@Override
-	public void setHandler(ServerHandler handler) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

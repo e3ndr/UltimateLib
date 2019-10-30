@@ -16,7 +16,8 @@ public class PlayerInventory extends Inventory {
 	private WrappedPlayer<?> player;
 	
 	/**
-	 * Instantiates a new player  inventory.
+	 * Instantiates a new player inventory.
+	 * 
 	 * @deprecated Never instantiate directly, this is for Bungee support.
 	 */
 	public PlayerInventory(WrappedPlayer<?> player) {
@@ -34,7 +35,7 @@ public class PlayerInventory extends Inventory {
 		super(inv, size);
 		this.player = player;
 	}
-
+	
 	/**
 	 * Gets the player.
 	 *
@@ -45,7 +46,8 @@ public class PlayerInventory extends Inventory {
 	}
 	
 	/**
-	 * Updates the players inventory.<br/>A convience method for {@link WrappedPlayer#setInventory(Inventory)}
+	 * Updates the players inventory.<br/>
+	 * A convience method for {@link WrappedPlayer#setInventory(Inventory)}
 	 */
 	public void update() {
 		this.player.setInventory(this);

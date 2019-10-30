@@ -30,7 +30,7 @@ public class BukkitGUI extends GUI implements Listener {
 		
 		Bukkit.getPluginManager().registerEvents(this, UltimateLibBukkit.instance);
 	}
-
+	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		if (this.closed) {
@@ -44,7 +44,7 @@ public class BukkitGUI extends GUI implements Listener {
 			}
 		}
 	}
-
+	
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
 		if (e.getInventory().equals(this.inv)) {

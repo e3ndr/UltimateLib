@@ -37,7 +37,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	public WorldLocation getLocation() {
 		return UltimateLib.getInstance().getLocation(this.bukkit.getLocation());
 	}
-
+	
 	@Override
 	public boolean hasPerm(String permission) {
 		return this.bukkit.hasPermission(permission);
@@ -46,52 +46,52 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 	public Player getBukkitPlayer() {
 		return this.bukkit;
 	}
-
+	
 	@Override
 	public String getName() {
 		return this.bukkit.getName();
 	}
-
+	
 	@Override
 	public UUID getUUID() {
 		return this.bukkit.getUniqueId();
 	}
-
+	
 	@Override
 	public GameMode getMode() {
 		return GameMode.fromString(this.bukkit.getGameMode().toString());
 	}
-
+	
 	@Override
 	public void setMode(GameMode gamemode) {
 		this.bukkit.setGameMode(org.bukkit.GameMode.valueOf(gamemode.toString()));
 	}
-
+	
 	@Override
 	public void sendJSON(String json) {
 		UltimateLib.getInstance().callSyncTask(() -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + bukkit.getName() + " " + json));
 	}
-
+	
 	@Override
 	public boolean teleport(WorldLocation wloc) {
 		return this.bukkit.teleport(new Location(Bukkit.getWorld(wloc.getWorld().getName()), wloc.getY(), wloc.getZ(), wloc.getX(), wloc.getPitch(), wloc.getYaw()));
 	}
-
+	
 	@Override
 	public long getID() {
 		return this.bukkit.getEntityId();
 	}
-
+	
 	@Override
 	public Player getNative() {
 		return this.bukkit;
 	}
-
+	
 	@Override
 	public String getDisplayName() {
 		return this.bukkit.getDisplayName();
 	}
-
+	
 	@Override
 	public PlayerInventory getInventory() {
 		ArrayList<Stack> inv = new ArrayList<>();
@@ -102,7 +102,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 		
 		return new PlayerInventory(inv, this.bukkit.getInventory().getSize(), this);
 	}
-
+	
 	@Override
 	public void setInventory(Inventory inv) {
 		for (int i = 0; i != inv.getSize(); i++) {
@@ -112,7 +112,7 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 			this.bukkit.getInventory().setItem(i, (ItemStack) inv.getSlot(i).getNative());
 		}
 	}
-
+	
 	@Override
 	public void showInventory(Inventory inv) {
 		org.bukkit.inventory.Inventory ninv = Bukkit.getServer().createInventory(null, inv.getSize(), inv.getName());
@@ -128,20 +128,30 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 		}
 		this.bukkit.openInventory(ninv);
 	}
-
+	
 	@Override
 	public void closeInventory() {
 		this.bukkit.closeInventory();
 	}
-
+	
 	@Override
 	public boolean isOnline() {
 		return this.bukkit.isOnline();
 	}
-
+	
 	@Override
 	public boolean hasPlayedBefore() {
 		return this.bukkit.hasPlayedBefore();
+	}
+	
+	@Override
+	public String toString() {
+		return this.asString();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return this.compareEqual(o);
 	}
 	
 }

@@ -8,7 +8,7 @@ package cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer;
 import java.util.UUID;
 
 public interface WrappedOfflinePlayer {
-
+	
 	/**
 	 * Checks whether or not the player is online.
 	 * 
@@ -35,5 +35,8 @@ public interface WrappedOfflinePlayer {
 	 * @return the uuid
 	 */
 	public UUID getUUID();
-
+	
+	default String asString() {
+		return "[OFFLINE:" + this.getUUID() + "]";
+	}
 }

@@ -28,7 +28,7 @@ public class Events implements EventListener {
 	public static void addEventListener(UltimatePlugin plugin, EventListener listener) {
 		instance.listeners.add(new PluginEvent(plugin, listener));
 	}
-
+	
 	public static Events getInstance() {
 		return instance;
 	}
@@ -39,6 +39,7 @@ public class Events implements EventListener {
 		
 		return e.isCancelled();
 	}
+	
 	// it goes on and on and on
 	@Override
 	public boolean onEvent(EventPlayerChat e) {
@@ -46,6 +47,7 @@ public class Events implements EventListener {
 		
 		return e.isCancelled();
 	}
+	
 	// and on
 	@Override
 	public boolean onEvent(EventInventory e) {

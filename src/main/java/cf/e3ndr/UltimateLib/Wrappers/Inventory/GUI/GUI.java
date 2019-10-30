@@ -19,7 +19,8 @@ public abstract class GUI {
 	/**
 	 * Make GUI.
 	 * 
-	 * @apiNote Not available on Bungee.<br/>Nukkit creates a form window thus rightclick is not available.
+	 * @apiNote Not available on Bungee.<br/>
+	 * Nukkit creates a form window thus rightclick is not available.
 	 * 
 	 * @param inv the items
 	 * @param name the name
@@ -30,7 +31,8 @@ public abstract class GUI {
 		return UltimateLib.getInstance().makeGUI(inv, name, size);
 	}
 	
-	protected GUI(Stack[] inv, String name, int size) {}
+	protected GUI(Stack[] inv, String name, int size) {
+	}
 	
 	/**
 	 * Sets the listener.

@@ -16,7 +16,7 @@ import net.md_5.bungee.event.EventHandler;
 public class BungeeEventWrapper implements Listener {
 	
 	@EventHandler
-	public void onChat(ChatEvent e){
+	public void onChat(ChatEvent e) {
 		e.setCancelled(Events.getInstance().onEvent(new EventPlayerChat(e.getMessage(), new BungeePlayer((ProxiedPlayer) e.getSender()))));
 	}
 	

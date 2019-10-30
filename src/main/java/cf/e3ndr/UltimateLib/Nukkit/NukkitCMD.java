@@ -21,16 +21,15 @@ public class NukkitCMD extends Command {
 		super(name, "", "", aliases);
 		this.command = cmd;
 	}
-
+	
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		WrappedConsole executor = null;
-		if (sender instanceof ConsoleCommandSender) {
-			executor = new NukkitCommandPlayer(sender);
-		} else {
-			UltimateLib.getInstance().getOfflinePlayer(((Player) sender).getUniqueId());
+		WrappedConsole executor = new NukkitCommandPlayer(sender);
+		if (!(sender instanceof ConsoleCommandSender)) {
+			executor = (WrappedConsole) UltimateLib.getInstance().getOfflinePlayer(((Player) sender).getUniqueId());
 		}
+		
 		return this.command.execute(executor, commandLabel, args);
 	}
-
+	
 }

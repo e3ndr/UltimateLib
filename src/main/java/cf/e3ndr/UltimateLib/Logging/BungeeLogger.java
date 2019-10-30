@@ -18,7 +18,6 @@ public class BungeeLogger extends UltimateLogger {
 		return new BungeeLogger(prefix);
 	}
 	
-	
 	@Override
 	public void println(Object obj) {
 		ProxyServer.getInstance().getConsole().sendMessage(new TextComponent(this.prefix + String.valueOf(obj)));

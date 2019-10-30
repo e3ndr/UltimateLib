@@ -30,7 +30,7 @@ public class EventInventory extends Event {
 	public void setInventory(Inventory inv) {
 		this.inventory.setInventory(inv.getRaw());
 	}
-
+	
 	public boolean isRightClick() {
 		return this.rightClick;
 	}

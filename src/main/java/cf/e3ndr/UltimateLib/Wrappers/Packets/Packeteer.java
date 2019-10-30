@@ -16,7 +16,7 @@ public interface Packeteer extends PacketListener {
 	
 	/** The listeners. */
 	public ArrayList<PacketListener> listeners = new ArrayList<PacketListener>();
-
+	
 	/**
 	 * Send a packet.
 	 *
@@ -34,7 +34,6 @@ public interface Packeteer extends PacketListener {
 	default void addListener(PacketListener listener) {
 		listeners.add(listener);
 	}
-	
 	
 	/* Listeners */
 	@Override

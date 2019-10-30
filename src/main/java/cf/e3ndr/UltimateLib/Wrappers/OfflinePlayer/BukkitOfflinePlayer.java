@@ -20,15 +20,15 @@ public class BukkitOfflinePlayer implements WrappedOfflinePlayer {
 	public boolean isOnline() {
 		return this.bukkit.isOnline();
 	}
-
+	
 	@Override
 	public boolean hasPlayedBefore() {
 		return this.bukkit.hasPlayedBefore();
 	}
-
+	
 	@Override
 	public UUID getUUID() {
 		return this.bukkit.getUniqueId();
 	}
-
+	
 }

@@ -5,6 +5,7 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Entity;
 
+import cf.e3ndr.UltimateLib.Wrappers.Util.IComparable;
 import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 
 /**
@@ -12,7 +13,7 @@ import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
  *
  * @param <T> the generic type
  */
-public interface WrappedEntity<T> {
+public interface WrappedEntity<T> extends IComparable {
 	
 	/**
 	 * Gets the location of the entity.
@@ -64,4 +65,17 @@ public interface WrappedEntity<T> {
 	 */
 	public T getNative();
 	
+	@Override
+	default String asString() {
+		return "[" + this.getName() + ":" + this.getID() + "]";
+	}
+	
+	@Override
+	default boolean compareEqual(Object o) {
+		if (o instanceof WrappedEntity<?>) {
+			return this.getID() == ((WrappedEntity<?>) o).getID();
+		}
+		
+		return false;
+	}
 }

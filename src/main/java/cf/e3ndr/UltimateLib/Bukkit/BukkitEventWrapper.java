@@ -33,5 +33,5 @@ public class BukkitEventWrapper implements Listener {
 	public void onBreak(BlockBreakEvent e) {
 		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), new BukkitPlayer(e.getPlayer()), true)));
 	}
-
+	
 }

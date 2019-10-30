@@ -6,11 +6,12 @@
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
+import cf.e3ndr.UltimateLib.Wrappers.Util.IComparable;
 
 /**
  * The Interface WrappedConsole.
  */
-public interface WrappedConsole {
+public interface WrappedConsole extends IComparable {
 	
 	/**
 	 * Send message.
@@ -59,4 +60,17 @@ public interface WrappedConsole {
 		}
 	}
 	
+	@Override
+	default boolean compareEqual(Object o) {
+		if (o instanceof WrappedConsole) {
+			return this.getName().equals(((WrappedConsole) o).getName());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	default String asString() {
+		return "[CONSOLE:NULL]";
+	}
 }

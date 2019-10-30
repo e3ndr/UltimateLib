@@ -474,6 +474,7 @@ public enum ItemType {
 	
 	private int nukkit = 0;
 	private String bukkit = this.name();
+	
 	private ItemType() {
 		try {
 			this.nukkit = (int) Class.forName("cn.nukkit.item.Item").getField(this.name()).get(null);

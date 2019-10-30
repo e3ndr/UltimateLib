@@ -16,20 +16,11 @@ public class TextUtil {
 	}
 	
 	private static final String seperator = "\", \"";
+	
 	public static <E> String arrayToString(E[] arr) {
 		String str = "[\"";
 		
-		for (E obj : arr) str += (String.valueOf(obj)
-				.replace("\b", "\\b")
-				.replace("\t", "\\t")
-				.replace("\n", "\\n")
-				.replace("\f", "\\f")
-				.replace("\r", "\\r")
-				.replace("\'", "\\\'")
-				.replace("\"", "\\\"")
-				.replace(",", "\\,")
-				.replace("[", "\\[")
-				.replace("]", "\\]"));
+		for (E obj : arr) str += (String.valueOf(obj).replace("\b", "\\b").replace("\t", "\\t").replace("\n", "\\n").replace("\f", "\\f").replace("\r", "\\r").replace("\'", "\\\'").replace("\"", "\\\"").replace(",", "\\,").replace("[", "\\[").replace("]", "\\]"));
 		
 		return (str += "]").replace(seperator + "]", "\"]");
 	}
@@ -39,19 +30,9 @@ public class TextUtil {
 		String array = arr.substring(2).substring(0, arr.length() - 3);
 		String[] ar = array.split(seperator);
 		
-		for (String s : ar) ret.add(s
-				.replace("\\b", "\b")
-				.replace("\\t", "\t")
-				.replace("\\n", "\n")
-				.replace("\\f", "\f")
-				.replace("\\r", "\r")
-				.replace("\\\'", "\'")
-				.replace("\\\"", "\"")
-				.replace("\\,", ",")
-				.replace("\\[", "[")
-				.replace("\\]", "]"));
+		for (String s : ar) ret.add(s.replace("\\b", "\b").replace("\\t", "\t").replace("\\n", "\n").replace("\\f", "\f").replace("\\r", "\r").replace("\\\'", "\'").replace("\\\"", "\"").replace("\\,", ",").replace("\\[", "[").replace("\\]", "]"));
 		
 		return ret.toArray(new String[0]);
 	}
-
+	
 }

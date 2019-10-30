@@ -9,6 +9,7 @@ import java.util.UUID;
 
 /**
  * The Class BungeeOfflinePlayer.
+ * 
  * @apiNote Doesn't work on Bungee.
  */
 public class BungeeOfflinePlayer implements WrappedOfflinePlayer {
@@ -22,7 +23,7 @@ public class BungeeOfflinePlayer implements WrappedOfflinePlayer {
 	public boolean isOnline() {
 		return false;
 	}
-
+	
 	/**
 	 * Checks for played before.
 	 *
@@ -32,7 +33,7 @@ public class BungeeOfflinePlayer implements WrappedOfflinePlayer {
 	public boolean hasPlayedBefore() {
 		return true;
 	}
-
+	
 	/**
 	 * Gets the uuid.
 	 *
@@ -42,5 +43,5 @@ public class BungeeOfflinePlayer implements WrappedOfflinePlayer {
 	public UUID getUUID() {
 		return null;
 	}
-
+	
 }

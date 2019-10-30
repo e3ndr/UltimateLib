@@ -14,15 +14,15 @@ public class BungeeCommandPlayer implements WrappedConsole {
 	public BungeeCommandPlayer(CommandSender sender) {
 		this.sender = sender;
 	}
-
+	
 	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(new TextComponent(message));
 	}
-
+	
 	@Override
 	public boolean hasPerm(String permission) {
 		return this.sender.hasPermission(permission);
 	}
-
+	
 }

@@ -17,14 +17,9 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
@@ -58,7 +53,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	public void onDisable() {
 		UltimateLib.getInstance().disable();
 	}
-
+	
 	@Override
 	public void registerCommand(UltimateCommand command) {
 		CommandMap map = this.getCommandMap();
@@ -68,51 +63,51 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	}
 	
 	public CommandMap getCommandMap() {
-         Field map;
-         try {
-             map = SimplePluginManager.class.getDeclaredField("commandMap");
-             map.setAccessible(true);
-             return (CommandMap) map.get(this.getServer().getPluginManager());
-         } catch (Exception e) {
-             e.printStackTrace();
-             return null;
-         }
-     }
-
+		Field map;
+		try {
+			map = SimplePluginManager.class.getDeclaredField("commandMap");
+			map.setAccessible(true);
+			return (CommandMap) map.get(this.getServer().getPluginManager());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@Override
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names) {
 		UltimateCommand cmd = new UltimateCommand(plugin, names);
 		this.registerCommand(cmd);
 		return cmd;
 	}
-
+	
 	@Override
 	public WorldLocation getLocation(Object nativeLoc) {
 		Location loc = (Location) nativeLoc;
 		
 		return new WorldLocation(loc.getX(), loc.getY(), loc.getZ(), this.getWorld(loc.getWorld().getName()), loc.getPitch(), loc.getYaw());
 	}
-
+	
 	@Override
 	public WrappedWorld getWorld(String name) {
 		return new BukkitWorld(Bukkit.getWorld(name));
 	}
-
+	
 	@Override
 	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency) {
 		return Bukkit.getScheduler().scheduleSyncRepeatingTask(this, run, startDelay, runFrequency);
 	}
-
+	
 	@Override
 	public int scheduleAsyncTask(Runnable run) {
 		return Bukkit.getScheduler().runTaskAsynchronously(this, run).getTaskId();
 	}
-
+	
 	@Override
 	public void cancelTask(int id) {
 		Bukkit.getScheduler().cancelTask(id);
 	}
-
+	
 	@Override
 	public ArrayList<WrappedWorld> getWorlds() {
 		ArrayList<WrappedWorld> worlds = new ArrayList<WrappedWorld>();
@@ -121,7 +116,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		
 		return worlds;
 	}
-
+	
 	@Override
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -130,7 +125,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		
 		return ret;
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public BukkitOfflinePlayer getOfflinePlayer(String name) {
@@ -138,47 +133,32 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		if (p != null) return new BukkitOfflinePlayer(p);
 		return null;
 	}
-
+	
 	@Override
 	public BukkitOfflinePlayer getOfflinePlayer(UUID uuid) {
 		OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
 		if (p != null) return new BukkitOfflinePlayer(p);
 		return null;
 	}
-
+	
 	@Override
 	public Stack getStack(String material, int ammount) {
 		return new BukkitStack(material, ammount);
 	}
-
+	
 	@Override
 	public boolean isNativePluginPresent(String name) {
 		return (Bukkit.getPluginManager().getPlugin(name) != null);
 	}
-
+	
 	@Override
 	public GUI makeGUI(Stack[] inv, String name, int size) {
 		return new BukkitGUI(inv, name, size);
 	}
-
+	
 	@Override
 	public void sendConsoleCommand(String command) {
 		UltimateLib.getInstance().callSyncTask(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
 	}
-
-	@Override
-	public void setHandler(final ServerHandler handler) {
-		Bukkit.getPluginManager().registerEvents(new Listener() {
-			@EventHandler
-			public void onJoin(PlayerJoinEvent e) {
-				handler.join(new BukkitPlayer(e.getPlayer()));
-			}
-			
-			@EventHandler
-			public void onLeave(PlayerQuitEvent e) {
-				handler.leave(e.getPlayer().getUniqueId());
-			}
-		}, instance);
-	}
-
+	
 }

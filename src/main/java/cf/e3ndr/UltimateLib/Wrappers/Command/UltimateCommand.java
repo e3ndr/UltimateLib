@@ -8,7 +8,6 @@ package cf.e3ndr.UltimateLib.Wrappers.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
@@ -64,9 +63,9 @@ public class UltimateCommand {
 			}
 		}
 		
-		executor.sendMessage(UltimateLogger.transformColor(sb.toString()));
+		executor.sendMessage(sb.toString(), true);
 	}
-
+	
 	public final List<String> tabComplete(WrappedConsole executor, String alias, String[] args) {
 		return this.exec.onTabComplete(executor, alias, args);
 	}

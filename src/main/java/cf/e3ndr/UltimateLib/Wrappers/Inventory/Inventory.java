@@ -18,15 +18,16 @@ public class Inventory {
 	private ArrayList<Stack> inv = new ArrayList<Stack>();
 	private int size;
 	private String name;
-
+	
 	/**
 	 * Instantiates a new inventory.
+	 * 
 	 * @deprecated Never instantiate directly, this is for Bungee support.
 	 */
 	public Inventory() {
 		this(0);
 	}
-
+	
 	/**
 	 * Instantiates a new inventory.
 	 * 
@@ -35,7 +36,7 @@ public class Inventory {
 	public Inventory(int size) {
 		this(null, size);
 	}
-
+	
 	/**
 	 * Instantiates a new inventory.
 	 * 
@@ -55,7 +56,7 @@ public class Inventory {
 	public Inventory(List<Stack> inv, int size) {
 		this(inv, size, "Inventory");
 	}
-
+	
 	/**
 	 * Instantiates a new inventory.
 	 *
@@ -158,7 +159,7 @@ public class Inventory {
 	 */
 	public void removeAll(String type) {
 		Iterator<Stack> it = this.inv.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			if (it.next().getMaterial().equalsIgnoreCase(type)) it.remove();
 		}
 		
@@ -172,7 +173,7 @@ public class Inventory {
 	 */
 	public boolean removeItem(Stack item) {
 		Iterator<Stack> it = this.inv.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			if (it.next() == item) {
 				it.remove();
 				return true;
@@ -181,7 +182,7 @@ public class Inventory {
 		
 		return false;
 	}
-
+	
 	public String getName() {
 		return this.name;
 	}

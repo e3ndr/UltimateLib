@@ -17,7 +17,7 @@ public abstract class Packet {
 	 * @return the type
 	 */
 	public abstract PacketType getType();
-
+	
 	/**
 	 * Checks to see if it is cancelled.
 	 *
@@ -26,7 +26,7 @@ public abstract class Packet {
 	public boolean isCancelled() {
 		return this.cancelled;
 	}
-
+	
 	/**
 	 * Sets the cancellation state.
 	 *

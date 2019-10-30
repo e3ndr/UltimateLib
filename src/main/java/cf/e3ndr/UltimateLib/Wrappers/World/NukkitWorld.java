@@ -39,12 +39,12 @@ public class NukkitWorld implements WrappedWorld {
 	public NukkitWorld(Level level) {
 		this.world = level;
 	}
-
+	
 	@Override
 	public String getName() {
 		return this.world.getName();
 	}
-
+	
 	@Override
 	public List<WrappedPlayer<?>> getPlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -53,12 +53,12 @@ public class NukkitWorld implements WrappedWorld {
 		
 		return ret;
 	}
-
+	
 	@Override
 	public void playSound(WorldLocation loc, String sound, float volume, float pitch) {
 		this.world.addSound(new Vector3f(Double.valueOf(loc.getX()).floatValue(), Double.valueOf(loc.getY()).floatValue(), Double.valueOf(loc.getX()).floatValue()).asVector3(), Sound.valueOf(sound), volume, pitch);
 	}
-
+	
 	@Override
 	public void addParticle(WorldLocation loc, WrappedParticle particle) {
 		this.world.addParticle(getParticle(particle, loc));
@@ -67,26 +67,45 @@ public class NukkitWorld implements WrappedWorld {
 	public static Particle getParticle(WrappedParticle particle, WorldLocation loc) {
 		Vector3 v = new Vector3f(Double.valueOf(loc.getX()).floatValue(), Double.valueOf(loc.getY()).floatValue(), Double.valueOf(loc.getX()).floatValue()).asVector3();
 		switch (particle) {
-			case BUBBLE: return new BubbleParticle(v); // Is there an easier way?
-			case CRITICAL: return new CriticalParticle(v);
-			case BLOCK_FORCE_FIELD: return new BlockForceFieldParticle(v);
-			case SMOKE: return new SmokeParticle(v);
-			case EXPLODE: return new ExplodeParticle(v);
-			case FLAME: return new FlameParticle(v);
-			case LAVA: return new LavaParticle(v);
-			case REDSTONE: return new RedstoneParticle(v);
-			case HUGE_EXPLODE: return new HugeExplodeParticle(v);
-			case HEART: return new HeartParticle(v);
-			case PORTAL: return new PortalParticle(v);
-			case WATER_SPLASH: return new WaterParticle(v);
-			case DRIP_WATER: return new WaterParticle(v);
-			case DRIP_LAVA: return new LavaParticle(v);
-			case RAIN_SPLASH: return new RainSplashParticle(v);
-			case VILLAGER_ANGRY: return new AngryVillagerParticle(v);
-			case VILLAGER_HAPPY: return new HappyVillagerParticle(v);
-			case ENCHANTMENT_TABLE: return new EnchantmentTableParticle(v);
+			case BUBBLE:
+				return new BubbleParticle(v); // Is there an easier way?
+			case CRITICAL:
+				return new CriticalParticle(v);
+			case BLOCK_FORCE_FIELD:
+				return new BlockForceFieldParticle(v);
+			case SMOKE:
+				return new SmokeParticle(v);
+			case EXPLODE:
+				return new ExplodeParticle(v);
+			case FLAME:
+				return new FlameParticle(v);
+			case LAVA:
+				return new LavaParticle(v);
+			case REDSTONE:
+				return new RedstoneParticle(v);
+			case HUGE_EXPLODE:
+				return new HugeExplodeParticle(v);
+			case HEART:
+				return new HeartParticle(v);
+			case PORTAL:
+				return new PortalParticle(v);
+			case WATER_SPLASH:
+				return new WaterParticle(v);
+			case DRIP_WATER:
+				return new WaterParticle(v);
+			case DRIP_LAVA:
+				return new LavaParticle(v);
+			case RAIN_SPLASH:
+				return new RainSplashParticle(v);
+			case VILLAGER_ANGRY:
+				return new AngryVillagerParticle(v);
+			case VILLAGER_HAPPY:
+				return new HappyVillagerParticle(v);
+			case ENCHANTMENT_TABLE:
+				return new EnchantmentTableParticle(v);
 			
-			default: return null;
+			default:
+				return null;
 		}
 	}
 }

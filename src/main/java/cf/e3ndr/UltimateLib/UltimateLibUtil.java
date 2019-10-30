@@ -10,7 +10,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
 public interface UltimateLibUtil extends ServerUtil {
 	public void registerCommand(UltimateCommand command);
+	
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names);
-	public void setHandler(ServerHandler handler);
 	
 }

@@ -13,15 +13,15 @@ public class BukkitCommandPlayer implements WrappedConsole {
 	public BukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
 	}
-
+	
 	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(message);
 	}
-
+	
 	@Override
 	public boolean hasPerm(String permission) {
 		return this.sender.hasPermission(permission);
 	}
-
+	
 }

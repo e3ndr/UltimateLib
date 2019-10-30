@@ -18,7 +18,8 @@ public abstract class Stack {
 		return stack;
 	}
 	
-	protected Stack(String material, int ammount) {}
+	protected Stack(String material, int ammount) {
+	}
 	
 	public abstract int getAmount();
 	
@@ -31,17 +32,17 @@ public abstract class Stack {
 	public abstract void setName(String name);
 	
 	public abstract boolean hasNBT(String nbt);
-
+	
 	public abstract void setNBTString(String nbt, String value);
-
+	
 	public abstract void setNBTInt(String nbt, int value);
-
+	
 	public abstract void setNBTByte(String nbt, byte value);
-
+	
 	public abstract String getNBTString(String nbt);
-
+	
 	public abstract int getNBTInt(String nbt);
-
+	
 	public abstract byte getNBTByte(String nbt);
 	
 	public abstract void removeNBT(String nbt);

@@ -90,7 +90,7 @@ public interface ServerUtil {
 	 * @return the task id
 	 */
 	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency);
-
+	
 	/**
 	 * Schedule async task.
 	 *
@@ -105,7 +105,7 @@ public interface ServerUtil {
 	 * @param id the id
 	 */
 	public void cancelTask(int id);
-
+	
 	/**
 	 * Is a native plugin present.
 	 * 
@@ -125,10 +125,9 @@ public interface ServerUtil {
 	public GUI makeGUI(Stack[] inv, String name, int size);
 	
 	/**
-	 * Sends a command using console.<br/><br/>
+	 * Sends a command using console.<br/>
 	 *
 	 * @param command the command
-	 * @apiNote Unsupported by Bungee.
 	 */
 	public void sendConsoleCommand(String command);
 	
@@ -141,7 +140,7 @@ public interface ServerUtil {
 	 * @return the offline player
 	 */
 	public WrappedOfflinePlayer getOfflinePlayer(UUID uuid);
-
+	
 	/**
 	 * Gets an offline player.
 	 * 
@@ -151,7 +150,7 @@ public interface ServerUtil {
 	 * @return the offline player
 	 */
 	public WrappedOfflinePlayer getOfflinePlayer(String name);
-
+	
 	/**
 	 * Gets all online players.
 	 * 
@@ -160,5 +159,5 @@ public interface ServerUtil {
 	 * @return a list of online players
 	 */
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers();
-
+	
 }

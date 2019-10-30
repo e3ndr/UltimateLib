@@ -16,7 +16,7 @@ public class PluginUtil {
 	public final boolean isBukkit() {
 		return UltimateLib.isBukkit();
 	}
-		
+	
 	/**
 	 * Determines whether or not the server is running Bungee.
 	 * 

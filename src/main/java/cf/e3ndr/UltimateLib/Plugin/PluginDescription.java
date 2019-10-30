@@ -52,7 +52,7 @@ public class PluginDescription {
 	public String getVersion() {
 		return this.config.getString("version");
 	}
-
+	
 	/**
 	 * Returns whether or not the plugin disallows reload.
 	 *
@@ -61,7 +61,7 @@ public class PluginDescription {
 	public boolean disallowReload() {
 		return this.config.getBoolean("disallow-reload", false);
 	}
-
+	
 	/**
 	 * Gets all required dependencies.
 	 *

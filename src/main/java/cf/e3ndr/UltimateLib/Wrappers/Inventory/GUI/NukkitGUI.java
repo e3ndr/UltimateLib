@@ -62,5 +62,5 @@ public class NukkitGUI extends GUI implements Listener {
 		
 		id = nukkit.showFormWindow(this.form);
 	}
-
+	
 }

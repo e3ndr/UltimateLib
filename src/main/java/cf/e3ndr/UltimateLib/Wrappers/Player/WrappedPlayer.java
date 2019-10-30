@@ -71,16 +71,17 @@ public interface WrappedPlayer<T> extends WrappedOfflinePlayer, WrappedConsole, 
 	 * @return the inventory
 	 */
 	public PlayerInventory getInventory();
-
+	
 	/**
 	 * Sets the player's inventory.
 	 *
 	 * @param inv the new inventory
 	 */
 	public void setInventory(Inventory inv);
-
+	
 	/**
 	 * Shows a player an inventory.
+	 * 
 	 * @apiNote This only works on Bukkit.
 	 * 
 	 * @param inv the inventory
@@ -89,16 +90,38 @@ public interface WrappedPlayer<T> extends WrappedOfflinePlayer, WrappedConsole, 
 	
 	/**
 	 * Closes the player's inventory
+	 * 
 	 * @apiNote This only works on Bukkit.
 	 * 
 	 */
 	public void closeInventory();
 	
 	@Override
-	default boolean isConsole() { return false; }
+	default boolean isConsole() {
+		return false;
+	}
+	
 	@Override
-	default boolean isBaby() { return false; }
+	default boolean isBaby() {
+		return false;
+	}
+	
 	@Override
-	default EntityTypes getType() { return EntityTypes.PLAYER; }
-
+	default EntityTypes getType() {
+		return EntityTypes.PLAYER;
+	}
+	
+	@Override
+	default String asString() {
+		return "[" + this.getName() + ":" + this.getUUID() + "]";
+	}
+	
+	@Override
+	default boolean compareEqual(Object o) {
+		if (o instanceof WrappedPlayer<?>) {
+			return this.getUUID().equals(((WrappedPlayer<?>) o).getUUID());
+		}
+		
+		return false;
+	}
 }

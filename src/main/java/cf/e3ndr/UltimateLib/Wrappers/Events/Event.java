@@ -12,7 +12,10 @@ public class Event {
 	private boolean cancelled = false;
 	
 	/**
-	 * Checks if is cancelled.<br/>Events are cancelled by returning false on the event call, this method only shows you plugin that the event has been cancelled by (possibly) another plugin.
+	 * Checks if is cancelled.<br/>
+	 * Events are cancelled by returning false on the event call, this method only
+	 * shows you plugin that the event has been cancelled by (possibly) another
+	 * plugin.
 	 *
 	 * @return true, if is cancelled
 	 */
@@ -21,7 +24,8 @@ public class Event {
 	}
 	
 	/**
-	 * This marks the event as canceled.<br/>Plugins should never call this method directly as it's used internally.
+	 * This marks the event as canceled.<br/>
+	 * Plugins should never call this method directly as it's used internally.
 	 *
 	 */
 	public void cancel() {

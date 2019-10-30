@@ -31,76 +31,90 @@ public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	public WorldLocation getLocation() {
 		return new NullLocation();
 	}
-
+	
 	@Override
 	public UUID getUUID() {
 		if (this.bungee instanceof ProxiedPlayer) return ((ProxiedPlayer) this.bungee).getUniqueId();
 		return null;
 	}
-
+	
 	@Override
-	public GameMode getMode() { return null; }
-
+	public GameMode getMode() {
+		return null;
+	}
+	
 	@Override
-	public void setMode(GameMode gamemode) {}
-
+	public void setMode(GameMode gamemode) {
+	}
+	
 	@Override
-	public boolean teleport(WorldLocation wloc) { return false; }
-
+	public boolean teleport(WorldLocation wloc) {
+		return false;
+	}
+	
 	@Override
 	public long getID() {
 		return -2;
 	}
-
+	
 	@Override
 	public ProxiedPlayer getNative() {
 		if (this.bungee instanceof ProxiedPlayer) return (ProxiedPlayer) this.bungee;
 		return null;
 	}
-
+	
 	@Override
 	public String getDisplayName() {
 		if (this.bungee instanceof ProxiedPlayer) return ((ProxiedPlayer) this.bungee).getDisplayName();
 		return this.getName();
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public PlayerInventory getInventory() {
 		return new PlayerInventory(this);
 	}
-
+	
 	@Override
-	public void setInventory(Inventory inv) {}
-
+	public void setInventory(Inventory inv) {
+	}
+	
 	@Override
-	public void showInventory(Inventory inv) {}
-
+	public void showInventory(Inventory inv) {
+	}
+	
 	@Override
-	public void closeInventory() {}
-
+	public void closeInventory() {
+	}
+	
 	@Override
 	public boolean isOnline() {
 		return this.bungee.isConnected();
 	}
-
+	
 	@Override
 	public String getName() {
 		return this.bungee.getName();
 	}
-
+	
 	@Override
 	public void sendMessage(String message) {
 		this.bungee.sendMessage(new TextComponent(message));
 	}
-
+	
 	@Override
 	public boolean hasPerm(String permission) {
 		return this.bungee.hasPermission(permission);
 	}
-
+	
 	@Override
 	public boolean hasPlayedBefore() {
 		return true;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		return this.compareEqual(o);
+	}
+	
 }

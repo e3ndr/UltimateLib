@@ -26,7 +26,7 @@ public class EventBlock extends Event {
 	public WorldLocation getLocation() {
 		return this.bloc;
 	}
-
+	
 	public boolean isBreakEvent() {
 		return breakEvent;
 	}

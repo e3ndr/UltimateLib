@@ -25,7 +25,7 @@ public class WorldLocation {
 		this.pitch = pitch;
 		this.yaw = yaw;
 	}
-
+	
 	public double getX() {
 		return this.x;
 	}
@@ -49,5 +49,5 @@ public class WorldLocation {
 	public WrappedWorld getWorld() {
 		return this.world;
 	}
-
+	
 }

@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib.InternalPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
+import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Logging.ReturningLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
@@ -18,9 +19,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
 public class CommandUltimateLib extends PluginUtil implements CommandExec {
-	private static final String com = ""
-			+ "&5UltimateLib&r\n"
-			+ "{}";
+	private static final String com = "" + "&5UltimateLib&r\n" + "{}";
 	private static final String tab = "    ";
 	
 	@Override
@@ -33,7 +32,35 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 		(new Thread() {
 			@Override
 			public void run() {
-				if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugin"))) {
+				if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && args[0].equalsIgnoreCase("handler")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(tab);
+					sb.append(com.replace("{}", "&cServerHandler"));
+					sb.append("\n");
+					
+					if (args.length > 1 && args[1].equalsIgnoreCase("check")) {
+						sb.append(tab);
+						sb.append(tab);
+						sb.append("&rRefreshed.\n");
+						ServerHandler.unsafe().check();
+					} if (args.length > 1 && args[1].equalsIgnoreCase("debug")) {
+						boolean value = !ServerHandler.unsafe().logger.getDebug();
+						ServerHandler.unsafe().logger.setDebug(value);
+						sb.append(tab);
+						sb.append(tab);
+						sb.append("&rToggled debug to &7");
+						sb.append(value);
+						sb.append("&r.\n");
+					}
+					
+					sb.append(tab);
+					sb.append(tab);
+					sb.append("&aRegisteredPlayers: &2");
+					sb.append(UltimateLib.getInstance().getOnlinePlayers().size());
+					
+					executor.sendMessage(sb.toString(), true);
+					return;
+				} else if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugin"))) {
 					if (args.length == 1) {
 						String s = "";
 						
@@ -42,9 +69,15 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 							if (p.isEnabled()) {
 								int reg = p.getCommands().size();
 								switch (reg) {
-									case 0: s += p.getDescription().getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n"; break;
-									case 1: s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n"; break;
-									default: s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n"; break;
+									case 0:
+										s += p.getDescription().getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n";
+										break;
+									case 1:
+										s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n";
+										break;
+									default:
+										s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n";
+										break;
 								}
 							} else {
 								s += "&c&o" + p.getName() + "&r&4 is disabled.\n";
@@ -109,7 +142,8 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 				executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", tab + "&r&aVersion " + UltimateLib.getVersion())));
 				return;
 			}
-		}).start(); // Threaded to prevent hangs, useful here but in your plugin it probably isn't that great of an idea. (Depends on situation)
+		}).start(); // Threaded to prevent hangs, useful here but in your plugin it probably isn't
+					// that great of an idea. (Depends on situation)
 		
 		return;
 	}
@@ -122,7 +156,8 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 			if (args.length == 1) {
 				ret.add("plugin");
 			} else if (args.length > 1) {
-				if (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugins")) { // Separated for tidiness :)
+				if (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugins")) { // Separated for
+																									// tidiness :)
 					if (args.length == 2) {
 						for (UltimatePlugin p : UltimateLib.getPlugins()) ret.add(p.getName());
 					} else if (args.length == 3) {

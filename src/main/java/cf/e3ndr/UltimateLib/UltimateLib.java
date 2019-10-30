@@ -50,15 +50,17 @@ public class UltimateLib implements ServerUtil {
 		this.logger.println(UltimateLogger.transformColor(ultimatelib + "&5 version " + version + "\n"));
 		eventLogger = this.logger.newInstance(prefix.replace("{0}", "UltimateLib &8- &dPluginFramework"));
 		new Events();
-		this.handler = new ServerHandler();
+		this.handler = new ServerHandler(util, this.logger);
 		(new PluginLoader(eventLogger, UltimateLib.version)).run();
 		this.util.scheduleSyncTask(new SyncTasks(), 0, 10);
+		this.logger.setDebug(true);
 		
 		this.logger.println("Done! Took " + (System.currentTimeMillis() - start) + "ms");
 	}
-
+	
 	private static UltimateLogger eventLogger;
 	private ArrayList<UltimatePlugin> plugins = new ArrayList<UltimatePlugin>();
+	
 	public static void registerPlugin(UltimatePlugin plugin) {
 		if (getPlugin(plugin.getName()) != null) {
 			eventLogger.println(UltimateLogger.transformColor("&5 Plugin \"&c" + plugin.getName() + "&5\" already loaded in the server! Did you forget to delete old jars?"));
@@ -84,7 +86,7 @@ public class UltimateLib implements ServerUtil {
 	public static String getVersion() {
 		return String.valueOf(version).replace(".0", "");
 	}
-
+	
 	/**
 	 * Gets all registered plugins.
 	 * 
@@ -93,7 +95,7 @@ public class UltimateLib implements ServerUtil {
 	public static List<UltimatePlugin> getPlugins() {
 		return instance.plugins;
 	}
-
+	
 	/**
 	 * Gets a registered plugin.
 	 * 
@@ -136,7 +138,7 @@ public class UltimateLib implements ServerUtil {
 	public static ServerUtil getServer() {
 		return instance.util;
 	}
-
+	
 	/**
 	 * Gets the logger instance.
 	 * 
@@ -154,7 +156,7 @@ public class UltimateLib implements ServerUtil {
 	public static boolean isBukkit() {
 		return (type == ServerType.BUKKIT);
 	}
-		
+	
 	/**
 	 * Determines whether or not the server is running Bungee.
 	 * 
@@ -181,7 +183,7 @@ public class UltimateLib implements ServerUtil {
 	public static boolean isNukkit() {
 		return (type == ServerType.NUKKIT);
 	}
-		
+	
 	/**
 	 * Gets the type of the server.
 	 * 
@@ -190,11 +192,10 @@ public class UltimateLib implements ServerUtil {
 	public static ServerType getServerType() {
 		return type;
 	}
-
+	
 	public void callSyncTask(Runnable run) {
 		SyncTasks.runnables.add(run);
 	}
-	
 	
 	/* Util Start */
 	@SuppressWarnings("deprecation")
@@ -202,74 +203,77 @@ public class UltimateLib implements ServerUtil {
 	public WorldLocation getLocation(Object nativeLoc) {
 		return this.util.getLocation(nativeLoc);
 	}
-
+	
 	@Override
 	public WrappedWorld getWorld(String name) {
 		return this.util.getWorld(name);
 	}
-
+	
 	@Override
 	public Stack getStack(String material, int ammount) {
 		return this.util.getStack(material, ammount);
 	}
-
+	
 	@Override
 	public ArrayList<WrappedWorld> getWorlds() {
 		return this.util.getWorlds();
 	}
-
+	
 	@Override
 	public int scheduleSyncTask(Runnable run, int startDelay, int runFrequency) {
 		return this.util.scheduleSyncTask(run, startDelay, runFrequency);
 	}
-
+	
 	@Override
 	public int scheduleAsyncTask(Runnable run) {
 		return this.util.scheduleAsyncTask(run);
 	}
-
+	
 	@Override
 	public void cancelTask(int id) {
 		this.util.cancelTask(id);
 	}
-
+	
 	@Override
 	public boolean isNativePluginPresent(String name) {
 		return this.util.isNativePluginPresent(name);
 	}
-
+	
 	@Override
 	public GUI makeGUI(Stack[] inv, String name, int size) {
 		return this.util.makeGUI(inv, name, size);
 	}
-
+	
 	@Override
 	public void sendConsoleCommand(String command) {
 		this.util.sendConsoleCommand(command);
 	}
-
+	
 	@Override
 	public WrappedOfflinePlayer getOfflinePlayer(UUID uuid) {
 		return this.handler.getOfflinePlayer(uuid);
 	}
-
+	
 	@Override
 	public WrappedOfflinePlayer getOfflinePlayer(String name) {
 		return this.handler.getOfflinePlayer(name);
 	}
-
+	
 	@Override
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		return this.handler.getOnlinePlayers();
 	}
+	
+}
 
-} class SyncTasks implements Runnable {
+class SyncTasks implements Runnable {
 	public static ArrayList<Runnable> runnables = new ArrayList<>();
+	
 	@Override
 	public void run() {
 		Iterator<Runnable> it = runnables.iterator();
 		
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			it.next().run();
 			it.remove();
 		}

@@ -23,12 +23,12 @@ public class BukkitWorld implements WrappedWorld {
 	public BukkitWorld(World world) {
 		this.world = world;
 	}
-
+	
 	@Override
 	public String getName() {
 		return this.world.getName();
 	}
-
+	
 	@Override
 	public List<WrappedPlayer<?>> getPlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -37,7 +37,7 @@ public class BukkitWorld implements WrappedWorld {
 		
 		return ret;
 	}
-
+	
 	@Override
 	public void playSound(WorldLocation loc, String sound, float volume, float pitch) {
 		this.world.playSound(new Location(this.world, loc.getY(), loc.getZ(), loc.getX(), loc.getPitch(), loc.getYaw()), sound, volume, pitch);

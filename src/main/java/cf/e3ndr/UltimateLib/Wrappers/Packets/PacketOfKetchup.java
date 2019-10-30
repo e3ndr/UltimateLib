@@ -19,9 +19,9 @@ public class PacketOfKetchup extends Packet {
 	public PacketType getType() {
 		return PacketType.UNKNOWN;
 	}
-
+	
 	public Object getObject() {
 		return this.obj;
 	}
-
+	
 }

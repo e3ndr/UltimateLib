@@ -60,7 +60,7 @@
 	          		<relocations>
 	            		<relocation>
 	             	 		<pattern>de.tr7zw.changeme.nbtapi</pattern>
-	             	 		<shadedPattern>de.tr7zw.nbtapi</shadedPattern>
+	             	 		<shadedPattern>cf.e3ndr.Shaded.de.tr7zw.nbtapi</shadedPattern>
 	            		</relocation>
 	          		</relocations>
         		</configuration>
@@ -88,14 +88,14 @@
     </repositories>
     <dependencies>
         <!-- Servers -->
-        <dependency>
-            <groupId>org.bukkit</groupId> <!-- For Bukkit -->
+        <dependency> <!-- For Bukkit -->
+            <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        <dependency> <!-- For Nukkit -->
+    	<dependency> <!-- For Nukkit -->
 		    <groupId>cn.nukkit</groupId>
 		    <artifactId>nukkit</artifactId>
 		    <version>1.0-SNAPSHOT</version>

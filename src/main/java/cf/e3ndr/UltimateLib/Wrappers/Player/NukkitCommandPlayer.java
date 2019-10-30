@@ -13,12 +13,12 @@ public class NukkitCommandPlayer implements WrappedConsole {
 	public NukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
 	}
-
+	
 	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(message);
 	}
-
+	
 	@Override
 	public boolean hasPerm(String permission) {
 		return this.sender.hasPermission(permission);

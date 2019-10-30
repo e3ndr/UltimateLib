@@ -10,6 +10,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
 public interface GUIListener {
 	public boolean clickEvent(GUI gui, Stack stack, WrappedPlayer<?> player, boolean isRightClick);
+	
 	public void closeEvent(GUI gui, WrappedPlayer<?> player);
 	
 }

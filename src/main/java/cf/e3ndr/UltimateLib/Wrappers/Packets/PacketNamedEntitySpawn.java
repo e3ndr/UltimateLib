@@ -18,9 +18,9 @@ public class PacketNamedEntitySpawn extends Packet {
 	public PacketType getType() {
 		return PacketType.NAMED_ENTITY_SPAWN;
 	}
-
+	
 	public WrappedPlayer<?> getPlayer() {
 		return this.player;
 	}
-
+	
 }

@@ -48,7 +48,7 @@ public class HelpArgument {
 	public String getAlias() {
 		return this.alias;
 	}
-
+	
 	/**
 	 * Gets the argument.
 	 *
@@ -66,7 +66,7 @@ public class HelpArgument {
 	public String getPermission() {
 		return this.permission;
 	}
-
+	
 	/**
 	 * Gets the description.
 	 *

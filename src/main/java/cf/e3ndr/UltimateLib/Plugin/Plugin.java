@@ -14,9 +14,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Plugin {
 	boolean needsClassLoader() default true;
+	
 	String pluginName();
+	
 	String colorCode();
+	
 	String version();
+	
 	boolean disallowReload();
 	
 }

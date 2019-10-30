@@ -24,7 +24,9 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 /**
  * The Class UltimatePlugin.
  * 
- * You might want to start by overriding<br/>{@link UltimatePlugin#pluginEnable(UltimateLib)} and<br/>{@link UltimatePlugin#pluginDisable(UltimateLib)}
+ * You might want to start by overriding<br/>
+ * {@link UltimatePlugin#pluginEnable(UltimateLib)} and<br/>
+ * {@link UltimatePlugin#pluginDisable(UltimateLib)}
  */
 public class UltimatePlugin extends PluginUtil {
 	private boolean enabled = false;
@@ -43,7 +45,7 @@ public class UltimatePlugin extends PluginUtil {
 	 * @param eventLogger the event logger
 	 * @param jar the jar file associated with the plugin
 	 * @param loader the classloader associated with the plugin
-	 * @param b 
+	 * @param b
 	 * @return the plugin instance
 	 */
 	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger, JarFile jar, URLClassLoader loader, boolean needsLoader) {
@@ -85,7 +87,8 @@ public class UltimatePlugin extends PluginUtil {
 	/**
 	 * Loads all jar classes
 	 * 
-	 * @deprecated Never use this for anything you do, ever, this is for internal jar loading.
+	 * @deprecated Never use this for anything you do, ever, this is for internal
+	 * jar loading.
 	 */
 	private final void loadClasses() {
 		if (!needsLoader) return;
@@ -110,7 +113,7 @@ public class UltimatePlugin extends PluginUtil {
 	public PluginDescription getYml() {
 		return this.getDescription();
 	}
-
+	
 	/**
 	 * Gets the plugin description.
 	 * 
@@ -122,8 +125,10 @@ public class UltimatePlugin extends PluginUtil {
 	
 	/**
 	 * Register command.
+	 * 
 	 * @deprecated use {@link UltimatePlugin#getCommand(String...)}<br/>
-	 * It's recommended you implement your own permission checking that way you can customize error messages.
+	 * It's recommended you implement your own permission checking that way you can
+	 * customize error messages.
 	 * 
 	 * @param basePerm the base perm
 	 * @param names the names
@@ -141,7 +146,8 @@ public class UltimatePlugin extends PluginUtil {
 	 */
 	public final UltimateCommand getCommand(String... names) {
 		if (this.loaded) {
-			for (UltimateCommand cmd : this.commands) { // This ensures that we never double register this.commands in the server, as that can be problematic.
+			for (UltimateCommand cmd : this.commands) { // This ensures that we never double register this.commands
+														// in the server, as that can be problematic.
 				if (Arrays.equals(cmd.getAliases(), names)) return cmd;
 			}
 		}
@@ -189,7 +195,7 @@ public class UltimatePlugin extends PluginUtil {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Close the plugin.
 	 */
@@ -219,12 +225,15 @@ public class UltimatePlugin extends PluginUtil {
 	
 	/**
 	 * Plugin load.<br/>
-	 * This is called when your plugin is loaded into memory, use this to setup any APIs that you need.<br/>
-	 * Dependencies/Core APIs are recommended to load here, you should treat this method as if no other plugin exists.
+	 * This is called when your plugin is loaded into memory, use this to setup any
+	 * APIs that you need.<br/>
+	 * Dependencies/Core APIs are recommended to load here, you should treat this
+	 * method as if no other plugin exists.
 	 * 
 	 * @param lib the lib
 	 */
-	protected void pluginLoad(UltimateLib lib) {}
+	protected void pluginLoad(UltimateLib lib) {
+	}
 	
 	/**
 	 * Plugin enable.<br/>
@@ -232,15 +241,17 @@ public class UltimatePlugin extends PluginUtil {
 	 * 
 	 * @param lib the lib
 	 */
-	protected void pluginEnable(UltimateLib lib) {}
+	protected void pluginEnable(UltimateLib lib) {
+	}
 	
 	/**
 	 * Plugin disable.
 	 *
 	 * @param lib the lib
 	 */
-	protected void pluginDisable(UltimateLib lib) {}
-
+	protected void pluginDisable(UltimateLib lib) {
+	}
+	
 	/**
 	 * Gets the this.commands related to the plugin.
 	 *
@@ -249,7 +260,7 @@ public class UltimatePlugin extends PluginUtil {
 	public final List<UltimateCommand> getCommands() {
 		return this.commands;
 	}
-
+	
 	/**
 	 * Gets the name of the plugin.
 	 *
@@ -258,7 +269,7 @@ public class UltimatePlugin extends PluginUtil {
 	public String getName() {
 		return this.yml.getName();
 	}
-
+	
 	/**
 	 * Checks if it has been this.loaded.
 	 *
