@@ -6,13 +6,13 @@
 package cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Bukkit.UltimateLibBukkit;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
@@ -40,7 +40,7 @@ public class BukkitGUI extends GUI implements Listener {
 			if (this.listener != null) {
 				Stack s = null;
 				if (e.getCurrentItem() != null) s = new BukkitStack(e.getCurrentItem());
-				e.setCancelled(this.listener.clickEvent(this, s, new BukkitPlayer((Player) e.getWhoClicked()), e.isRightClick()));
+				e.setCancelled(this.listener.clickEvent(this, s, (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getWhoClicked().getUniqueId()), e.isRightClick()));
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public class BukkitGUI extends GUI implements Listener {
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
 		if (e.getInventory().equals(this.inv)) {
-			if (this.listener != null) this.listener.closeEvent(this, new BukkitPlayer((Player) e.getPlayer()));
+			if (this.listener != null) this.listener.closeEvent(this, (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()));
 			e.getHandlers().unregister(this);
 		}
 	}

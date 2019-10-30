@@ -24,6 +24,9 @@ import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 public class BukkitPlayer implements WrappedPlayer<Player> {
 	private Player bukkit;
 	
+	/**
+	 * @deprecated Never instantiate directly
+	 */
 	public BukkitPlayer(Player player) {
 		this.bukkit = player;
 	}
@@ -121,9 +124,9 @@ public class BukkitPlayer implements WrappedPlayer<Player> {
 			if (s == null) continue;
 			
 			if (s instanceof BukkitStack) {
-				ninv.setItem(i, (ItemStack) inv.getSlot(i).getNative());
+				ninv.setItem(i, (ItemStack) s.getNative());
 			} else {
-				ninv.setItem(i, new ItemStack(Material.valueOf(s.getMaterial().toUpperCase()), s.getAmount()));
+				ninv.setItem(i, new ItemStack(Material.valueOf(s.getMaterial().getHolder().bukkitName), s.getAmount()));
 			}
 		}
 		this.bukkit.openInventory(ninv);

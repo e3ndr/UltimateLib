@@ -19,8 +19,7 @@ public abstract class GUI {
 	/**
 	 * Make GUI.
 	 * 
-	 * @apiNote Not available on Bungee.<br/>
-	 * Nukkit creates a form window thus rightclick is not available.
+	 * @apiNote Not available on Bungee.
 	 * 
 	 * @param inv the items
 	 * @param name the name

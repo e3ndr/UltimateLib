@@ -12,13 +12,19 @@ public class EventBlock extends Event {
 	private WorldLocation bloc;
 	private WrappedPlayer<?> player;
 	private boolean breakEvent;
+	private String material;
 	
-	public EventBlock(WorldLocation bloc, WrappedPlayer<?> player, boolean isBreakEvent) {
+	public EventBlock(WorldLocation bloc, WrappedPlayer<?> player, String material, boolean isBreakEvent) {
 		this.bloc = bloc;
 		this.player = player;
 		this.breakEvent = isBreakEvent;
+		this.material = material;
 	}
 	
+	public EventBlock(WorldLocation location, WrappedPlayer<?> player, int id, boolean isBreakEvent) {
+		this(location, player, String.valueOf(id), isBreakEvent);
+	}
+
 	public WrappedPlayer<?> getPlayer() {
 		return this.player;
 	}
@@ -28,6 +34,10 @@ public class EventBlock extends Event {
 	}
 	
 	public boolean isBreakEvent() {
-		return breakEvent;
+		return this.breakEvent;
+	}
+
+	public String getMaterial() {
+		return this.material;
 	}
 }

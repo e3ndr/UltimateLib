@@ -155,6 +155,7 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 		if (executor.hasPerm("UltimateLib.admin")) {
 			if (args.length == 1) {
 				ret.add("plugin");
+				ret.add("handler");
 			} else if (args.length > 1) {
 				if (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugins")) { // Separated for
 																									// tidiness :)
@@ -171,6 +172,9 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 							}
 						}
 					}
+				} else if (args[0].equalsIgnoreCase("handler")) {
+					ret.add("check");
+					ret.add("debug");
 				}
 			}
 		} else {

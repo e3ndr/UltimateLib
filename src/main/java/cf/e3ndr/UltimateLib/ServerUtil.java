@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
@@ -62,7 +63,7 @@ public interface ServerUtil {
 	 * @param ammount the ammount in the stack
 	 * @return the stack
 	 */
-	public Stack getStack(String material, int ammount);
+	public Stack getStack(ItemType material, int ammount);
 	
 	/**
 	 * Gets the worlds on the server.

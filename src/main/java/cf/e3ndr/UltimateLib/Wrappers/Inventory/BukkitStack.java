@@ -17,23 +17,18 @@ public class BukkitStack extends Stack {
 	private NBTItem item;
 	
 	public BukkitStack(ItemStack item) {
-		super(item.getType().name(), item.getAmount());
+		super();
 		this.item = new NBTItem(item);
 	}
 	
-	public BukkitStack(String material, int ammount) {
+	public BukkitStack(ItemType material, int ammount) {
 		super(material, ammount);
-		item = new NBTItem(new ItemStack(Material.valueOf(material.toUpperCase()), ammount));
+		item = new NBTItem(new ItemStack(Material.valueOf(material.getHolder().bukkitName), ammount));
 	}
 	
 	@Override
 	public int getAmount() {
 		return this.getNative().getAmount();
-	}
-	
-	@Override
-	public String getMaterial() {
-		return this.getNative().getType().name();
 	}
 	
 	@Override

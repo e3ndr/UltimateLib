@@ -8,22 +8,29 @@ package cf.e3ndr.UltimateLib.Wrappers.Inventory;
 import cf.e3ndr.UltimateLib.UltimateLib;
 
 public abstract class Stack {
-	public static Stack getStack(String material, String itemName, int ammount) {
+	protected ItemType type;
+	
+	public static Stack getStack(ItemType material, String itemName, int ammount) {
 		Stack stack = UltimateLib.getInstance().getStack(material, ammount);
 		
-		if (itemName != null) {
+		if ((itemName != null) && !itemName.equals("")) {
 			stack.setName(itemName);
 		}
 		
 		return stack;
 	}
 	
-	protected Stack(String material, int ammount) {
+	protected Stack() {}
+	
+	protected Stack(ItemType material, int ammount) {
+		this.type = material;
 	}
 	
 	public abstract int getAmount();
 	
-	public abstract String getMaterial();
+	public final ItemType getMaterial() {
+		return this.type;
+	}
 	
 	public abstract Object getNative();
 	

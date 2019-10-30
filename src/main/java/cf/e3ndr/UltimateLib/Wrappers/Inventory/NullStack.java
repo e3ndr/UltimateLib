@@ -7,18 +7,13 @@ package cf.e3ndr.UltimateLib.Wrappers.Inventory;
 
 public class NullStack extends Stack {
 	
-	public NullStack(String material, int ammount) {
-		super(material, ammount);
+	public NullStack(ItemType material, int ammount) {
+		super();
 	}
 	
 	@Override
 	public int getAmount() {
 		return 0;
-	}
-	
-	@Override
-	public String getMaterial() {
-		return null;
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
+import cf.e3ndr.UltimateLib.Nukkit.NukkitInventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Inventory;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.PlayerInventory;
@@ -22,6 +23,9 @@ import cn.nukkit.network.protocol.TextPacket;
 public class NukkitPlayer implements WrappedPlayer<Player> {
 	private Player nukkit;
 	
+	/**
+	 * @deprecated Never instantiate directly
+	 */
 	public NukkitPlayer(Player player) {
 		this.nukkit = player;
 	}
@@ -115,19 +119,23 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 			if (s == null) continue;
 			
 			if (s instanceof NukkitStack) {
-				this.nukkit.getInventory().setItem(i, (Item) inv.getSlot(i).getNative());
+				this.nukkit.getInventory().setItem(i, (Item) s.getNative());
 			} else {
-				this.nukkit.getInventory().setItem(i, new Item(Integer.valueOf(inv.getSlot(i).getMaterial()), 0, inv.getSlot(i).getAmount()));
+				this.nukkit.getInventory().setItem(i, new Item(s.getMaterial().getHolder().nukkitID, s.getMaterial().getHolder().nukkitData, inv.getSlot(i).getAmount()));
 			}
 			
 		}
 	}
 	
 	@Override
-	public void showInventory(Inventory inv) {}
+	public void showInventory(Inventory inv) {
+		this.nukkit.addWindow(new NukkitInventory(inv));
+	}
 	
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+		this.nukkit.removeAllWindows();
+	}
 	
 	@Override
 	public boolean isOnline() {

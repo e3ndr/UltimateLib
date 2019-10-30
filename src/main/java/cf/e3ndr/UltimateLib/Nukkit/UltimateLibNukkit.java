@@ -13,6 +13,7 @@ import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.NukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NukkitStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
@@ -96,6 +97,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 		return worlds;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -105,6 +107,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 		return ret;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public WrappedPlayer<?> getOfflinePlayer(String name) {
 		Player p = Server.getInstance().getPlayer(name);
@@ -119,7 +122,7 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	}
 	
 	@Override
-	public Stack getStack(String material, int ammount) {
+	public Stack getStack(ItemType material, int ammount) {
 		return new NukkitStack(material, ammount);
 	}
 	
@@ -136,6 +139,11 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	@Override
 	public void sendConsoleCommand(String command) {
 		UltimateLib.getInstance().callSyncTask(() -> Server.getInstance().dispatchCommand(Server.getInstance().getConsoleSender(), command));
+	}
+
+	@Override
+	public int getAmountOnline() {
+		return Server.getInstance().getOnlinePlayers().size();
 	}
 	
 }

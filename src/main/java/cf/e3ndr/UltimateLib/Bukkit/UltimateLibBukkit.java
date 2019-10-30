@@ -26,6 +26,7 @@ import cf.e3ndr.UltimateLib.Logging.BukkitLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.BukkitStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.BukkitGUI;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
@@ -117,6 +118,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		return worlds;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -142,7 +144,7 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	}
 	
 	@Override
-	public Stack getStack(String material, int ammount) {
+	public Stack getStack(ItemType material, int ammount) {
 		return new BukkitStack(material, ammount);
 	}
 	
@@ -159,6 +161,11 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	@Override
 	public void sendConsoleCommand(String command) {
 		UltimateLib.getInstance().callSyncTask(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+	}
+
+	@Override
+	public int getAmountOnline() {
+		return Bukkit.getOnlinePlayers().size();
 	}
 	
 }

@@ -18,6 +18,9 @@ import net.md_5.bungee.chat.ComponentSerializer;
 public class BungeePlayer implements WrappedPlayer<ProxiedPlayer> {
 	private ProxiedPlayer bungee;
 	
+	/**
+	 * @deprecated Never instantiate directly
+	 */
 	public BungeePlayer(ProxiedPlayer player) {
 		this.bungee = player;
 	}

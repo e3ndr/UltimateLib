@@ -13,8 +13,8 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Misc.WrappedParticle;
-import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
 public class BukkitWorld implements WrappedWorld {
@@ -33,7 +33,7 @@ public class BukkitWorld implements WrappedWorld {
 	public List<WrappedPlayer<?>> getPlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
-		for (Player p : this.world.getPlayers()) ret.add(new BukkitPlayer(p));
+		for (Player p : this.world.getPlayers()) ret.add((WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(p.getUniqueId()));
 		
 		return ret;
 	}

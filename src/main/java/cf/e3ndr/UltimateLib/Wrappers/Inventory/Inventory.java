@@ -157,10 +157,10 @@ public class Inventory {
 	 *
 	 * @param type the type
 	 */
-	public void removeAll(String type) {
+	public void removeAll(ItemType type) {
 		Iterator<Stack> it = this.inv.iterator();
 		while (it.hasNext()) {
-			if (it.next().getMaterial().equalsIgnoreCase(type)) it.remove();
+			if (it.next().getMaterial() == type) it.remove();
 		}
 		
 	}

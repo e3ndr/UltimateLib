@@ -13,4 +13,5 @@ public interface UltimateLibUtil extends ServerUtil {
 	
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names);
 	
+	public int getAmountOnline();
 }

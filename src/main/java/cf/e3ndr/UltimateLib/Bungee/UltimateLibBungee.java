@@ -14,6 +14,7 @@ import cf.e3ndr.UltimateLib.UltimateLibUtil;
 import cf.e3ndr.UltimateLib.Logging.BungeeLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.NullStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
@@ -83,6 +84,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 		return new ArrayList<WrappedWorld>();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public ArrayList<WrappedPlayer<?>> getOnlinePlayers() {
 		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
@@ -92,6 +94,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 		return ret;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public WrappedPlayer<?> getOfflinePlayer(String name) {
 		ProxiedPlayer p = ProxyServer.getInstance().getPlayer(name);
@@ -99,6 +102,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 		return null;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public WrappedPlayer<?> getOfflinePlayer(UUID uuid) {
 		ProxiedPlayer p = ProxyServer.getInstance().getPlayer(uuid);
@@ -107,7 +111,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	}
 	
 	@Override
-	public Stack getStack(String material, int ammount) {
+	public Stack getStack(ItemType material, int ammount) {
 		return new NullStack(material, ammount);
 	}
 	
@@ -124,6 +128,11 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	@Override
 	public void sendConsoleCommand(String command) {
 		ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), command);
+	}
+
+	@Override
+	public int getAmountOnline() {
+		return ProxyServer.getInstance().getPlayers().size();
 	}
 	
 }

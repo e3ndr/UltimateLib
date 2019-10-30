@@ -14,6 +14,7 @@ import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.OfflinePlayer.WrappedOfflinePlayer;
@@ -210,7 +211,7 @@ public class UltimateLib implements ServerUtil {
 	}
 	
 	@Override
-	public Stack getStack(String material, int ammount) {
+	public Stack getStack(ItemType material, int ammount) {
 		return this.util.getStack(material, ammount);
 	}
 	

@@ -15,23 +15,23 @@ import cf.e3ndr.UltimateLib.Events;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlock;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventPlayerChat;
-import cf.e3ndr.UltimateLib.Wrappers.Player.BukkitPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
 public class BukkitEventWrapper implements Listener {
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), new BukkitPlayer(e.getPlayer()), false)));
+		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()), e.getBlock().getType().name(), false)));
 	}
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventPlayerChat(e.getMessage(), new BukkitPlayer(e.getPlayer()))));
+		e.setCancelled(Events.getInstance().onEvent(new EventPlayerChat(e.getMessage(), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()))));
 	}
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), new BukkitPlayer(e.getPlayer()), true)));
+		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()), e.getBlock().getType().name(), true)));
 	}
 	
 }

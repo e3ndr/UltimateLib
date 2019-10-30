@@ -11,23 +11,18 @@ public class NukkitStack extends Stack {
 	private Item item;
 	
 	public NukkitStack(Item item) {
-		super(String.valueOf(item.getId()), item.getCount());
+		super();
 		this.item = item;
 	}
 	
-	public NukkitStack(String material, int ammount) {
+	public NukkitStack(ItemType material, int ammount) {
 		super(material, ammount);
-		this.item = new Item(Integer.valueOf(material), 0, ammount);
+		this.item = new Item(material.getHolder().nukkitID, material.getHolder().nukkitData, ammount);
 	}
 	
 	@Override
 	public int getAmount() {
 		return this.item.getCount();
-	}
-	
-	@Override
-	public String getMaterial() {
-		return String.valueOf(item.getId());
 	}
 	
 	@Override

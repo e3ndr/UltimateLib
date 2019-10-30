@@ -13,7 +13,7 @@ import org.bukkit.event.server.ServerCommandEvent;
 import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 
 public class ReloadListener implements Listener {
-	private static final String msg = "&5UltimateLib&r\n    There are plugins preventing server reload, please restart the server.";
+	private static final String msg = "&5UltimateLib&r\n    There are plugins preventing server reload, please restart the server instead.";
 	
 	@EventHandler
 	public void onCommand(ServerCommandEvent event) {
