@@ -8,6 +8,7 @@ package cf.e3ndr.UltimateLib.Plugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
-import cf.e3ndr.UltimateLib.Config.YMLConfig;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
@@ -75,12 +75,12 @@ public class UltimatePlugin extends PluginUtil {
 			eventLogger.println("Plugin \"" + this.getName() + "\" already enabled.");
 		} else {
 			this.loadClasses();
-			this.enabled = true;
 			String verString = "";
 			
 			if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
 			this.pluginEnable(UltimateLib.getInstance());
 			eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
+			this.enabled = true;
 		}
 	}
 	
@@ -174,7 +174,19 @@ public class UltimatePlugin extends PluginUtil {
 	 */
 	public final boolean saveConfig(String config) {
 		new File("plugins/" + this.yml.getName()).mkdirs();
-		return YMLConfig.saveConfig(YMLConfig.getConfig(this.getResourceAsStream(config)), "plugins/" + this.yml.getName() + "/" + config);
+		try {
+			InputStream is = this.getResourceAsStream(config);
+			PrintWriter pw = new PrintWriter(new File("plugins/" + this.yml.getName() + "/" + config));
+			byte[] buf = new byte[is.available()];
+			
+			is.read(buf);
+			pw.append(new String(buf));
+			pw.close();
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	/**

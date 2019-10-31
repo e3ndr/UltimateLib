@@ -19,9 +19,9 @@ public class ItemHolder {
 	 * @return a new ItemHolder
 	 */
 	public ItemHolder(String bukkitName, int bukkitID, String nukkitName, int nukkitID, int nukkitData) {
-		this.bukkitName = "minecraft:" + bukkitName;
+		this.bukkitName = bukkitName.toUpperCase();
 		this.bukkitID = bukkitID;
-		this.nukkitName = "minecraft:" + nukkitName;
+		this.nukkitName = nukkitName.toUpperCase();
 		this.nukkitID = nukkitID;
 		this.nukkitData = nukkitData;
 	}

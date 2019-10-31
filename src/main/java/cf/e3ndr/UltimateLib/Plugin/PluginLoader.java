@@ -53,18 +53,6 @@ public class PluginLoader {
 			JarFile jar = new JarFile(f);
 			Configuration cfg = null;
 			
-			/*
-			 * Enumeration<JarEntry> en = jar.entries(); while (en.hasMoreElements()) { //
-			 * Look for annotation JarEntry e = en.nextElement(); if (!e.isDirectory() &&
-			 * e.getName().endsWith(".class")) { String claz = e.getName().substring(0,
-			 * e.getName().length() - 6).replace("/", "."); Class<?> cls =
-			 * Class.forName(claz); Plugin plug = cls.getAnnotation(Plugin.class); if (plug
-			 * != null) { cfg = new Configuration(); cfg.set("color", plug.colorCode());
-			 * cfg.set("name", plug.pluginName()); cfg.set("main", claz);
-			 * cfg.set("disallow-reload", plug.disallowReload()); cfg.set("needs-loader",
-			 * plug.needsClassLoader()); } else { return; } } }
-			 */
-			
 			if (cfg == null) {
 				JarEntry entry = jar.getJarEntry("ultimate.yml");
 				if (entry == null) {
@@ -107,11 +95,9 @@ public class PluginLoader {
 			UltimateLib.registerPlugin(p.make(yml, logger, jar, plugin, needsLoader));
 			
 			plugin.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Throwable t) {
+			t.printStackTrace();
 			this.logger.println("Unable to load plugin \"" + f.getName() + ".\"");
-		} catch (Error err) {
-			logger.println(UltimateLogger.transformColor("&5Runtime error while enabling plugin \"&c" + f.getName() + "&5\" Plugin can not recover. Error \"&c" + err.toString() + "&5\""));
 		}
 	}
 	

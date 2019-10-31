@@ -31,6 +31,10 @@ public class ServerHandler implements Runnable {
 		return instance;
 	}
 	
+	public void end() {
+		instance = null;
+	}
+	
 	private void fill() {
 		for (WrappedPlayer<?> player : this.util.getOnlinePlayers()) {
 			if (!this.players.contains(player)) {
