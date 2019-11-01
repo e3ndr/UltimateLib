@@ -14,7 +14,7 @@ import cf.e3ndr.UltimateLib.Wrappers.Events.PluginEvent;
 
 public class Events extends EventListener {
 	private static Events instance;
-	private ArrayList<PluginEvent> listeners = new ArrayList<PluginEvent>();
+	private static ArrayList<PluginEvent> listeners = new ArrayList<PluginEvent>();
 	
 	public Events() {
 		instance = this;
@@ -24,7 +24,7 @@ public class Events extends EventListener {
 	 * Register an event.
 	 */
 	public static void addEventListener(UltimatePlugin plugin, EventListener listener) {
-		instance.listeners.add(new PluginEvent(plugin, listener));
+		listeners.add(new PluginEvent(plugin, listener));
 	}
 	
 	public static Events getInstance() {
