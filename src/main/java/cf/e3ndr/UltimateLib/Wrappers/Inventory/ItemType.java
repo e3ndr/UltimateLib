@@ -408,4 +408,19 @@ public enum ItemType {
 		return ret;
 	}
 	
+	public static ItemType getItemFromBukkit(String bukkit) {
+		for (ItemType type : values()) {
+			if (type.getHolder().bukkitName.equalsIgnoreCase(bukkit)) return type;
+		}
+		
+		return AIR;
+	}
+	
+	public static ItemType getItemFromNukkit(int nukkit, int data) {
+		for (ItemType type : values()) {
+			if ((type.getHolder().nukkitID == nukkit) && (type.getHolder().nukkitData == data)) return type;
+		}
+		
+		return AIR;
+	}
 }

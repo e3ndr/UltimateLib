@@ -12,17 +12,7 @@ package cf.e3ndr.UltimateLib.Wrappers.Events;
  * {@link Events.addEventListener(UltimatePlugin, EventListener)} method. When
  * the event event occurs, that object's appropriate method is invoked.
  */
-public interface EventListener {
-	default boolean onEvent(EventBlock e) {
-		return true;
-	}
-	
-	default boolean onEvent(EventPlayerChat e) {
-		return true;
-	}
-	
-	default boolean onEvent(EventInventory e) {
-		return true;
-	}
+public abstract class EventListener {
+	public void onEvent(Event e) {}
 	
 }

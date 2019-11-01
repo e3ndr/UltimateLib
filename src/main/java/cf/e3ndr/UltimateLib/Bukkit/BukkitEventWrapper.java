@@ -13,25 +13,43 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import cf.e3ndr.UltimateLib.Events;
 import cf.e3ndr.UltimateLib.UltimateLib;
-import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlock;
+import cf.e3ndr.UltimateLib.Wrappers.Events.Event;
+import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlockBreak;
+import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlockPlace;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventPlayerChat;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
 public class BukkitEventWrapper implements Listener {
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()), e.getBlock().getType().name(), false)));
+		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
+		Event event = new EventBlockPlace(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), player, ItemType.getItemFromBukkit(e.getBlock().getType().name()));
+		
+		Events.getInstance().onEvent(event);
+		
+		e.setCancelled(event.isCancelled());
 	}
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventPlayerChat(e.getMessage(), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()))));
+		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
+		Event event = new EventPlayerChat(e.getMessage(), player);
+		
+		Events.getInstance().onEvent(event);
+		
+		e.setCancelled(event.isCancelled());
 	}
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
-		e.setCancelled(Events.getInstance().onEvent(new EventBlock(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId()), e.getBlock().getType().name(), true)));
+		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
+		Event event = new EventBlockBreak(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), player, ItemType.getItemFromBukkit(e.getBlock().getType().name()));
+		
+		Events.getInstance().onEvent(event);
+		
+		e.setCancelled(event.isCancelled());
 	}
 	
 }

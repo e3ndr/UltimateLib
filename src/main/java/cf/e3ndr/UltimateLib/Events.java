@@ -8,13 +8,11 @@ package cf.e3ndr.UltimateLib;
 import java.util.ArrayList;
 
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
-import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlock;
-import cf.e3ndr.UltimateLib.Wrappers.Events.EventInventory;
+import cf.e3ndr.UltimateLib.Wrappers.Events.Event;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventListener;
-import cf.e3ndr.UltimateLib.Wrappers.Events.EventPlayerChat;
 import cf.e3ndr.UltimateLib.Wrappers.Events.PluginEvent;
 
-public class Events implements EventListener {
+public class Events extends EventListener {
 	private static Events instance;
 	private ArrayList<PluginEvent> listeners = new ArrayList<PluginEvent>();
 	
@@ -34,27 +32,10 @@ public class Events implements EventListener {
 	}
 	
 	@Override
-	public boolean onEvent(EventBlock e) {
-		for (PluginEvent p : listeners) if (p.getPlugin().isEnabled() && !p.getListener().onEvent(e)) e.cancel();
+	public void onEvent(Event e) { // THE VOID IS ETERNAL
+		for (PluginEvent p : listeners) p.getListener().onEvent(e);
 		
-		return e.isCancelled();
 	}
 	
-	// it goes on and on and on
-	@Override
-	public boolean onEvent(EventPlayerChat e) {
-		for (PluginEvent p : listeners) if (p.getPlugin().isEnabled() && !p.getListener().onEvent(e)) e.cancel();
-		
-		return e.isCancelled();
-	}
-	
-	// and on
-	@Override
-	public boolean onEvent(EventInventory e) {
-		for (PluginEvent p : listeners) if (p.getPlugin().isEnabled() && !p.getListener().onEvent(e)) e.cancel();
-		
-		return e.isCancelled();
-	}
-	// having such a good time
 	
 }
