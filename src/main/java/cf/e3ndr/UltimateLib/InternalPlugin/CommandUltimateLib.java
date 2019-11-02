@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib.InternalPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cf.e3ndr.UltimateLib.ServerHandler;
@@ -32,8 +33,9 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 		(new Thread() {
 			@Override
 			public void run() {
+				StringBuilder sb = new StringBuilder();
+				
 				if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && args[0].equalsIgnoreCase("handler")) {
-					StringBuilder sb = new StringBuilder();
 					sb.append(tab);
 					sb.append(com.replace("{}", "&cServerHandler"));
 					sb.append("\n");
@@ -57,54 +59,63 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 					sb.append(tab);
 					sb.append("&aRegisteredPlayers: &2");
 					sb.append(UltimateLib.getInstance().getOnlinePlayers().size());
-					
-					executor.sendMessage(sb.toString(), true);
-					return;
-				} else if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && (args[0].equalsIgnoreCase("plugin") || args[0].equalsIgnoreCase("plugin"))) {
+				} else if ((args.length > 0) && executor.hasPerm("UltimateLib.admin") && (args[0].equalsIgnoreCase("plugins") || args[0].equalsIgnoreCase("plugin"))) {
 					if (args.length == 1) {
-						String s = "";
-						
 						for (UltimatePlugin p : UltimateLib.getPlugins()) {
-							s += tab;
+							sb.append(tab);
 							if (p.isEnabled()) {
+								sb.append(p.getDescription().getColor());
+								sb.append("&o");
+								sb.append(p.getName());
+								
 								int reg = p.getCommands().size();
 								switch (reg) {
 									case 0:
-										s += p.getDescription().getColor() + "&o" + p.getName() + "&r doesn\'t have any commands registered.\n";
+										sb.append("&r doesn\'t have any commands registered.\n");
 										break;
 									case 1:
-										s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " command registered.\n";
+										sb.append("&r has 1 command registered.\n");
 										break;
 									default:
-										s += p.getDescription().getColor() + "&o" + p.getName() + "&r has " + reg + " commands registered.\n";
+										sb.append("&r has " );
+										sb.append(reg);
+										sb.append(" commands registered.\n");
 										break;
 								}
 							} else {
-								s += "&c&o" + p.getName() + "&r&4 is disabled.\n";
+								sb.append("&c&o");
+								sb.append(p.getName());
+								sb.append("&r&4 is disabled.\n");
 							}
 						}
-						// TODO multiple pages, and string builder
-						executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", s)));
-						return;
 					} else if (args.length == 2) {
 						for (UltimatePlugin p : UltimateLib.getPlugins()) {
 							if (p.getName().equalsIgnoreCase(args[1])) {
-								String s = tab + p.getDescription().getColor() + "&o" + p.getName() + "&r\n";
+								sb.append(tab);
+								sb.append(p.getDescription().getColor());
+								sb.append("&o");
+								sb.append(p.getName());
+								sb.append("&r\n");
 								
 								if (p.getCommands().size() > 0) {
-									s += "\n" + tab + tab + "&aCommands:&r\n&2";
+									sb.append("\n");
+									sb.append(tab);
+									sb.append(tab);
+									sb.append("&aCommands:&r\n&2");
+									
 									for (UltimateCommand c : p.getCommands()) {
-										s += tab + tab + tab + c.getAliases()[0] + " (";
-										for (String n : c.getAliases()) s += n + ", ";
-										s = s.substring(0, s.length() - 2) + ")\n";
+										sb.append(tab);
+										sb.append(tab);
+										sb.append(tab);
+										sb.append(c.getAliases()[0]);
+										sb.append(" (");
+										sb.append(Arrays.toString(c.getAliases()).replace("[", "").replace("]", ""));
+										sb.append(")\n");
 									}
 								} else {
-									s += tab + "&cNo commands registered.\n";
+									sb.append(tab);
+									sb.append("&cNo commands registered.\n");
 								}
-								
-								executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", s)));
-								
-								return;
 							}
 						}
 						
@@ -117,7 +128,7 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " UltimateLibPlugin cannot be disabled as it\'s internal and eternal."));
 										return;
 									} else if (args[2].equalsIgnoreCase("disable")) {
-										p.close();
+										UltimateLib.getInstance().callSyncTask(() -> p.close());
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &2Sucessfully disabled \"&a" + args[0] + "&5\""));
 									} else {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
@@ -129,18 +140,17 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
 									}
 								}
-								
-								return;
 							}
 						}
 						
 						executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Cannot find plugin \"&c" + args[0] + "&5\""));
 						return;
 					}
+				} else {
+					sb.append(com.replace("{}", tab + "&r&aVersion " + UltimateLib.getVersion()));
 				}
 				
-				executor.sendMessage(UltimateLogger.transformColor(com.replace("{}", tab + "&r&aVersion " + UltimateLib.getVersion())));
-				return;
+				executor.sendMessage(sb.toString(), true);
 			}
 		}).start(); // Threaded to prevent hangs, useful here but in your plugin it probably isn't
 					// that great of an idea. (Depends on situation)

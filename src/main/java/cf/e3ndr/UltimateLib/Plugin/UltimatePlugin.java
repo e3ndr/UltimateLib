@@ -215,6 +215,8 @@ public class UltimatePlugin extends PluginUtil {
 		this.enabled = false;
 		this.pluginDisable(UltimateLib.getInstance());
 		for (UltimateCommand c : this.commands) c.setExecutor(new DeadExecutor(this));
+		// this.loader = new URLClassLoader(this.loader.getURLs()); // Going to be used down the line for dynamic jar loading.
+		
 	}
 	
 	/**
