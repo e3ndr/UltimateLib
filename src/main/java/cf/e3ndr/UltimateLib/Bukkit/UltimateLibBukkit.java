@@ -40,6 +40,7 @@ import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	public static UltimateLibBukkit instance;
 	private BukkitEventWrapper listener = new BukkitEventWrapper();
+	private ArrayList<Command> cmds = new ArrayList<>();
 	
 	@Override
 	public void onEnable() {
@@ -60,7 +61,15 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 		CommandMap map = this.getCommandMap();
 		Command cmd = new BukkitCMD(command.getAliases()[0], new ArrayList<String>(Arrays.asList(command.getAliases())), command);
 		
+		this.cmds.add(cmd);
 		map.register(command.getPlugin().getName(), cmd);
+	}
+	
+	@Override
+	public void unregisterCommands() {
+		CommandMap map = this.getCommandMap();
+		
+		for (Command c : this.cmds) c.unregister(map);
 	}
 	
 	public CommandMap getCommandMap() {

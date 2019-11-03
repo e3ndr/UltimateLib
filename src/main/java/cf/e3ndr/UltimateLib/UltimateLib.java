@@ -125,6 +125,8 @@ public class UltimateLib implements ServerUtil {
 		if (instance.plugins.size() > 9) str += " Whew! That\'s alot!";
 		eventLogger.println(str);
 		for (UltimatePlugin up : instance.plugins) up.close();
+		this.util.unregisterCommands();
+		this.plugins = new ArrayList<>();
 		
 		instance = null;
 	}

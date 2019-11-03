@@ -129,9 +129,11 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 										return;
 									} else if (args[2].equalsIgnoreCase("disable")) {
 										UltimateLib.getInstance().callSyncTask(() -> p.close());
-										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &2Sucessfully disabled \"&a" + args[0] + "&5\""));
+										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &rSucessfully disabled \"&8" + args[1] + "&r\""));
+										return;
 									} else {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
+										return;
 									}
 								} else {
 									if (args[2].equalsIgnoreCase("enable")) {

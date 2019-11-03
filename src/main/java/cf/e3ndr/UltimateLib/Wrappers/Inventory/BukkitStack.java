@@ -17,7 +17,7 @@ public class BukkitStack extends Stack {
 	private NBTItem item;
 	
 	public BukkitStack(ItemStack item) {
-		super();
+		super(ItemType.getItemFromBukkit(item.getType().name()), item.getAmount());
 		this.item = new NBTItem(item);
 	}
 	

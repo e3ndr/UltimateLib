@@ -50,13 +50,22 @@ public interface WrappedEntity<T> extends IComparable {
 	 * @return true, if it is a baby
 	 */
 	public boolean isBaby();
-	
+
 	/**
 	 * Gets the type.
 	 *
 	 * @return the type
 	 */
 	public EntityTypes getType();
+
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
+	default String getStringType() {
+		return this.getType().name();
+	}
 	
 	/**
 	 * Gets the native object.
@@ -78,4 +87,5 @@ public interface WrappedEntity<T> extends IComparable {
 		
 		return false;
 	}
+	
 }

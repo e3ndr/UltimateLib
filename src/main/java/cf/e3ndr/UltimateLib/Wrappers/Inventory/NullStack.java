@@ -8,7 +8,7 @@ package cf.e3ndr.UltimateLib.Wrappers.Inventory;
 public class NullStack extends Stack {
 	
 	public NullStack(ItemType material, int ammount) {
-		super();
+		super(material, ammount);
 	}
 	
 	@Override

@@ -79,7 +79,7 @@ public class UltimatePlugin extends PluginUtil {
 			
 			if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
 			this.pluginEnable(UltimateLib.getInstance());
-			eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
+			eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "&r."));
 			this.enabled = true;
 		}
 	}

@@ -20,8 +20,6 @@ public abstract class Stack {
 		return stack;
 	}
 	
-	protected Stack() {}
-	
 	protected Stack(ItemType material, int ammount) {
 		this.type = material;
 	}
@@ -60,9 +58,10 @@ public abstract class Stack {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Stack) {
+		if ((obj != null) && (obj instanceof Stack)) {
 			Stack other = (Stack) obj;
-			if (other.getName().equals(this.getName()) && other.getMaterial().equals(this.getMaterial()) && (other.getAmount() == this.getAmount())) {
+			boolean name = ((other.getName() == null) || (this.getName() == null)) ? other.getName() == this.getName() : other.getName().equals(this.getName());
+			if (name && other.getMaterial().equals(this.getMaterial()) && (other.getAmount() == this.getAmount())) {
 				return true;
 			} else {
 				return false;

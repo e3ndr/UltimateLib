@@ -27,6 +27,7 @@ import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 import cn.nukkit.IPlayer;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
+import cn.nukkit.command.Command;
 import cn.nukkit.command.SimpleCommandMap;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
@@ -52,6 +53,13 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	public void registerCommand(UltimateCommand command) {
 		SimpleCommandMap map = Server.getInstance().getCommandMap();
 		map.register(command.getPlugin().getName(), new NukkitCMD(command.getAliases()[0], command.getAliases(), command));
+	}
+	
+	@Override
+	public void unregisterCommands() {
+		SimpleCommandMap map = Server.getInstance().getCommandMap();
+		
+		for (Command c : map.getCommands().values()) c.unregister(map);
 	}
 	
 	@Override

@@ -48,6 +48,11 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	}
 	
 	@Override
+	public void unregisterCommands() {
+		ProxyServer.getInstance().getPluginManager().unregisterCommands(this);
+	}
+	
+	@Override
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names) {
 		UltimateCommand cmd = new UltimateCommand(plugin, names);
 		this.registerCommand(cmd);

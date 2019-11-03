@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib.Wrappers.Entity;
 
 public enum EntityTypes {
-	PLAYER
+	PLAYER,
+	UNKNOWN
 	// TODO
 }

@@ -11,7 +11,7 @@ public class NukkitStack extends Stack {
 	private Item item;
 	
 	public NukkitStack(Item item) {
-		super();
+		super(ItemType.getItemFromNukkit(item.getId(), item.getDamage()), item.count);
 		this.item = item;
 	}
 	

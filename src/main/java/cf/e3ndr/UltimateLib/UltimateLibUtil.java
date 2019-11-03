@@ -11,6 +11,8 @@ import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 public interface UltimateLibUtil extends ServerUtil {
 	public void registerCommand(UltimateCommand command);
 	
+	public void unregisterCommands();
+	
 	public UltimateCommand makeCommand(UltimatePlugin plugin, String[] names);
 	
 	public int getAmountOnline();
