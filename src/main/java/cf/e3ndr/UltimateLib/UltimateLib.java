@@ -120,10 +120,14 @@ public class UltimateLib implements ServerUtil {
 	}
 	
 	public void disable() {
-		String str = "Disabling " + instance.plugins.size() + " plugins.";
-		if (instance.plugins.size() == 1) str = str.replace("plugins", "plugin"); // Just neatness :)
-		if (instance.plugins.size() > 9) str += " Whew! That\'s alot!";
-		eventLogger.println(str);
+		StringBuilder sb = new StringBuilder();
+		sb.append("Disablingc");
+		sb.append(this.plugins.size());
+		sb.append(" plugin");
+		if (instance.plugins.size() != 1) sb.append("s");
+		sb.append(".");
+		if (instance.plugins.size() > 9) sb.append(" Whew! That\'s alot!");
+		eventLogger.println(sb.toString());
 		for (UltimatePlugin up : instance.plugins) up.unload();
 		this.plugins = new ArrayList<>();
 		

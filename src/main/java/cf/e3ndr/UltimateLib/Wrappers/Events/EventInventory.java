@@ -41,4 +41,10 @@ public class EventInventory extends Event {
 	public Stack getItem() {
 		return this.item;
 	}
+	
+	@Override
+	public EventType getEventType() {
+		return EventType.INVENTORY;
+	}
+	
 }

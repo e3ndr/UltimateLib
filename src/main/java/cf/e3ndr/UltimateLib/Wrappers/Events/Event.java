@@ -8,7 +8,7 @@ package cf.e3ndr.UltimateLib.Wrappers.Events;
 /**
  * The Class Event.
  */
-public class Event {
+public abstract class Event {
 	private boolean cancelled = false;
 	
 	/**
@@ -23,12 +23,24 @@ public class Event {
 		return this.cancelled;
 	}
 	
+	public void setCancelled(boolean state) {
+		this.cancelled = state;
+	}
+
 	/**
-	 * This marks the event as canceled.<br/>
-	 * Plugins should never call this method directly as it's used internally.
-	 *
+	 * This marks the event as canceled.
+	 * @deprecated Use {@link Event#setCancelled(boolean)}
+	 * 
 	 */
 	public void cancel() {
-		this.cancelled = true;
+		this.setCancelled(true);
 	}
+
+	/**
+	 * Gets the type of the event.
+	 * 
+	 * @return the event type
+	 */
+	public abstract EventType getEventType();
+	
 }

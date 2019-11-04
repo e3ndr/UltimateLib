@@ -14,4 +14,9 @@ public class EventBlockPlace extends EventBlock {
 		super(bloc, player, material);
 	}
 	
+	@Override
+	public EventType getEventType() {
+		return EventType.BLOCKPLACE;
+	}
+	
 }

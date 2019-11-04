@@ -58,4 +58,10 @@ public class EventBlock extends Event {
 	public ItemType getMaterial() {
 		return this.material;
 	}
+	
+	@Override
+	public EventType getEventType() {
+		return EventType.BLOCK;
+	}
+	
 }

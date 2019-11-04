@@ -123,15 +123,19 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 					} else if (args.length == 3) {
 						for (UltimatePlugin p : UltimateLib.getPlugins()) {
 							if (p.getName().equalsIgnoreCase(args[1])) {
-								if (p.isEnabled()) {
-									if (p.getName().equalsIgnoreCase("UltimateLibPlugin") && args[2].equalsIgnoreCase("disable")) {
-										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " UltimateLibPlugin cannot be disabled as it\'s internal and eternal."));
+								if (args[2].equalsIgnoreCase("unload")) {
+									UltimateLib.getInstance().callSyncTask(() -> p.unload());
+									executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &rSucessfully unloaded \"&8" + args[1] + "&r\""));
+									return;
+								} else if (p.isEnabled()) {
+									if (p.getName().equalsIgnoreCase("UltimateLibPlugin")) {
+										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " UltimateLibPlugin is internal and eternal."));
 										return;
 									} else if (args[2].equalsIgnoreCase("disable")) {
 										UltimateLib.getInstance().callSyncTask(() -> p.close());
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &rSucessfully disabled \"&8" + args[1] + "&r\""));
 										return;
-									} else {
+									}  else {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
 										return;
 									}
@@ -178,6 +182,7 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 							if (p.getName().equalsIgnoreCase(args[1])) {
 								if (p.isEnabled()) {
 									ret.add("disable");
+									ret.add("unload");
 								} else {
 									ret.add("enable");
 								}

@@ -20,5 +20,10 @@ public class EventBlockBreak extends EventBlock {
 	public EventBlockBreak(WorldLocation bloc, WrappedPlayer<?> player, ItemType material) {
 		super(bloc, player, material);
 	}
+
+	@Override
+	public EventType getEventType() {
+		return EventType.BLOCKPLACE;
+	}
 	
 }

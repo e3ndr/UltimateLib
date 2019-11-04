@@ -42,4 +42,9 @@ public class EventPlayerChat extends Event {
 	public String getMessage() {
 		return this.message;
 	}
+	
+	@Override
+	public EventType getEventType() {
+		return EventType.PLAYERCHAT;
+	}
 }
