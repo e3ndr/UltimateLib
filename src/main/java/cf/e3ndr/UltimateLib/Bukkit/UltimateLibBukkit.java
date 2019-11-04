@@ -8,6 +8,8 @@ package cf.e3ndr.UltimateLib.Bukkit;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -15,7 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,7 +42,6 @@ import cf.e3ndr.UltimateLib.Wrappers.World.WrappedWorld;
 public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	public static UltimateLibBukkit instance;
 	private BukkitEventWrapper listener = new BukkitEventWrapper();
-	private ArrayList<Command> cmds = new ArrayList<>();
 	
 	@Override
 	public void onEnable() {
@@ -58,26 +59,34 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	
 	@Override
 	public void registerCommand(UltimateCommand command) {
-		CommandMap map = this.getCommandMap();
+		SimpleCommandMap map = this.getCommandMap();
 		Command cmd = new BukkitCMD(command.getAliases()[0], new ArrayList<String>(Arrays.asList(command.getAliases())), command);
 		
-		this.cmds.add(cmd);
 		map.register(command.getPlugin().getName(), cmd);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void unregisterCommands() {
-		CommandMap map = this.getCommandMap();
-		
-		for (Command c : this.cmds) c.unregister(map);
+		SimpleCommandMap map = this.getCommandMap();
+		try {
+			Field knownCommands = map.getClass().getDeclaredField("knownCommands");
+			knownCommands.setAccessible(true);
+			Map<String, Command> cmds = (Map<String, Command>) knownCommands.get(map);
+			
+			Iterator<Command> it = cmds.values().iterator();
+			while (it.hasNext()) {
+				if (it.next() instanceof BukkitCMD) it.remove();
+			}
+		} catch (Exception e) {}
 	}
 	
-	public CommandMap getCommandMap() {
+	public SimpleCommandMap getCommandMap() {
 		Field map;
 		try {
 			map = SimplePluginManager.class.getDeclaredField("commandMap");
 			map.setAccessible(true);
-			return (CommandMap) map.get(this.getServer().getPluginManager());
+			return (SimpleCommandMap) map.get(this.getServer().getPluginManager());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

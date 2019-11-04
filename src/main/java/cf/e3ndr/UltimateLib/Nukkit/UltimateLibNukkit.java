@@ -5,7 +5,10 @@
  */
 package cf.e3ndr.UltimateLib.Nukkit;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
@@ -52,14 +55,24 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	@Override
 	public void registerCommand(UltimateCommand command) {
 		SimpleCommandMap map = Server.getInstance().getCommandMap();
-		map.register(command.getPlugin().getName(), new NukkitCMD(command.getAliases()[0], command.getAliases(), command));
+		Command cmd = new NukkitCMD(command.getAliases()[0], command.getAliases(), command);
+		map.register(command.getPlugin().getName(), cmd);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void unregisterCommands() {
 		SimpleCommandMap map = Server.getInstance().getCommandMap();
-		
-		for (Command c : map.getCommands().values()) c.unregister(map);
+		try {
+			Field knownCommands = map.getClass().getDeclaredField("knownCommands");
+			knownCommands.setAccessible(true);
+			Map<String, Command> cmds = (Map<String, Command>) knownCommands.get(map);
+			
+			Iterator<Command> it = cmds.values().iterator();
+			while (it.hasNext()) {
+				if (it.next() instanceof NukkitCMD) it.remove();
+			}
+		} catch (Exception e) {}
 	}
 	
 	@Override

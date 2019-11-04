@@ -220,6 +220,21 @@ public class UltimatePlugin extends PluginUtil {
 	}
 	
 	/**
+	 * Unload the plugin.
+	 */
+	public final void unload() {
+		if (this.enabled) this.close();
+		try {
+			this.loader.close();
+			this.jar.close();
+		} catch (IOException e) {}
+		
+		this.loader = null;
+		this.jar = null;
+		
+	}
+	
+	/**
 	 * Gets the logger.
 	 *
 	 * @return the logger

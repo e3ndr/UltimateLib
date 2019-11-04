@@ -124,8 +124,7 @@ public class UltimateLib implements ServerUtil {
 		if (instance.plugins.size() == 1) str = str.replace("plugins", "plugin"); // Just neatness :)
 		if (instance.plugins.size() > 9) str += " Whew! That\'s alot!";
 		eventLogger.println(str);
-		for (UltimatePlugin up : instance.plugins) up.close();
-		this.util.unregisterCommands();
+		for (UltimatePlugin up : instance.plugins) up.unload();
 		this.plugins = new ArrayList<>();
 		
 		instance = null;
