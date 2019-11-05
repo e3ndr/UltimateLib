@@ -49,6 +49,8 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	
 	@Override
 	public void onDisable() {
+		Server.getInstance().getScheduler().cancelTask(this);
+		
 		UltimateLib.getInstance().disable();
 	}
 	
@@ -64,15 +66,23 @@ public class UltimateLibNukkit extends PluginBase implements UltimateLibUtil {
 	public void unregisterCommands() {
 		SimpleCommandMap map = Server.getInstance().getCommandMap();
 		try {
-			Field knownCommands = map.getClass().getDeclaredField("knownCommands");
+			Field knownCommands = SimpleCommandMap.class.getDeclaredField("knownCommands");
 			knownCommands.setAccessible(true);
+			
 			Map<String, Command> cmds = (Map<String, Command>) knownCommands.get(map);
 			
 			Iterator<Command> it = cmds.values().iterator();
 			while (it.hasNext()) {
-				if (it.next() instanceof NukkitCMD) it.remove();
+				Command c = it.next();
+				if (c instanceof NukkitCMD) {
+					it.remove();
+				}
 			}
-		} catch (Exception e) {}
+			
+			knownCommands.set(map, cmds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

@@ -12,9 +12,12 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 
 import cf.e3ndr.UltimateLib.Events;
 import cf.e3ndr.UltimateLib.UltimateLib;
+import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlockBreak;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventBlockPlace;
 import cf.e3ndr.UltimateLib.Wrappers.Events.EventEntityDeath;
@@ -25,6 +28,23 @@ import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
 
 public class BukkitEventWrapper implements Listener {
+	private static final String msg = "&5UltimateLib&r\n    There are plugins preventing server reload, please restart the server instead.";
+	
+	@EventHandler
+	public void onCommand(ServerCommandEvent event) {
+		if (event.getCommand().toLowerCase().startsWith("reload") && !PluginLoader.canReload()) {
+			event.setCancelled(true);
+			event.getSender().sendMessage(msg);
+		}
+	}
+	
+	@EventHandler
+	public void onCommand(PlayerCommandPreprocessEvent event) {
+		if (event.getMessage().toLowerCase().startsWith("/reload") && !PluginLoader.canReload()) {
+			event.setCancelled(true);
+			event.getPlayer().sendMessage(msg);
+		}
+	}
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {

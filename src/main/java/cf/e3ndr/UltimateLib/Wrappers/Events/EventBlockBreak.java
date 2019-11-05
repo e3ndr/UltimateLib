@@ -23,7 +23,7 @@ public class EventBlockBreak extends EventBlock {
 
 	@Override
 	public EventType getEventType() {
-		return EventType.BLOCKPLACE;
+		return EventType.BLOCKBREAK;
 	}
 	
 }

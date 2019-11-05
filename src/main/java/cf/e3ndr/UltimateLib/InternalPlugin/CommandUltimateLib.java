@@ -13,6 +13,7 @@ import cf.e3ndr.UltimateLib.ServerHandler;
 import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Logging.ReturningLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
+import cf.e3ndr.UltimateLib.Plugin.PluginLoader;
 import cf.e3ndr.UltimateLib.Plugin.PluginUtil;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.CommandExec;
@@ -88,6 +89,10 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 								sb.append("&r&4 is disabled.\n");
 							}
 						}
+					}  else if ((args.length == 2) && args[1].equalsIgnoreCase("reload")) {
+						PluginLoader.instance.run();
+						executor.sendMessage("Loaded all new plugins.");
+						return;
 					} else if (args.length == 2) {
 						for (UltimatePlugin p : UltimateLib.getPlugins()) {
 							if (p.getName().equalsIgnoreCase(args[1])) {
@@ -136,14 +141,15 @@ public class CommandUltimateLib extends PluginUtil implements CommandExec {
 										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &rSucessfully disabled \"&8" + args[1] + "&r\""));
 										return;
 									}  else {
-										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
+										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[2] + "&5\""));
 										return;
 									}
 								} else {
 									if (args[2].equalsIgnoreCase("enable")) {
 										UltimateLib.getInstance().callSyncTask(() -> p.init(new ReturningLogger(executor, "UltimateLib")));
+										return;
 									} else {
-										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[1] + "&5\""));
+										executor.sendMessage(UltimateLogger.transformColor(UltimateLib.prefix.replace("{0}", "UltimateLib") + " &4Unknown argument \"&c" + args[2] + "&5\""));
 									}
 								}
 							}

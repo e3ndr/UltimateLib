@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib.Bukkit;
 
 import java.lang.reflect.Field;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -46,15 +47,34 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	@Override
 	public void onEnable() {
 		instance = this;
-		Bukkit.getPluginManager().registerEvents(new ReloadListener(), this);
 		Bukkit.getPluginManager().registerEvents(listener, this);
 		new UltimateLib(this, new BukkitLogger(UltimateLib.prefix.replace("{0}", "UltimateLib")), "BUKKIT", this.getDescription().getVersion());
-		
 	}
 	
 	@Override
 	public void onDisable() {
+		instance = null;
+		Bukkit.getScheduler().cancelTasks(this);
+		
+		try {
+			URLClassLoader url = (URLClassLoader) this.getClassLoader();
+			
+			url.close();
+			
+			Field pluginField = url.getClass().getDeclaredField("plugin");
+			pluginField.setAccessible(true); // Reflection for bukkit's own classloader
+			pluginField.set(url, null);
+			
+			Field pluginInitField = url.getClass().getDeclaredField("pluginInit");
+			pluginInitField.setAccessible(true);
+			pluginInitField.set(url, null);
+		} catch (Throwable t) {
+			UltimateLib.getLogger("ULNative").println("&5Could not release own file, this may cause issues.&e\n" + t.getMessage(), true);
+		}
+		
 		UltimateLib.getInstance().disable();
+		
+		System.gc(); // :)
 	}
 	
 	@Override
@@ -70,15 +90,23 @@ public class UltimateLibBukkit extends JavaPlugin implements UltimateLibUtil {
 	public void unregisterCommands() {
 		SimpleCommandMap map = this.getCommandMap();
 		try {
-			Field knownCommands = map.getClass().getDeclaredField("knownCommands");
+			Field knownCommands = SimpleCommandMap.class.getDeclaredField("knownCommands");
 			knownCommands.setAccessible(true);
+			
 			Map<String, Command> cmds = (Map<String, Command>) knownCommands.get(map);
 			
 			Iterator<Command> it = cmds.values().iterator();
 			while (it.hasNext()) {
-				if (it.next() instanceof BukkitCMD) it.remove();
+				Command c = it.next();
+				if (c instanceof BukkitCMD) {
+					it.remove();
+				}
 			}
-		} catch (Exception e) {}
+			
+			knownCommands.set(map, cmds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public SimpleCommandMap getCommandMap() {

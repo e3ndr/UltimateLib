@@ -14,10 +14,11 @@ import cf.e3ndr.UltimateLib.Wrappers.Events.PluginEvent;
 
 public class Events extends EventListener {
 	private static Events instance;
-	private static ArrayList<PluginEvent> listeners = new ArrayList<PluginEvent>();
+	private static ArrayList<PluginEvent> listeners;
 	
 	public Events() {
 		instance = this;
+		listeners = new ArrayList<>();
 	}
 	
 	/**
@@ -34,7 +35,6 @@ public class Events extends EventListener {
 	@Override
 	public void onEvent(Event e) { // THE VOID IS ETERNAL
 		for (PluginEvent p : listeners) p.getListener().onEvent(e);
-		
 	}
 	
 	

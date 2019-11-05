@@ -6,6 +6,7 @@
 package cf.e3ndr.UltimateLib;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -110,27 +111,38 @@ public class UltimateLib implements ServerUtil {
 		return null;
 	}
 	
+	private static ArrayList<UltimateCommand> commands = new ArrayList<>();
 	/**
 	 * Makes a command, used internally via UltimatePlugin#registerCommand()
 	 * 
 	 * @return a command instance, null if unable to create it.
 	 */
 	public static UltimateCommand makeCommand(UltimatePlugin plugin, String[] names) {
+		for (UltimateCommand c : commands) {
+			if (c.getPlugin().getName().equalsIgnoreCase(plugin.getName()) && Arrays.equals(c.getAliases(), names)) {
+				return c;
+			}
+		}
+		
 		return instance.util.makeCommand(plugin, names);
 	}
 	
 	public void disable() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Disablingc");
+		sb.append("Disabling ");
 		sb.append(this.plugins.size());
 		sb.append(" plugin");
 		if (instance.plugins.size() != 1) sb.append("s");
 		sb.append(".");
 		if (instance.plugins.size() > 9) sb.append(" Whew! That\'s alot!");
 		eventLogger.println(sb.toString());
-		for (UltimatePlugin up : instance.plugins) up.unload();
+		for (UltimatePlugin up : instance.plugins) {
+			if ((up != null) && up.isEnabled()) up.unload();
+		}
 		this.plugins = new ArrayList<>();
 		
+		this.util.unregisterCommands();
+		ServerHandler.unsafe().end();
 		instance = null;
 	}
 	

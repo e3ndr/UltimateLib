@@ -101,9 +101,7 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 	public PlayerInventory getInventory() {
 		ArrayList<Stack> inv = new ArrayList<>(this.nukkit.getInventory().getSize());
 		
-		for (int slot : this.nukkit.getInventory().slots.keySet()) { // Incase they're not in order, probably safer
-																		// to use the map's integer as the location
-																		// anyways.
+		for (int slot : this.nukkit.getInventory().slots.keySet()) { 
 			Item i = this.nukkit.getInventory().slots.get(slot);
 			
 			if (i != null) inv.set(slot, new NukkitStack(i));
@@ -115,15 +113,12 @@ public class NukkitPlayer implements WrappedPlayer<Player> {
 	@Override
 	public void setInventory(Inventory inv) {
 		for (int i = 0; i != inv.getSize(); i++) {
+			Item is = null;
 			Stack s = inv.getSlot(i);
-			if (s == null) continue;
 			
-			if (s instanceof NukkitStack) {
-				this.nukkit.getInventory().setItem(i, (Item) s.getNative());
-			} else {
-				this.nukkit.getInventory().setItem(i, new Item(s.getMaterial().getHolder().nukkitID, s.getMaterial().getHolder().nukkitData, inv.getSlot(i).getAmount()));
-			}
+			if (s != null) is = (Item) s.getNative();
 			
+			this.nukkit.getInventory().setItem(i, is);
 		}
 	}
 	

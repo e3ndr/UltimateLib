@@ -20,12 +20,14 @@ import net.md_5.bungee.config.Configuration;
 
 public class PluginLoader {
 	private static boolean canReload = true;
+	public static PluginLoader instance;
 	
 	private UltimateLogger logger;
 	private double version;
 	private static char[] allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789_- ".toCharArray();
 	
 	public PluginLoader(UltimateLogger logger, double version) {
+		instance = this;
 		this.logger = logger;
 		this.version = version;
 	}
@@ -42,7 +44,9 @@ public class PluginLoader {
 		for (File f : ultPlugins.listFiles()) loadFile(f);
 		for (File f : plugins.listFiles()) loadFile(f);
 		
-		for (UltimatePlugin p : UltimateLib.getPlugins()) p.init(logger);;
+		for (UltimatePlugin up : UltimateLib.getPlugins()) {
+			if ((up != null) && !up.isEnabled()) up.init(logger);
+		}
 	}
 	
 	@SuppressWarnings("resource")
@@ -63,6 +67,15 @@ public class PluginLoader {
 			}
 			
 			PluginDescription yml = new PluginDescription(cfg);
+			for (UltimatePlugin up : UltimateLib.getPlugins()) {
+				if (up.isEnabled() && up.getName().equalsIgnoreCase(yml.getName())) {
+					logger.println(UltimateLogger.transformColor("&5Plugin \"&c" + yml.getName() + "&5\" already loaded in the server!"));
+					plugin.close();
+					jar.close();
+					return;
+				}
+			}
+			
 			Class<? extends UltimatePlugin> cls = Class.forName(cfg.getString("main"), true, plugin).asSubclass(UltimatePlugin.class);
 			
 			if (yml.getName().length() > 24) {
