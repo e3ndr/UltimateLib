@@ -124,7 +124,9 @@ public class UltimateLib implements ServerUtil {
 			}
 		}
 		
-		return instance.util.makeCommand(plugin, names);
+		UltimateCommand cmd = instance.util.makeCommand(plugin, names);
+		commands.add(cmd);
+		return cmd;
 	}
 	
 	public void disable() {

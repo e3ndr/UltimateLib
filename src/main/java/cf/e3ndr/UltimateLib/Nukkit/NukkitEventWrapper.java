@@ -31,6 +31,8 @@ public class NukkitEventWrapper implements Listener {
 		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
 		Event event = new EventBlockPlace(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), player, ItemType.getItemFromNukkit(e.getBlock().getId(), e.getBlock().getDamage()));
 		
+		event.setCancelled(e.isCancelled());
+		
 		Events.getInstance().onEvent(event);
 		
 		e.setCancelled(event.isCancelled());
@@ -40,6 +42,8 @@ public class NukkitEventWrapper implements Listener {
 	public void onDeath(EntityDeathEvent e) {
 		String type = e.getEntity().getClass().getSimpleName().toUpperCase().replace("ENTITY", ""); // no i'm not proud of it.
 		EventEntityDeath event = new EventEntityDeath(type);
+		
+		event.setCancelled(e.isCancelled());
 		
 		Events.getInstance().onEvent(event);
 		
@@ -55,6 +59,8 @@ public class NukkitEventWrapper implements Listener {
 		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
 		Event event = new EventPlayerChat(e.getMessage(), player);
 		
+		event.setCancelled(e.isCancelled());
+		
 		Events.getInstance().onEvent(event);
 		
 		e.setCancelled(event.isCancelled());
@@ -64,6 +70,8 @@ public class NukkitEventWrapper implements Listener {
 	public void onBreak(BlockBreakEvent e) {
 		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
 		Event event = new EventBlockBreak(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), player, ItemType.getItemFromNukkit(e.getBlock().getId(), e.getBlock().getDamage()));
+		
+		event.setCancelled(e.isCancelled());
 		
 		Events.getInstance().onEvent(event);
 		

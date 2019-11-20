@@ -21,6 +21,8 @@ public class BungeeEventWrapper implements Listener {
 	public void onChat(ChatEvent e) {
 		Event event = new EventPlayerChat(e.getMessage(), (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(((ProxiedPlayer) e.getSender()).getUniqueId()));
 		
+		event.setCancelled(e.isCancelled());
+		
 		Events.getInstance().onEvent(event);
 		
 		e.setCancelled(event.isCancelled());

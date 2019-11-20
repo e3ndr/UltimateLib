@@ -9,10 +9,12 @@ package cf.e3ndr.UltimateLib.Wrappers.Player;
  * The Enum GameMode.
  */
 public enum GameMode {
-	SURVIVAL(0), CREATIVE(1), ADVENTURE(2), SPECTATOR(3),;
+	SURVIVAL(0),
+	CREATIVE(1),
+	ADVENTURE(2),
+	SPECTATOR(3);
 	
 	private int i;
-	
 	private GameMode(int i) {
 		this.i = i;
 	}
@@ -39,10 +41,10 @@ public enum GameMode {
 	/**
 	 * From string.<br/>
 	 * Valid strings: "SURVIVAL", "CREATIVE", "ADVENTURE", "SPECTATOR", "S", "C",
-	 * "A", and "SP".
+	 * "A", "SP", "0", "1", "2", and "3".
 	 *
 	 * @param gamemode the gamemode string
-	 * @return the game mode
+	 * @return the game mode, null if input is not a valid gamemode
 	 */
 	public static GameMode fromString(String gamemode) {
 		switch (gamemode.toUpperCase()) {
@@ -62,6 +64,14 @@ public enum GameMode {
 				return ADVENTURE;
 			case "SP":
 				return SPECTATOR;
+			case "0":
+				return SURVIVAL;
+			case "1":
+				return CREATIVE;
+			case "2":
+				return ADVENTURE;
+			case "3":
+				return SPECTATOR;
 			
 			default:
 				return null;
@@ -73,7 +83,7 @@ public enum GameMode {
 	 * Valid integers: 0, 1, 2, and 3.
 	 *
 	 * @param gamemode the integer
-	 * @return the game mode
+	 * @return the game mode, null if input is not a valid gamemode
 	 */
 	public static GameMode fromInt(int gamemode) {
 		switch (gamemode) {

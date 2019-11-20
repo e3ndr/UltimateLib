@@ -51,6 +51,8 @@ public class BukkitEventWrapper implements Listener {
 		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
 		EventBlockPlace event = new EventBlockPlace(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), player, ItemType.getItemFromBukkit(e.getBlock().getType().name()));
 		
+		event.setCancelled(e.isCancelled());
+		
 		Events.getInstance().onEvent(event);
 		
 		e.setCancelled(event.isCancelled());
@@ -75,6 +77,8 @@ public class BukkitEventWrapper implements Listener {
 		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
 		EventPlayerChat event = new EventPlayerChat(e.getMessage(), player);
 		
+		event.setCancelled(e.isCancelled());
+		
 		Events.getInstance().onEvent(event);
 		
 		e.setCancelled(event.isCancelled());
@@ -84,6 +88,8 @@ public class BukkitEventWrapper implements Listener {
 	public void onBreak(BlockBreakEvent e) {
 		WrappedPlayer<?> player = (WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(e.getPlayer().getUniqueId());
 		EventBlockBreak event = new EventBlockBreak(UltimateLib.getInstance().getLocation(e.getBlock().getLocation()), player, ItemType.getItemFromBukkit(e.getBlock().getType().name()));
+		
+		event.setCancelled(e.isCancelled());
 		
 		Events.getInstance().onEvent(event);
 		
