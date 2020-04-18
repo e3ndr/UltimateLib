@@ -17,7 +17,6 @@ public class NukkitLogger extends UltimateLogger {
 		return new NukkitLogger(prefix);
 	}
 	
-	
 	@Override
 	public void println(Object obj) {
 		Server.getInstance().getConsoleSender().sendMessage(this.prefix + String.valueOf(obj));

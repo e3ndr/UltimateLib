@@ -5,29 +5,63 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Events;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+/**
+ * Fired when a block event happens
+ */
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cf.e3ndr.UltimateLib.Wrappers.World.WorldLocation;
 
 public class EventBlock extends Event {
-	private WrappedLocation bloc;
-	private WrappedPlayer player;
-	private boolean breakEvent;
+	private WorldLocation bloc;
+	private WrappedPlayer<?> player;
+	private ItemType material;
 	
-	public EventBlock(WrappedLocation bloc, WrappedPlayer player, boolean isBreakEvent) {
+	/**
+	 * Instantiates a new block event.
+	 * @deprecated Use {@link EventBlockBreak} or {@link EventBlockPlace}
+	 *
+	 * @param bloc the bloc
+	 * @param player the player
+	 * @param material the material
+	 * @param isBreakEvent the is break event
+	 */
+	public EventBlock(WorldLocation bloc, WrappedPlayer<?> player, ItemType material) {
 		this.bloc = bloc;
 		this.player = player;
-		this.breakEvent = isBreakEvent;
+		this.material = material;
 	}
 	
-	public WrappedPlayer getPlayer() {
+	/**
+	 * Gets the player.
+	 *
+	 * @return the player
+	 */
+	public WrappedPlayer<?> getPlayer() {
 		return this.player;
 	}
 	
-	public WrappedLocation getLocation() {
+	/**
+	 * Gets the location.
+	 *
+	 * @return the location
+	 */
+	public WorldLocation getLocation() {
 		return this.bloc;
 	}
 
-	public boolean isBreakEvent() {
-		return breakEvent;
+	/**
+	 * Gets the material.
+	 *
+	 * @return the material
+	 */
+	public ItemType getMaterial() {
+		return this.material;
 	}
+	
+	@Override
+	public EventType getEventType() {
+		return EventType.BLOCK;
+	}
+	
 }

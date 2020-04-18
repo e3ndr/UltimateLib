@@ -8,11 +8,10 @@ package cf.e3ndr.UltimateLib.Wrappers.World;
 import java.util.ArrayList;
 import java.util.List;
 
-import cf.e3ndr.UltimateLib.Wrappers.Location.NukkitLocation;
-import cf.e3ndr.UltimateLib.Wrappers.Location.WrappedLocation;
+import cf.e3ndr.UltimateLib.UltimateLib;
 import cf.e3ndr.UltimateLib.Wrappers.Misc.WrappedParticle;
-import cf.e3ndr.UltimateLib.Wrappers.Player.NukkitPlayer;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedPlayer;
+import cn.nukkit.Player;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Sound;
 import cn.nukkit.level.particle.AngryVillagerParticle;
@@ -33,6 +32,7 @@ import cn.nukkit.level.particle.RedstoneParticle;
 import cn.nukkit.level.particle.SmokeParticle;
 import cn.nukkit.level.particle.WaterParticle;
 import cn.nukkit.math.Vector3;
+import cn.nukkit.math.Vector3f;
 
 public class NukkitWorld implements WrappedWorld {
 	private Level world;
@@ -40,54 +40,73 @@ public class NukkitWorld implements WrappedWorld {
 	public NukkitWorld(Level level) {
 		this.world = level;
 	}
-
+	
 	@Override
 	public String getName() {
 		return this.world.getName();
 	}
-
+	
 	@Override
-	public List<WrappedPlayer> getPlayers() {
-		ArrayList<WrappedPlayer> ret = new ArrayList<WrappedPlayer>();
+	public List<WrappedPlayer<?>> getPlayers() {
+		ArrayList<WrappedPlayer<?>> ret = new ArrayList<WrappedPlayer<?>>();
 		
-		for (Long p : this.world.getPlayers().keySet()) ret.add(new NukkitPlayer(this.world.getPlayers().get(p)));
+		for (Player p : this.world.getPlayers().values()) ret.add((WrappedPlayer<?>) UltimateLib.getInstance().getOfflinePlayer(p.getUniqueId()));
 		
 		return ret;
 	}
-
+	
 	@Override
-	public void playSound(WrappedLocation loc, String sound, float volume, float pitch) {
-		this.world.addSound(((NukkitLocation) loc).getNukkit().asVector3f().asVector3(), Sound.valueOf(sound), volume, pitch);
+	public void playSound(WorldLocation loc, String sound, float volume, float pitch) {
+		this.world.addSound(new Vector3f(Double.valueOf(loc.getX()).floatValue(), Double.valueOf(loc.getY()).floatValue(), Double.valueOf(loc.getX()).floatValue()).asVector3(), Sound.valueOf(sound), volume, pitch);
 	}
-
+	
 	@Override
-	public void addParticle(WrappedLocation loc, WrappedParticle particle) {
+	public void addParticle(WorldLocation loc, WrappedParticle particle) {
 		this.world.addParticle(getParticle(particle, loc));
 	}
 	
-	public static Particle getParticle(WrappedParticle particle, WrappedLocation loc) {
-		Vector3 v = ((NukkitLocation) loc).getNukkit().asVector3f().asVector3();
+	public static Particle getParticle(WrappedParticle particle, WorldLocation loc) {
+		Vector3 v = new Vector3f(Double.valueOf(loc.getX()).floatValue(), Double.valueOf(loc.getY()).floatValue(), Double.valueOf(loc.getX()).floatValue()).asVector3();
 		switch (particle) {
-			case BUBBLE: return new BubbleParticle(v); // Is there an easier way?
-			case CRITICAL: return new CriticalParticle(v);
-			case BLOCK_FORCE_FIELD: return new BlockForceFieldParticle(v);
-			case SMOKE: return new SmokeParticle(v);
-			case EXPLODE: return new ExplodeParticle(v);
-			case FLAME: return new FlameParticle(v);
-			case LAVA: return new LavaParticle(v);
-			case REDSTONE: return new RedstoneParticle(v);
-			case HUGE_EXPLODE: return new HugeExplodeParticle(v);
-			case HEART: return new HeartParticle(v);
-			case PORTAL: return new PortalParticle(v);
-			case WATER_SPLASH: return new WaterParticle(v);
-			case DRIP_WATER: return new WaterParticle(v);
-			case DRIP_LAVA: return new LavaParticle(v);
-			case RAIN_SPLASH: return new RainSplashParticle(v);
-			case VILLAGER_ANGRY: return new AngryVillagerParticle(v);
-			case VILLAGER_HAPPY: return new HappyVillagerParticle(v);
-			case ENCHANTMENT_TABLE: return new EnchantmentTableParticle(v);
+			case BUBBLE:
+				return new BubbleParticle(v); // Is there an easier way?
+			case CRITICAL:
+				return new CriticalParticle(v);
+			case BLOCK_FORCE_FIELD:
+				return new BlockForceFieldParticle(v);
+			case SMOKE:
+				return new SmokeParticle(v);
+			case EXPLODE:
+				return new ExplodeParticle(v);
+			case FLAME:
+				return new FlameParticle(v);
+			case LAVA:
+				return new LavaParticle(v);
+			case REDSTONE:
+				return new RedstoneParticle(v);
+			case HUGE_EXPLODE:
+				return new HugeExplodeParticle(v);
+			case HEART:
+				return new HeartParticle(v);
+			case PORTAL:
+				return new PortalParticle(v);
+			case WATER_SPLASH:
+				return new WaterParticle(v);
+			case DRIP_WATER:
+				return new WaterParticle(v);
+			case DRIP_LAVA:
+				return new LavaParticle(v);
+			case RAIN_SPLASH:
+				return new RainSplashParticle(v);
+			case VILLAGER_ANGRY:
+				return new AngryVillagerParticle(v);
+			case VILLAGER_HAPPY:
+				return new HappyVillagerParticle(v);
+			case ENCHANTMENT_TABLE:
+				return new EnchantmentTableParticle(v);
 			
-			default: return null;
+			default:
+				return null;
 		}
 	}
 }

@@ -5,6 +5,7 @@
  */
 package cf.e3ndr.UltimateLib.Plugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.md_5.bungee.config.Configuration;
@@ -19,10 +20,10 @@ public class PluginDescription {
 	/**
 	 * Gets the color code for this plugin.
 	 *
-	 * @return the color code
+	 * @return the color code, '&r' if not present
 	 */
 	public String getColor() {
-		return this.config.getString("color");
+		return this.config.getString("color", "&r");
 	}
 	
 	/**
@@ -51,9 +52,24 @@ public class PluginDescription {
 	public String getVersion() {
 		return this.config.getString("version");
 	}
-
+	
+	/**
+	 * Returns whether or not the plugin disallows reload.
+	 *
+	 * @return true if so
+	 */
 	public boolean disallowReload() {
 		return this.config.getBoolean("disallow-reload", false);
+	}
+	
+	/**
+	 * Gets all required dependencies.
+	 *
+	 * @return the list, empty if none
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> getDependencies() {
+		return (ArrayList<String>) this.config.getList("dependencies", new ArrayList<String>());
 	}
 	
 }

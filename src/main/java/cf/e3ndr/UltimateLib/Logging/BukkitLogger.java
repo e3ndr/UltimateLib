@@ -17,10 +17,9 @@ public class BukkitLogger extends UltimateLogger {
 		return new BukkitLogger(prefix);
 	}
 	
-	
 	@Override
 	public void println(Object obj) {
 		Bukkit.getServer().getConsoleSender().sendMessage(this.prefix + String.valueOf(obj));
 	}
-		
+	
 }

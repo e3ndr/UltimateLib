@@ -9,7 +9,7 @@ package cf.e3ndr.UltimateLib.Logging;
  * The Class UltimateLogger.
  */
 public class UltimateLogger {
-	
+	private boolean showDebug = false;
 	protected String prefix;
 	
 	/**
@@ -28,29 +28,7 @@ public class UltimateLogger {
 	 * @return the string
 	 */
 	public static String stripColor(String msg) {
-		return msg
-				.replace("§4", "")
-				.replace("§c", "")
-				.replace("§6", "")
-				.replace("§e", "")
-				.replace("§2", "")
-				.replace("§a", "")
-				.replace("§b", "")
-				.replace("§3", "")
-				.replace("§1", "")
-				.replace("§9", "")
-				.replace("§d", "")
-				.replace("§5", "")
-				.replace("§f", "")
-				.replace("§7", "")
-				.replace("§8", "")
-				.replace("§0", "")
-				.replace("§l", "")
-				.replace("§n", "")
-				.replace("§o", "")
-				.replace("§k", "")
-				.replace("§m", "")
-				.replace("§r", "");
+		return msg.replace("§4", "").replace("§c", "").replace("§6", "").replace("§e", "").replace("§2", "").replace("§a", "").replace("§b", "").replace("§3", "").replace("§1", "").replace("§9", "").replace("§d", "").replace("§5", "").replace("§f", "").replace("§7", "").replace("§8", "").replace("§0", "").replace("§l", "").replace("§n", "").replace("§o", "").replace("§k", "").replace("§m", "").replace("§r", "");
 	}
 	
 	/**
@@ -60,29 +38,7 @@ public class UltimateLogger {
 	 * @return the string
 	 */
 	public static String transformColor(String msg) {
-		return msg
-				.replace("&4", "§4")
-				.replace("&c", "§c")
-				.replace("&6", "§6")
-				.replace("&e", "§e")
-				.replace("&2", "§2")
-				.replace("&a", "§a")	
-				.replace("&b", "§b")
-				.replace("&3", "§3")
-				.replace("&1", "§1")
-				.replace("&9", "§9")
-				.replace("&d", "§d")
-				.replace("&5", "§5")
-				.replace("&f", "§f")
-				.replace("&7", "§7")
-				.replace("&8", "§8")
-				.replace("&0", "§0")
-				.replace("&l", "§l")
-				.replace("&n", "§n")
-				.replace("&o", "§o")
-				.replace("&k", "§k")
-				.replace("&m", "§m")
-				.replace("&r", "§r");
+		return msg.replace("&4", "§4").replace("&c", "§c").replace("&6", "§6").replace("&e", "§e").replace("&2", "§2").replace("&a", "§a").replace("&b", "§b").replace("&3", "§3").replace("&1", "§1").replace("&9", "§9").replace("&d", "§d").replace("&5", "§5").replace("&f", "§f").replace("&7", "§7").replace("&8", "§8").replace("&0", "§0").replace("&l", "§l").replace("&n", "§n").replace("&o", "§o").replace("&k", "§k").replace("&m", "§m").replace("&r", "§r");
 	}
 	
 	/**
@@ -101,7 +57,60 @@ public class UltimateLogger {
 	 * @param obj the message
 	 */
 	public void println(Object obj) {
-		System.out.println(prefix + obj);
+		System.out.println(stripColor(prefix + obj));
+	}
+	
+	/**
+	 * Println.
+	 *
+	 * @param obj the message
+	 * @param autoColor whether or not to auto color the message
+	 */
+	public void println(Object obj, boolean autoColor) {
+		if (autoColor) {
+			this.println(transformColor(String.valueOf(obj)));
+		} else {
+			this.println(obj);
+		}
+	}
+	
+	/**
+	 * Print debug.<br/>
+	 * See {@link UltimateLogger#setDebug(boolean)}
+	 *
+	 * @param obj the message
+	 */
+	public void printDebug(Object obj) {
+		if (this.showDebug) this.println(Thread.currentThread().getStackTrace()[2].getClassName() + " : " + obj);
 	}
 
+	/**
+	 * Sets the debug state.
+	 *
+	 * @param the state
+	 */
+	public void setDebug(boolean show) {
+		this.showDebug = show;
+	}
+
+	/**
+	 * Gets the debug state.
+	 * 
+	 */
+	public boolean getDebug() {
+		return this.showDebug;
+	}
+	
+	/**
+	 * Clones the logger.
+	 *
+	 */
+	@Override
+	public UltimateLogger clone() {
+		UltimateLogger logger = this.newInstance(this.prefix);
+		
+		logger.setDebug(this.getDebug());
+		
+		return logger;
+	}
 }

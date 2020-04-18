@@ -12,10 +12,7 @@ public class UltimateLibPlugin extends UltimatePlugin {
 	
 	@Override
 	protected void pluginEnable(UltimateLib lib) {
-		this.registerCommand("UltimateLib.admin", new String[] {"ultimatelib", "ul"}).setExecutor(new CommandUltimateLib()).addHelp("ul", "plugin", "UltimateLib.admin").addHelp("ul", "info", "");
+		this.getCommand("ultimatelib", "ul").setExecutor(new CommandUltimateLib()).addHelp("ul", "plugin", "UltimateLib.admin").addHelp("ul", "info", "");
 	}
-	
-	@Override
-	protected void pluginDisable(UltimateLib lib) {}
 	
 }

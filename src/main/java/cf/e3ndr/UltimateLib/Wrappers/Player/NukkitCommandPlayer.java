@@ -5,9 +5,7 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Player;
 
-import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
-import cn.nukkit.command.ConsoleCommandSender;
 
 public class NukkitCommandPlayer implements WrappedConsole {
 	private CommandSender sender;
@@ -15,34 +13,15 @@ public class NukkitCommandPlayer implements WrappedConsole {
 	public NukkitCommandPlayer(CommandSender sender) {
 		this.sender = sender;
 	}
-
+	
 	@Override
 	public void sendMessage(String message) {
 		this.sender.sendMessage(message);
 	}
-
+	
 	@Override
 	public boolean hasPerm(String permission) {
 		return this.sender.hasPermission(permission);
-	}
-	
-	@Override
-	public boolean isConsole() {
-		return (this.sender instanceof ConsoleCommandSender);
-	}
-	
-	public Player getNukkitPlayer() {
-		return (Player) this.sender;
-	}
-
-	@Override
-	public String getName() {
-		return "CONSOLE";
-	}
-
-	@Override
-	public WrappedPlayer getPlayer() {
-		return new NukkitPlayer((Player) sender);
 	}
 	
 }

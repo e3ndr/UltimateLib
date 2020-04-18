@@ -6,41 +6,59 @@
 package cf.e3ndr.UltimateLib.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import cf.e3ndr.UltimateLib.UltimateLib;
-import cf.e3ndr.UltimateLib.Config.YMLConfig;
-import cf.e3ndr.UltimateLib.Logging.ReturningLogger;
 import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 
 /**
  * The Class UltimatePlugin.
+ * 
+ * You might want to start by overriding<br/>
+ * {@link UltimatePlugin#pluginEnable(UltimateLib)} and<br/>
+ * {@link UltimatePlugin#pluginDisable(UltimateLib)}
  */
 public class UltimatePlugin extends PluginUtil {
 	private boolean enabled = false;
 	private UltimateLogger logger;
-	private ArrayList<UltimateCommand> commands = new ArrayList<UltimateCommand>();
+	private ArrayList<UltimateCommand> commands;
 	private boolean loaded = false;
 	private PluginDescription yml;
+	private JarFile jar;
+	private URLClassLoader loader;
+	private boolean needsLoader;
 	
-	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger) {
+	/**
+	 * Makes and loads the plugin
+	 * 
+	 * @param yml the ultimate.yml associated with the plugin
+	 * @param eventLogger the event logger
+	 * @param jar the jar file associated with the plugin
+	 * @param loader the classloader associated with the plugin
+	 * @param b
+	 * @return the plugin instance
+	 */
+	public UltimatePlugin make(PluginDescription yml, UltimateLogger eventLogger, JarFile jar, URLClassLoader loader, boolean needsLoader) {
 		this.yml = yml;
+		this.jar = jar;
+		this.commands = new ArrayList<UltimateCommand>();
+		this.loaded = true;
+		this.loader = loader;
+		this.logger = UltimateLib.getLogger("&7[" + this.yml.getColor() + this.yml.getName() + "&7]");
+		this.needsLoader = needsLoader;
 		
-		String colorCode = this.yml.getColor();
-		if ((colorCode != null) && ((colorCode = colorCode.replace(" ", "")).equals(UltimateLogger.transformColor(colorCode)))) {
-			eventLogger.println("Invalid color code \"" + colorCode + "\" for " + this.yml.getName() + ".");
-			colorCode = null;
-		}
-		if (colorCode == null) {
-			long code = 0;
-			for (char c : this.yml.getName().toCharArray()) code += (int) c;
-			colorCode = UltimateLogger.transformColor("&" + String.valueOf(code).subSequence(0, 1));
-		}
-		this.logger = UltimateLib.getLogger("&7[" + colorCode + this.yml.getName() + "&7]");
+		this.loadClasses();
+		this.pluginLoad(UltimateLib.getInstance());
 		
 		return this;
 	}
@@ -51,31 +69,51 @@ public class UltimatePlugin extends PluginUtil {
 	 * @param eventLogger the event logger
 	 */
 	public final void init(UltimateLogger eventLogger) {
-		if (loaded && this.yml.disallowReload()) eventLogger.println("Plugin \"" + this.getName() + "\" explicitly disallows reloading, yet it has been reloaded.");
-		if (enabled) {
+		if (loaded && this.yml.disallowReload()) {
+			eventLogger.println("Plugin \"" + this.getName() + "\" explicitly disallows reloading.");
+		} else if (enabled) {
 			eventLogger.println("Plugin \"" + this.getName() + "\" already enabled.");
+		} else {
+			this.loadClasses();
+			String verString = "";
+			
+			if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
+			this.pluginEnable(UltimateLib.getInstance());
+			eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "&r."));
+			this.enabled = true;
 		}
-		this.enabled = true;
-		String verString = "";
-		
-		if (!this.yml.getVersion().equals("")) verString += "&r version " + this.yml.getVersion();
-		eventLogger.println(UltimateLogger.transformColor("Enabling &8" + yml.getName() + verString + "."));
-		this.pluginEnable(UltimateLib.getInstance());
-		
-		if (eventLogger instanceof ReturningLogger) eventLogger.println(UltimateLogger.transformColor("Enabled &8" + yml.getName() + verString + "."));
 	}
-
+	
+	/**
+	 * Loads all jar classes
+	 * 
+	 * @deprecated Never use this for anything you do, ever, this is for internal
+	 * jar loading.
+	 */
+	private final void loadClasses() {
+		if (!needsLoader) return;
+		Enumeration<JarEntry> en = this.jar.entries();
+		while (en.hasMoreElements()) { // Load all jar classes into memory
+			JarEntry e = en.nextElement();
+			if (!e.isDirectory() && e.getName().endsWith(".class")) {
+				try {
+					this.loader.loadClass(e.getName().substring(0, e.getName().length() - 6).replace("/", "."));
+				} catch (Error | Exception ex) {}
+			}
+		}
+	}
+	
 	/**
 	 * Gets the plugin description.
 	 * 
-	 * @deprecated @see {@link UltimatePlugin#getDescription()}
+	 * @deprecated Use {@link UltimatePlugin#getDescription()} for clarity.
 	 * 
 	 * @return the plugin description
 	 */
 	public PluginDescription getYml() {
 		return this.getDescription();
 	}
-
+	
 	/**
 	 * Gets the plugin description.
 	 * 
@@ -87,18 +125,33 @@ public class UltimatePlugin extends PluginUtil {
 	
 	/**
 	 * Register command.
-	 *
+	 * 
+	 * @deprecated use {@link UltimatePlugin#getCommand(String...)}<br/>
+	 * It's recommended you implement your own permission checking that way you can
+	 * customize error messages.
+	 * 
 	 * @param basePerm the base perm
 	 * @param names the names
 	 * @return the ultimate command
 	 */
 	public final UltimateCommand registerCommand(String basePerm, String... names) {
+		return this.getCommand(names);
+	}
+	
+	/**
+	 * Register command.
+	 * 
+	 * @param names the names
+	 * @return the ultimate command
+	 */
+	public final UltimateCommand getCommand(String... names) {
 		if (this.loaded) {
-			for (UltimateCommand cmd : this.commands) { // This ensures that we never double register this.commands in the server, as that can be problematic.
+			for (UltimateCommand cmd : this.commands) { // This ensures that we never double register this.commands
+														// in the server, as that can be problematic.
 				if (Arrays.equals(cmd.getAliases(), names)) return cmd;
 			}
 		}
-		UltimateCommand cmd = UltimateLib.makeCommand(this, basePerm, names);
+		UltimateCommand cmd = UltimateLib.makeCommand(this, names);
 		this.commands.add(cmd);
 		return cmd;
 	}
@@ -110,7 +163,7 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return true, if present
 	 */
 	public final boolean configPresent(String config) {
-		return new File("plugins/" + this + "/" + config).exists();
+		return new File("plugins/" + this.yml.getName() + "/" + config).exists();
 	}
 	
 	/**
@@ -120,7 +173,20 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return true, if successful
 	 */
 	public final boolean saveConfig(String config) {
-		return YMLConfig.saveConfig(YMLConfig.getConfig(this.getResourceAsStream(config)), "plugins/" + this.yml.getName() + "/" + config);
+		new File("plugins/" + this.yml.getName()).mkdirs();
+		try {
+			InputStream is = this.getResourceAsStream(config);
+			PrintWriter pw = new PrintWriter(new File("plugins/" + this.yml.getName() + "/" + config));
+			byte[] buf = new byte[is.available()];
+			
+			is.read(buf);
+			pw.append(new String(buf));
+			pw.close();
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	/**
@@ -130,17 +196,40 @@ public class UltimatePlugin extends PluginUtil {
 	 * @return the file
 	 */
 	public InputStream getResourceAsStream(String file) {
-		return this.getClass().getClassLoader().getResourceAsStream(file);
+		try {
+			JarEntry je = this.jar.getJarEntry(file);
+			if (je != null) {
+				return this.jar.getInputStream(je);
+			} else {
+				return null;
+			}
+		} catch (IOException e) {
+			return null;
+		}
 	}
-
+	
 	/**
 	 * Close the plugin.
 	 */
 	public final void close() {
-		this.loaded = true;
 		this.enabled = false;
 		this.pluginDisable(UltimateLib.getInstance());
 		for (UltimateCommand c : this.commands) c.setExecutor(new DeadExecutor(this));
+	}
+	
+	/**
+	 * Unload the plugin.
+	 */
+	public final void unload() {
+		if (this.enabled) this.close();
+		try {
+			this.loader.close();
+			this.jar.close();
+		} catch (IOException e) {}
+		
+		this.loader = null;
+		this.jar = null;
+		UltimateLib.getPlugins().remove(this);
 	}
 	
 	/**
@@ -162,19 +251,34 @@ public class UltimatePlugin extends PluginUtil {
 	}
 	
 	/**
-	 * Plugin enable.
-	 *
+	 * Plugin load.<br/>
+	 * This is called when your plugin is loaded into memory, use this to setup any
+	 * APIs that you need.<br/>
+	 * Dependencies/Core APIs are recommended to load here, you should treat this
+	 * method as if no other plugin exists.
+	 * 
 	 * @param lib the lib
 	 */
-	protected void pluginEnable(UltimateLib lib) {}
+	protected void pluginLoad(UltimateLib lib) {
+	}
+	
+	/**
+	 * Plugin enable.<br/>
+	 * Called after <b>all</b> plugins have loaded.
+	 * 
+	 * @param lib the lib
+	 */
+	protected void pluginEnable(UltimateLib lib) {
+	}
 	
 	/**
 	 * Plugin disable.
 	 *
 	 * @param lib the lib
 	 */
-	protected void pluginDisable(UltimateLib lib) {}
-
+	protected void pluginDisable(UltimateLib lib) {
+	}
+	
 	/**
 	 * Gets the this.commands related to the plugin.
 	 *
@@ -183,7 +287,7 @@ public class UltimatePlugin extends PluginUtil {
 	public final List<UltimateCommand> getCommands() {
 		return this.commands;
 	}
-
+	
 	/**
 	 * Gets the name of the plugin.
 	 *
@@ -192,7 +296,7 @@ public class UltimatePlugin extends PluginUtil {
 	public String getName() {
 		return this.yml.getName();
 	}
-
+	
 	/**
 	 * Checks if it has been this.loaded.
 	 *

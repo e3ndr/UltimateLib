@@ -15,12 +15,12 @@ public class PluginEvent {
 		this.plugin = plugin;
 		this.listener = listener;
 	}
-
+	
 	public EventListener getListener() {
-		return listener;
+		return this.listener;
 	}
-
+	
 	public UltimatePlugin getPlugin() {
-		return plugin;
+		return this.plugin;
 	}
 }

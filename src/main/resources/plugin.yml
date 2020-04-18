@@ -2,3 +2,4 @@ name: UltimateLib
 main: cf.e3ndr.UltimateLib.Bukkit.UltimateLibBukkit
 version: ${project.version}
 author: [e3ndr]
+api-version: 1.13

@@ -6,17 +6,13 @@
 package cf.e3ndr.UltimateLib.Wrappers.Events;
 
 /**
- * The listener interface for receiving event events.
- * The class that is interested in processing a event
- * event implements this interface, and the object created
- * with that class is registered with a component using the
+ * The listener interface for receiving event events. The class that is
+ * interested in processing a event event implements this interface, and the
+ * object created with that class is registered with a component using the
  * {@link Events.addEventListener(UltimatePlugin, EventListener)} method. When
- * the event event occurs, that object's appropriate
- * method is invoked.
+ * the event event occurs, that object's appropriate method is invoked.
  */
-public interface EventListener {
-	default boolean onEvent(EventBlock e) {return true;}
-	default boolean onEvent(EventPlayerChat e) {return true;}
-	
+public abstract class EventListener {
+	public void onEvent(Event e) {}
 	
 }

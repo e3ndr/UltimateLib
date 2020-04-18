@@ -20,5 +20,5 @@ public class DeadExecutor implements CommandExec {
 	public void onCommand(WrappedConsole executor, String alias, String[] args) {
 		executor.sendMessage(UltimateLogger.transformColor("Sorry! The plugin \"&7" + plugin.getName() + "\"&r is disabled. Ask an operator to enable it."));
 	}
-
+	
 }

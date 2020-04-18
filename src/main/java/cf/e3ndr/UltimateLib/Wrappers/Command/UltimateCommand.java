@@ -8,7 +8,6 @@ package cf.e3ndr.UltimateLib.Wrappers.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-import cf.e3ndr.UltimateLib.Logging.UltimateLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Player.WrappedConsole;
 
@@ -16,14 +15,11 @@ public class UltimateCommand {
 	protected UltimatePlugin plugin;
 	protected CommandExec exec;
 	protected String[] aliases;
-	protected String basePerm = "";
 	protected ArrayList<HelpArgument> helpArguments = new ArrayList<HelpArgument>();
 	
-	public UltimateCommand(UltimatePlugin plugin, String basePerm, String... names) {
+	public UltimateCommand(UltimatePlugin plugin, String... names) {
 		this.plugin = plugin;
 		this.aliases = names;
-		this.basePerm = basePerm;
-		
 	}
 	
 	public final UltimateCommand setExecutor(CommandExec exec) {
@@ -41,24 +37,33 @@ public class UltimateCommand {
 	}
 	
 	public final boolean execute(WrappedConsole executor, String alias, String[] args) {
-		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && executor.hasPerm(basePerm)) {
-			final String commandBody = "{p}&r\n{c}".replace("{p}", this.plugin.getDescription().getColor() + this.plugin.getName());
-			final String arg = "{color}/{alias} {arg}";
-			String content = "";
-			
-			for (HelpArgument ha : this.helpArguments) {
-				String color = "&c";
-				if (executor.hasPerm(ha.getPermission())) color = "&a";
-				
-				content += "    " + arg.replace("{alias}", ha.getAlias()).replace("{color}", color).replace("{arg}", ha.getArgument()) + "\n";
-			}
-			
-			executor.sendMessage(UltimateLogger.transformColor(commandBody.replace("{c}", content)));
+		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && this.plugin.isEnabled()) {
+			this.help(executor, alias);
 		} else {
 			this.exec.onCommand(executor, alias, args);
 		}
 		
 		return true;
+	}
+	
+	public final void help(WrappedConsole executor, String alias) {
+		StringBuilder sb = new StringBuilder(this.plugin.getDescription().getColor());
+		sb.append(this.plugin.getName());
+		sb.append("&r\n");
+		
+		for (HelpArgument ha : this.helpArguments) {
+			sb.append("\n    ");
+			sb.append(executor.hasPerm(ha.getPermission()) ? "&a" : "&c");
+			sb.append((ha.getAlias() == null) ? alias : ha.getAlias());
+			sb.append(" ");
+			sb.append(ha.getArgument());
+			if (ha.getDescription() != null) {
+				sb.append("&7 - &r&o");
+				sb.append(ha.getDescription());
+			}
+		}
+		
+		executor.sendMessage(sb.toString(), true);
 	}
 	
 	public final List<String> tabComplete(WrappedConsole executor, String alias, String[] args) {
@@ -67,10 +72,6 @@ public class UltimateCommand {
 	
 	public final UltimatePlugin getPlugin() {
 		return this.plugin;
-	}
-	
-	public final String getBasePerm() {
-		return this.basePerm;
 	}
 	
 	public final String[] getAliases() {

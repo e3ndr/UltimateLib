@@ -45,27 +45,29 @@
             <plugin>
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-shade-plugin</artifactId>
-       		 	<version>3.2.1</version>
-        		<configuration>
-					    <shadedArtifactAttached>false</shadedArtifactAttached>
-              			<shadedClassifierName>included</shadedClassifierName> <!-- Any name that makes sense -->
-        		</configuration>
+        		<version>3.2.1</version>
         		<executions>
           			<execution>
-            			<phase>package</phase>
-            			<goals>
-              			<goal>shade</goal>
-            			</goals>
+	            		<id>shade</id>
+	            		<phase>package</phase>
+	            		<goals>
+	             			 <goal>shade</goal>
+	            		</goals>
           			</execution>
         		</executions>
+	        	<configuration>
+	          		<createDependencyReducedPom>false</createDependencyReducedPom>
+	          		<relocations>
+	            		<relocation>
+	             	 		<pattern>de.tr7zw.changeme.nbtapi</pattern>
+	             	 		<shadedPattern>cf.e3ndr.Shaded.de.tr7zw.nbtapi</shadedPattern>
+	            		</relocation>
+	          		</relocations>
+        		</configuration>
       		</plugin>
         </plugins>
     </build>
     <repositories>
-        <repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
 		<repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -78,22 +80,22 @@
             <id>nukkit-repo</id>
             <url>https://repo.nukkitx.com/maven-snapshots</url>
         </repository>
+        <repository>
+			<id>codemc-repo</id>
+			<url>https://repo.codemc.org/repository/maven-public/</url>
+			<layout>default</layout>
+		</repository>
     </repositories>
     <dependencies>
-        <dependency>
-            <groupId>org.bukkit</groupId> <!-- For Bukkit -->
+        <!-- Servers -->
+        <dependency> <!-- For Bukkit -->
+            <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-	    <dependency>
-            <groupId>net.md-5</groupId> <!-- For Config -->
-            <artifactId>bungeecord-config</artifactId>
-            <version>1.14-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency> <!-- For Nukkit -->
+    	<dependency> <!-- For Nukkit -->
 		    <groupId>cn.nukkit</groupId>
 		    <artifactId>nukkit</artifactId>
 		    <version>1.0-SNAPSHOT</version>
@@ -104,6 +106,28 @@
             <artifactId>bungeecord-api</artifactId>
             <version>1.14-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        
+        <!-- Misc -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+        
+        
+        <!-- Shaded dependencies -->
+        <dependency> <!-- For BukkitItem NBT -->
+		  <groupId>de.tr7zw</groupId>
+		  <artifactId>item-nbt-api</artifactId>
+		  <version>2.1.0</version>
+		  <scope>compile</scope>
+		</dependency>
+	    <dependency>
+            <groupId>net.md-5</groupId> <!-- For Config -->
+            <artifactId>bungeecord-config</artifactId>
+            <version>1.14-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

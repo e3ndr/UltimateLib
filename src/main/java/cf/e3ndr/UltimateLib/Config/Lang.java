@@ -5,22 +5,39 @@
  */
 package cf.e3ndr.UltimateLib.Config;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * The Class Lang.
  */
 public class Lang {
-	
-	private Map<String, String> lang;
+	private HashMap<String, String> lang;
 	
 	/**
-	 * Instantiates a new lang.
+	 * Instantiates a new language config.
+	 */
+	public Lang() {
+		this.lang = new HashMap<String, String>();
+	}
+	
+	/**
+	 * Instantiates a new language config.
 	 *
 	 * @param lang the Lang
 	 */
 	public Lang(Map<String, String> lang) {
-		this.lang = lang;
+		this.lang = new HashMap<String, String>(lang);
+	}
+	
+	/**
+	 * Sets a localized string.
+	 *
+	 * @param key the key
+	 * @param str the str
+	 */
+	public void set(String key, String str) {
+		this.lang.put(key, str);
 	}
 	
 	/**
