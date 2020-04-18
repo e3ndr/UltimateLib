@@ -1,12 +1,13 @@
 package cf.e3ndr.UltimateLib.Wrappers.Events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 
 public class EventEntityDeath extends Event {
 	private String type;
-	private List<Stack> drops;
+	private List<Stack> drops = new ArrayList<>();
 	
 	public EventEntityDeath(String type) {
 		this.type = type;
