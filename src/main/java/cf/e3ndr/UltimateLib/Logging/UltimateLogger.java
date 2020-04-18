@@ -9,6 +9,8 @@ package cf.e3ndr.UltimateLib.Logging;
  * The Class UltimateLogger.
  */
 public class UltimateLogger {
+	public static final char SECTION = 0xA7;
+	
 	private boolean showDebug = false;
 	protected String prefix;
 	
@@ -28,7 +30,7 @@ public class UltimateLogger {
 	 * @return the string
 	 */
 	public static String stripColor(String msg) {
-		return msg.replace("§4", "").replace("§c", "").replace("§6", "").replace("§e", "").replace("§2", "").replace("§a", "").replace("§b", "").replace("§3", "").replace("§1", "").replace("§9", "").replace("§d", "").replace("§5", "").replace("§f", "").replace("§7", "").replace("§8", "").replace("§0", "").replace("§l", "").replace("§n", "").replace("§o", "").replace("§k", "").replace("§m", "").replace("§r", "");
+		return msg.replace(SECTION + "4", "").replace(SECTION + "c", "").replace(SECTION + "6", "").replace(SECTION + "e", "").replace(SECTION + "2", "").replace(SECTION + "a", "").replace(SECTION + "b", "").replace(SECTION + "3", "").replace(SECTION + "1", "").replace(SECTION + "9", "").replace(SECTION + "d", "").replace(SECTION + "5", "").replace(SECTION + "f", "").replace(SECTION + "7", "").replace(SECTION + "8", "").replace(SECTION + "0", "").replace(SECTION + "l", "").replace(SECTION + "n", "").replace(SECTION + "o", "").replace(SECTION + "k", "").replace(SECTION + "m", "").replace(SECTION + "r", "");
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class UltimateLogger {
 	 * @return the string
 	 */
 	public static String transformColor(String msg) {
-		return msg.replace("&4", "§4").replace("&c", "§c").replace("&6", "§6").replace("&e", "§e").replace("&2", "§2").replace("&a", "§a").replace("&b", "§b").replace("&3", "§3").replace("&1", "§1").replace("&9", "§9").replace("&d", "§d").replace("&5", "§5").replace("&f", "§f").replace("&7", "§7").replace("&8", "§8").replace("&0", "§0").replace("&l", "§l").replace("&n", "§n").replace("&o", "§o").replace("&k", "§k").replace("&m", "§m").replace("&r", "§r");
+		return msg.replace("&4", SECTION + "4").replace("&c", SECTION + "c").replace("&6", SECTION + "6").replace("&e", SECTION + "e").replace("&2", SECTION + "2").replace("&a", SECTION + "a").replace("&b", SECTION + "b").replace("&3", SECTION + "3").replace("&1", SECTION + "1").replace("&9", SECTION + "9").replace("&d", SECTION + "d").replace("&5", SECTION + "5").replace("&f", SECTION + "f").replace("&7", SECTION + "7").replace("&8", SECTION + "8").replace("&0", SECTION + "0").replace("&l", SECTION + "l").replace("&n", SECTION + "n").replace("&o", SECTION + "o").replace("&k", SECTION + "k").replace("&m", SECTION + "m").replace("&r", SECTION + "r");
 	}
 	
 	/**
