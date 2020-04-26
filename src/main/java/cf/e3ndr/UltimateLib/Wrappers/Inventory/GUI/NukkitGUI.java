@@ -19,6 +19,12 @@ public class NukkitGUI extends GUI implements Listener {
 	public NukkitGUI(Stack[] inv, String name, int size) {
 		super(inv, name, size);
 		this.inv = new NukkitInventory(inv, name, size);
+
+		for (int i = 0; i != inv.length; i++) {
+			if (inv[i] != null) {
+				this.inv.setItem(i, ((NukkitStack) inv[i]).getNative());
+			}
+		}
 		
 		Server.getInstance().getPluginManager().registerEvents(this, UltimateLibNukkit.instance);
 	}

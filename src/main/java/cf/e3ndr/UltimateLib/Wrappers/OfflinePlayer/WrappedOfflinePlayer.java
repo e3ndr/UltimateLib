@@ -26,7 +26,7 @@ public interface WrappedOfflinePlayer {
 	 * @return true, if player has played before
 	 */
 	public boolean hasPlayedBefore();
-	
+
 	/**
 	 * Gets the player's uuid.
 	 * 
@@ -35,6 +35,15 @@ public interface WrappedOfflinePlayer {
 	 * @return the uuid
 	 */
 	public UUID getUUID();
+
+	/**
+	 * Gets the player's name.
+	 * 
+	 * @apiNote Doesn't work on Bungee.
+	 * 
+	 * @return the name
+	 */
+	public String getName();
 	
 	default String asString() {
 		return "[OFFLINE:" + this.getUUID() + "]";

@@ -66,17 +66,26 @@ public interface WrappedEntity<T> extends IComparable {
 	default String getStringType() {
 		return this.getType().name();
 	}
-	
+
 	/**
 	 * Gets the native object.
 	 *
 	 * @return the native object
 	 */
 	public T getNative();
+
+	/**
+	 * Gets the native object as a class.
+	 *
+	 * @return the native object
+	 */
+	default <C> C getNative(Class<C> target) {
+		return target.cast(this.getNative());
+	}
 	
 	@Override
 	default String asString() {
-		return "[" + this.getName() + ":" + this.getID() + "]";
+		return "ENTITY[" + this.getName() + ":" + this.getID() + "]";
 	}
 	
 	@Override

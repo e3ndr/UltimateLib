@@ -26,7 +26,11 @@ public class BukkitGUI extends GUI implements Listener {
 		super(inv, name, size);
 		this.inv = Bukkit.createInventory(null, size, name);
 		
-		for (Stack s : inv) this.inv.addItem(((BukkitStack) s).getNative());
+		for (int i = 0; i != inv.length; i++) {
+			if (inv[i] != null) {
+				this.inv.setItem(i, ((BukkitStack) inv[i]).getNative());
+			}
+		}
 		
 		Bukkit.getPluginManager().registerEvents(this, UltimateLibBukkit.instance);
 	}

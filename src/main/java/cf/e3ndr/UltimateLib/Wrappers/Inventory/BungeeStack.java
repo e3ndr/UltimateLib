@@ -5,9 +5,9 @@
  */
 package cf.e3ndr.UltimateLib.Wrappers.Inventory;
 
-public class NullStack extends Stack {
+public class BungeeStack extends Stack {
 	
-	public NullStack(ItemType material, int ammount) {
+	public BungeeStack(ItemType material, int ammount) {
 		super(material, ammount);
 	}
 	
@@ -27,8 +27,7 @@ public class NullStack extends Stack {
 	}
 	
 	@Override
-	public void setName(String name) {
-	}
+	public void setName(String name) {}
 	
 	@Override
 	public boolean hasNBT(String nbt) {
@@ -36,16 +35,13 @@ public class NullStack extends Stack {
 	}
 	
 	@Override
-	public void setNBTString(String nbt, String value) {
-	}
+	public void setNBTString(String nbt, String value) {}
 	
 	@Override
-	public void setNBTInt(String nbt, int value) {
-	}
+	public void setNBTInt(String nbt, int value) {}
 	
 	@Override
-	public void setNBTByte(String nbt, byte value) {
-	}
+	public void setNBTByte(String nbt, byte value) {}
 	
 	@Override
 	public String getNBTString(String nbt) {
@@ -63,8 +59,7 @@ public class NullStack extends Stack {
 	}
 	
 	@Override
-	public void removeNBT(String nbt) {
-	}
+	public void removeNBT(String nbt) {}
 	
 	@Override
 	public String[] getLore() {
@@ -72,7 +67,6 @@ public class NullStack extends Stack {
 	}
 	
 	@Override
-	public void setLore(String[] lore) {
-	}
+	public void setLore(String[] lore) {}
 	
 }

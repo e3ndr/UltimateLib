@@ -113,7 +113,7 @@ public interface WrappedPlayer<T> extends WrappedOfflinePlayer, WrappedConsole, 
 	
 	@Override
 	default String asString() {
-		return "[" + this.getName() + ":" + this.getUUID() + "]";
+		return "PLAYER[" + this.getName() + ":" + this.getUUID() + "]";
 	}
 	
 	@Override

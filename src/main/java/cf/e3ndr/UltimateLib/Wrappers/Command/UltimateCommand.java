@@ -37,7 +37,7 @@ public class UltimateCommand {
 	}
 	
 	public final boolean execute(WrappedConsole executor, String alias, String[] args) {
-		if ((this.helpArguments.size()) > 0 && (args.length > 0) && args[0].equalsIgnoreCase("help") && this.plugin.isEnabled()) {
+		if ((this.helpArguments.size() > 0) && (args.length > 0) && args[0].equalsIgnoreCase("help") && this.plugin.isEnabled()) {
 			this.help(executor, alias);
 		} else {
 			this.exec.onCommand(executor, alias, args);

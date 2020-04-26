@@ -31,4 +31,9 @@ public class BukkitOfflinePlayer implements WrappedOfflinePlayer {
 		return this.bukkit.getUniqueId();
 	}
 	
+	@Override
+	public String getName() {
+		return this.bukkit.getName();
+	}
+
 }

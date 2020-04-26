@@ -14,33 +14,23 @@ import java.util.UUID;
  */
 public class BungeeOfflinePlayer implements WrappedOfflinePlayer {
 	
-	/**
-	 * Checks if is online.
-	 *
-	 * @return true, if is online
-	 */
 	@Override
 	public boolean isOnline() {
 		return false;
 	}
 	
-	/**
-	 * Checks for played before.
-	 *
-	 * @return true, if successful
-	 */
 	@Override
 	public boolean hasPlayedBefore() {
 		return true;
 	}
 	
-	/**
-	 * Gets the uuid.
-	 *
-	 * @return the uuid
-	 */
 	@Override
 	public UUID getUUID() {
+		return null;
+	}
+
+	@Override
+	public String getName() {
 		return null;
 	}
 	

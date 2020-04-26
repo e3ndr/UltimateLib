@@ -60,12 +60,11 @@ public abstract class Stack {
 	public boolean equals(Object obj) {
 		if ((obj != null) && (obj instanceof Stack)) {
 			Stack other = (Stack) obj;
-			boolean name = ((other.getName() == null) || (this.getName() == null)) ? other.getName() == this.getName() : other.getName().equals(this.getName());
-			if (name && other.getMaterial().equals(this.getMaterial()) && (other.getAmount() == this.getAmount())) {
-				return true;
-			} else {
-				return false;
-			}
+			boolean name = (other.getName() == null) ? (other.getName() == this.getName()) : other.getName().equals(this.getName());
+			boolean material = other.getMaterial().equals(this.getMaterial());
+			boolean amount = other.getAmount() == this.getAmount();
+			
+			return name && material && amount;
 		} else {
 			return false;
 		}

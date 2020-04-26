@@ -30,5 +30,10 @@ public class NukkitOfflinePlayer implements WrappedOfflinePlayer {
 	public UUID getUUID() {
 		return this.nukkit.getUniqueId();
 	}
+
+	@Override
+	public String getName() {
+		return this.nukkit.getName();
+	}
 	
 }

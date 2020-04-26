@@ -15,7 +15,7 @@ import cf.e3ndr.UltimateLib.Logging.BungeeLogger;
 import cf.e3ndr.UltimateLib.Plugin.UltimatePlugin;
 import cf.e3ndr.UltimateLib.Wrappers.Command.UltimateCommand;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.ItemType;
-import cf.e3ndr.UltimateLib.Wrappers.Inventory.NullStack;
+import cf.e3ndr.UltimateLib.Wrappers.Inventory.BungeeStack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.Stack;
 import cf.e3ndr.UltimateLib.Wrappers.Inventory.GUI.GUI;
 import cf.e3ndr.UltimateLib.Wrappers.Player.BungeePlayer;
@@ -117,7 +117,7 @@ public class UltimateLibBungee extends Plugin implements UltimateLibUtil {
 	
 	@Override
 	public Stack getStack(ItemType material, int ammount) {
-		return new NullStack(material, ammount);
+		return new BungeeStack(material, ammount);
 	}
 	
 	@Override
